@@ -39,6 +39,8 @@ for (const f of files) {
     out = out.split(`'/${root}`).join(`'${base}/${root}`);
     out = out.split(`url(/${root}`).join(`url(${base}/${root}`);
     out = out.split(`\\"/${root}`).join(`\\"${base}/${root}`);
+    // srcset의 두 번째 이후 항목: "... 1x, /assets/...@2x 2x"
+    out = out.split(`, /${root}`).join(`, ${base}/${root}`);
   }
   if (out !== src) {
     writeFileSync(f, out);
