@@ -1,0 +1,87 @@
+/*
+ * Angular component-scoped styles captured from the live www.ohmytrip.com/hotel
+ * page (injected <style> tags), with [_ngcontent-serverApp-*] attributes removed.
+ * Values are verbatim from the original site.
+ */
+
+/* app button group (c49) */
+.btn-group .btn-host { flex: 1; }
+.btn-group .btn-host:only-child { flex: 0 0 200px; margin: 0 auto; }
+.btn-group .btn-host + .btn-host { margin-left: 10px; }
+
+/* toast (c50) */
+.toast-host { position: fixed; left: 50%; bottom: 40px; transform: translate(-50%, 12px); z-index: 1100; pointer-events: none; opacity: 0; transition: opacity .2s ease, transform .2s ease; max-width: 480px; width: calc(100% - 32px); }
+.toast-host.is-visible { opacity: 1; transform: translate(-50%); }
+.toast-message { background: rgba(34, 34, 34, .92); color: #fff; padding: 14px 18px; border-radius: 8px; font-size: 14px; line-height: 1.5; text-align: center; word-break: keep-all; }
+
+/* overlay dim */
+.modal-dimmed { position: fixed; inset: 0; z-index: 10; background-color: rgba(var(--c-black-rgba), .5); pointer-events: auto; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+
+/* header host (c43) */
+.omt-header-host { z-index: 3; position: relative; }
+.ico-logo-header { width: 116px; height: 40px; }
+
+/* footer (c44) */
+footer .inner { display: flex; flex-direction: column; }
+footer .content-wrapper { display: flex; justify-content: space-between; width: 100%; max-width: 1200px; }
+footer .left-content { display: flex; flex-direction: column; }
+footer .social-button-group { width: 300px; }
+footer .social-button-group .logo-group { display: flex; gap: 10px; padding-bottom: 30px; }
+footer .social-button-group .logo-group .logo-ohmyhotel { width: 150px; height: 35px; cursor: pointer; }
+footer .social-button-group .logo-group .logo-ohmytrip { width: 130px; height: 50px; cursor: pointer; }
+footer .social-button-group .social-button-group-wrapper { float: right; }
+footer .social-button-group button { width: 42px; height: 42px; background-color: #e8e8e8; border-radius: 50%; text-align: center; cursor: pointer; padding: 0; margin-left: 10px; }
+footer .social-button-group button:hover { background-color: #ef7f29; }
+footer .social-button-group button img { width: 22px; height: 22px; transition: all .3s ease; }
+footer .social-button-group button.instagram:hover img { content: url(/assets/images/common/btn-instagram-orange.svg); }
+footer .social-button-group button.facebook:hover img { content: url(/assets/images/common/btn-facebook-orange.svg); }
+footer .social-button-group button.blogging:hover img { content: url(/assets/images/common/btn-naver-orange.svg); }
+footer .social-button-group button.kakao:hover img { content: url(/assets/images/common/btn-kakaotalk-orange.svg); }
+footer .social-button-group button.linkedin:hover img { content: url(/assets/images/common/btn-linkedin-orange.svg); }
+footer .company-section.site-operator { margin-top: 20px; margin-bottom: 20px; }
+footer .company-section-title { font-weight: 700; color: #333; margin-bottom: 8px; }
+footer .copyright-wrapper { display: flex; justify-content: center; align-items: center; text-align: center; width: 100%; height: 32px; background-color: #fff; }
+footer .phone-number { color: #ef7f29; }
+
+/* page scaffolding */
+#main-contents { z-index: 10; position: relative; }
+#bottom-contents { position: relative; }
+
+/* main page section (c88) */
+.omt-main-section { width: 1200px; margin: 0 auto 40px; }
+
+/* main search panel host */
+.main-search-host { flex: 0 0 585px; min-width: 0; filter: drop-shadow(5px 5px 10px rgba(var(--c-black-rgba), .1)); z-index: 10; }
+
+/* banner slick sizing (c57) */
+.banner-host { display: block; height: 100%; }
+.banner-host.marginLeft { margin-left: 30px; }
+#banner-extra .slick-slide { width: 585px; height: 433px; }
+#banner-extra .slick-slide img { width: 585px; height: 433px; }
+#banner-large .slick-slide { width: 783px; height: 232px; }
+#banner-medium .slick-slide { width: 387px; height: 232px; }
+.slick-initialized .slick-slide { display: block !important; }
+.slick-slide img { border-radius: var(--radius-big); }
+.banner-indicator li { display: block !important; }
+.banner-indicator li + li { margin-left: 8px; }
+.banner-indicator li:not(.slick-active) button { width: 8px; height: 8px; background: rgba(var(--c-white-rgba), .8); }
+.banner-indicator li.slick-active button { width: 10px; height: 10px; border: 2px solid var(--c-white); }
+.banner-indicator li button { display: inline-block; border-radius: var(--radius-full); text-indent: -9999em; }
+
+/* recent search strip (c58) */
+.search-recent-host { display: block; width: 1200px; margin: 40px auto 0; flex: 1 1; }
+.search-recent-host.hide { display: none; }
+.search-recent { overflow: hidden; }
+.search-recent .list { transition: transform .2s; }
+.recent-contents { cursor: pointer; }
+
+/* hotel search condition popover positioning (c74) */
+.calendar-wrap, .hotel-room-wrap, .search-result-wrap, .major-city-list-wrap { position: absolute; left: 0; z-index: 100; }
+.search-result-wrap, .hotel-room-wrap { left: 30px; }
+.hotel-search-condition .condition-column input { flex: 1; }
+#result-research-area .major-city-list-wrap, #result-research-area .search-result-wrap { left: 0; }
+#result-research-area .hotel-room-wrap, #result-research-area .calendar-wrap { left: auto; right: 0; }
+.map-form { display: flex; flex: 1 1 auto; position: relative; }
+.map-form .major-city-list-wrap, .map-form .search-result-wrap { left: 0; }
+.map-form .hotel-room-wrap { left: auto; right: 0; }
+.btn-search { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 110px; color: var(--c-white); background-color: var(--c-orange); font-size: var(--f-size-medium); font-weight: var(--f-weight-bold); }

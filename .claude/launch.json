@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ohmytrip-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "cwd": "C:\\Users\\LENOVO\\Desktop\\OMT 고도화\\ohmytrip-web-renewal"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+/*
+ * Clone-side glue. Keep this file minimal — everything visual should come from
+ * the ported original stylesheets. Only add rules needed because our runtime
+ * differs from the Angular original (custom elements → divs, slick → custom).
+ */
+
+/* Angular custom elements were display:inline by default in the original DOM.
+   Our React equivalents are divs; neutralize where the original relied on it. */
+.app-button-host { display: inline; }
+
+/* custom carousel: replicate the slick track/list behaviour we ported */
+.slick-list { position: relative; display: block; overflow: hidden; margin: 0; padding: 0; }
+.slick-track { position: relative; top: 0; left: 0; display: flex; }
+.slick-track .slick-slide { flex-shrink: 0; list-style: none; }
+.slick-slide img { display: block; }
+
+/* banner indicator lives inside .main-banner in the original */
+.main-banner { position: relative; }
