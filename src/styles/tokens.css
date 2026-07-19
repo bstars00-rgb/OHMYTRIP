@@ -1,0 +1,80 @@
+/*
+ * OHMYTRIP design tokens — extracted verbatim from the production CSS
+ * Desktop: www.ohmytrip.com/styles.d628958f24c14c02.css (:root)
+ * Mobile:  m.ohmytrip.com/styles.254151b6cefe398c.css (:root)
+ * Do not tweak these values; they mirror the original site.
+ */
+:root {
+  /* Color */
+  --c-black: #000;
+  --c-white: #fff;
+  --c-gray-1: #f5f5f5;
+  --c-gray-2: #e0e0e0;
+  --c-gray-3: #ccc;
+  --c-gray-4: #888;
+  --c-gray-5: #666;
+  --c-gray-6: #333;
+  --c-orange: #ef7f29;
+  --c-green: #008f42;
+  --c-red: #ff0000;
+  --c-blue: #005eff; /* mobile bundle only */
+  --c-black-rgba: 0, 0, 0;
+  --c-white-rgba: 255, 255, 255;
+  --c-orange-rgba: 239, 127, 41;
+  --c-disabled: #ebebeb;
+
+  /* Non-variable measured values */
+  --header-bg-desktop: #f3f3f3;
+  --header-height-desktop: 74px;
+  --header-height-mobile: 54px;
+  --content-width-desktop: 1200px;
+
+  /* Typography (desktop scale) */
+  --f-size-small: 12px;
+  --f-size-base: 14px;
+  --f-size-medium: 16px;
+  --f-size-large: 18px;
+  --f-size-extra: 22px;
+  --f-size-big: 26px;
+  --f-size-black: 32px;
+  --f-weight-thin: 100;
+  --f-weight-extlight: 200;
+  --f-weight-light: 300;
+  --f-weight-base: 400;
+  --f-weight-medium: 500;
+  --f-weight-semi: 600;
+  --f-weight-bold: 700;
+  --f-weight-extra: 800;
+  --f-weight-black: 900;
+
+  /* Radius */
+  --radius-half: 50%;
+  --radius-full: 100%;
+  --radius-thin: 5px;
+  --radius-light: 10px;
+  --radius-small: 15px;
+  --radius-medium: 20px;
+  --radius-big: 25px;
+
+  /* Line height */
+  --l-height-140: 140%;
+  --l-height-150: 150%;
+  --l-height-160: 160%;
+
+  /* Shadows (usage-ranked in original CSS) */
+  --shadow-card: 5px 5px 10px 0 rgba(var(--c-black-rgba), 0.1);
+  --shadow-panel: 5px 5px 15px 0 rgba(var(--c-black-rgba), 0.1);
+  --shadow-dropdown: 0 4px 8px 0 rgba(var(--c-black-rgba), 0.1);
+  --shadow-dropdown-alt: 0 3px 6px 0 rgba(var(--c-black-rgba), 0.1);
+}
+
+/* Mobile experience uses a one-step-down type scale (m.ohmytrip.com :root) */
+[data-platform='mobile'] {
+  --f-size-small: 10px;
+  --f-size-base: 12px;
+  --f-size-medium: 14px;
+  --f-size-large: 16px;
+  --f-size-extra: 18px;
+  --body-min-width: 320px;
+  --body-max-width: 768px;
+}
