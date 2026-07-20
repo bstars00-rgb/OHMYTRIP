@@ -1,3 +1,5 @@
+/* scoped */
+body.omt-desktop {
 /*
  * Angular component-scoped styles captured from the live www.ohmytrip.com/hotel
  * page (injected <style> tags), with [_ngcontent-serverApp-*] attributes removed.
@@ -85,3 +87,5 @@ footer .phone-number { color: #ef7f29; }
 .map-form .major-city-list-wrap, .map-form .search-result-wrap { left: 0; }
 .map-form .hotel-room-wrap { left: auto; right: 0; }
 .btn-search { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 110px; color: var(--c-white); background-color: var(--c-orange); font-size: var(--f-size-medium); font-weight: var(--f-weight-bold); }
+
+}

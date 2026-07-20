@@ -84,19 +84,12 @@ function scopeCss(rules, prefix) {
   return out.join('\n');
 }
 
-function passthroughCss(rules) {
-  const out = [];
-  for (const r of rules) {
-    if (isPretendardFace(r)) continue;
-    out.push(`${r.selector}{${r.body}}`);
-  }
-  return out.join('\n');
-}
-
 const desktop = rewriteUrls(readFileSync(desktopIn, 'utf8'));
 const mobile = rewriteUrls(readFileSync(mobileIn, 'utf8'));
 
-const desktopOut = passthroughCss(parseRules(desktop));
+// 데스크톱도 스코프해서 모바일 트리로 속성이 누수되지 않게 한다.
+// (예: #main-title{width:1200px}가 모바일에서 재선언되지 않은 채 적용되는 문제)
+const desktopOut = scopeCss(parseRules(desktop), 'omt-desktop');
 const mobileOut = scopeCss(parseRules(mobile), 'omt-mobile');
 
 writeFileSync(path.join(outDir, 'omt-desktop.css'), desktopOut);

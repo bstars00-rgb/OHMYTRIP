@@ -12,7 +12,7 @@ import {
 export type ServiceKey = 'hotel' | 'flight' | 'activity' | 'rentalcar' | 'airtel';
 
 /** 원본: 탭 클릭 = 라우트 전환 (/hotel /flight /activity /rentalcar /airtel) */
-const SERVICES: { key: ServiceKey; label: string; route: string }[] = [
+export const SERVICES: { key: ServiceKey; label: string; route: string }[] = [
   { key: 'hotel', label: '호텔', route: '/hotel' },
   { key: 'flight', label: '항공', route: '/flight' },
   { key: 'activity', label: '액티비티', route: '/activity' },

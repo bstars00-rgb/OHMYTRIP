@@ -1,0 +1,49 @@
+/*
+ * m.ohmytrip.com 라이브 페이지에서 덤프한 Angular 컴포넌트 스코프 스타일.
+ * [_ngcontent-serverApp-*] 제거 후 body.omt-mobile 스코프로 격리 (CSS 네스팅).
+ */
+body.omt-mobile {
+  /* app button group (c110) */
+  .btn-group .btn-host { display: block; flex: 1; }
+  .btn-group .btn-host:only-child { flex: 0 0 200px; margin: 0 auto; }
+  .btn-group .btn-host + .btn-host { margin-left: 10px; }
+  .app-button-host { display: contents; }
+
+  /* header host (c106) — 모바일 로고 실측 99×34 */
+  .ico-logo-header { width: 99px; height: 34px; }
+
+  /* footer (c108) */
+  footer .footer-link { display: flex; flex-wrap: wrap; gap: 0 12px; }
+  footer .footer-link .menu-item { color: var(--c-black) !important; font-size: var(--f-size-base); text-decoration: none; font-weight: 400; line-height: 16px; }
+  footer .footer-copyright { margin: 20px 0 16px; font-size: var(--f-size-base); font-weight: 700; line-height: 16px; color: var(--c-black); }
+  footer .footer-section { margin-bottom: 16px; }
+  footer .footer-section-title { font-weight: 700; margin: 0 0 6px; font-size: var(--f-size-base); line-height: 16px; color: var(--c-gray-6); }
+  footer .footer-section-content { font-size: var(--f-size-base); font-weight: 400; line-height: 16px; color: var(--c-gray-5); }
+  footer .footer-section-content p .phone-number { color: var(--c-orange); font-weight: 500; }
+  footer .footer-section-content br { display: block; content: ""; margin-top: .25em; }
+  footer .footer-disclaimer { font-size: var(--f-size-base); line-height: 18px; color: var(--c-gray-5); margin: 0 0 24px; }
+  footer .footer-disclaimer br { display: block; content: ""; margin-top: .25em; }
+  footer .social-button-group { display: flex; gap: 10px; }
+  footer .social-button-group button { width: 42px; height: 42px; background: none; border: none; cursor: pointer; padding: 0; border-radius: 50%; background-color: #e8e8e8; text-align: center; display: flex; align-items: center; justify-content: center; }
+  footer .social-button-group button:hover { background-color: #ef7f29; }
+  footer .social-button-group button img { width: 22px; height: 22px; transition: all .3s ease; }
+  footer .phone-number { color: #ef7f29; font-weight: 500; }
+
+  /* banner host (c120) */
+  .banner-host { display: block; height: 100%; }
+  .banner-host.extra { margin-top: 5px; }
+  .banner-host.large { margin-bottom: 25px; }
+  .slick-dotted.slick-slider { margin-bottom: 0 !important; }
+  .slick-initialized .slick-slide { display: block !important; }
+  .slick-slide.rounded img { border-radius: var(--radius-big); }
+  .banner-indicator li { display: block !important; }
+  .banner-indicator li + li { margin-left: 8px; }
+  .banner-indicator li:not(.slick-active) button { width: 8px !important; height: 8px !important; background: rgba(var(--c-white-rgba), .8) !important; }
+  .banner-indicator li.slick-active button { width: 10px !important; height: 10px !important; border-width: 2px !important; border-color: var(--c-white) !important; border-style: solid !important; background: transparent !important; }
+  .banner-indicator li button { display: inline-block; border-radius: var(--radius-full); text-indent: -9999em; }
+
+  /* toast (c111) */
+  .toast-host { position: fixed; left: 50%; bottom: 40px; transform: translate(-50%, 12px); z-index: 1100; pointer-events: none; opacity: 0; transition: opacity .2s ease, transform .2s ease; max-width: 480px; width: calc(100% - 32px); }
+  .toast-host.is-visible { opacity: 1; transform: translate(-50%); }
+  .toast-message { background: rgba(34, 34, 34, .92); color: #fff; padding: 14px 18px; border-radius: 8px; font-size: 14px; line-height: 1.5; text-align: center; word-break: keep-all; }
+}

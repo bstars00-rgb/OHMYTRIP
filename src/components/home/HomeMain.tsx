@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable @next/next/no-img-element -- 원본 srcset 마크업 미러링 */
 
 import DesktopHeader from '@/components/layout/DesktopHeader';
@@ -6,13 +8,18 @@ import MainSearchPanel, { type ServiceKey } from '@/components/search/MainSearch
 import BannerCarousel from '@/components/banner/BannerCarousel';
 import SiteInfoSection from '@/components/home/SiteInfoSection';
 import AppDownloadSection from '@/components/home/AppDownloadSection';
+import MobileHomeMain from '@/components/mobile/MobileHomeMain';
+import { usePlatform } from '@/hooks/usePlatform';
 import { LARGE_BANNERS, MAIN_BANNERS, MEDIUM_BANNERS } from '@/mocks/banners';
 
 /**
  * 원본 메인 페이지(app-hotel > main#contents.category-main) 구조 미러링:
  * #wrap > header + .main-wrap > main#contents > #main-contents + #bottom-contents + footer
+ * 원본은 UA 기준으로 www/m 별도 사이트 — 클론은 UA 판별로 트리를 전환한다.
  */
 export default function HomeMain({ service }: { service: ServiceKey }) {
+  const platform = usePlatform();
+  if (platform === 'mobile') return <MobileHomeMain service={service} />;
   return (
     <div id="wrap">
       <DesktopHeader />

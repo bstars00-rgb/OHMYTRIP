@@ -3,6 +3,7 @@ import 'pretendard/dist/web/static/pretendard.css';
 import '@/styles/omt-desktop.css';
 import '@/styles/omt-mobile.css';
 import '@/styles/omt-components.css';
+import '@/styles/omt-mobile-components.css';
 import '@/styles/app-overrides.css';
 
 export const metadata: Metadata = {
@@ -26,7 +27,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      {/* 기본은 데스크톱 스코프 — usePlatform이 UA 판별 후 omt-mobile로 교체 */}
+      <body className="omt-desktop">{children}</body>
     </html>
   );
 }
