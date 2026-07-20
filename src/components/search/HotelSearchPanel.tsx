@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { Destination } from '@/types/search';
 import { useHotelSearchForm } from '@/features/search/useHotelSearchForm';
 import { serializeHotelSearch, summarizeRooms } from '@/features/search/serializeHotelSearch';
+import { saveRecentSearch } from '@/features/search/recentSearch';
 import { searchDestinations } from '@/services/api/destination.service';
 import { findCityByName } from '@/mocks/destinations';
 import { formatConditionRange } from '@/utils/date';
@@ -30,6 +31,8 @@ export default function HotelSearchPanel() {
   // null = 사용자가 편집 중이 아님 → 선택된 목적지 라벨을 표시 (effect 없이 파생)
   const [typedText, setTypedText] = useState<string | null>(null);
   const [results, setResults] = useState<Destination[]>([]);
+  /** 자동완성 키보드 하이라이트 인덱스 (-1 = 없음) */
+  const [activeIndex, setActiveIndex] = useState(-1);
   const rootRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -60,6 +63,7 @@ export default function HotelSearchPanel() {
       debounceRef.current = setTimeout(async () => {
         const found = await searchDestinations(value);
         setResults(found);
+        setActiveIndex(-1);
         setOpen(found.length > 0 ? 'autocomplete' : 'city');
       }, 300);
     } else {
@@ -84,7 +88,24 @@ export default function HotelSearchPanel() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSearch) return;
-    router.push(serializeHotelSearch(form));
+    const url = serializeHotelSearch(form);
+    saveRecentSearch(url.split('?')[1] ?? '');
+    router.push(url);
+  };
+
+  /** 자동완성 키보드 내비게이션: ↑↓ 이동, Enter 선택 (Escape는 전역 닫기) */
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (open !== 'autocomplete' || results.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex((i) => (i + 1) % results.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((i) => (i <= 0 ? results.length - 1 : i - 1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      selectDestination(results[activeIndex >= 0 ? activeIndex : 0]);
+    }
   };
 
   return (
@@ -102,6 +123,7 @@ export default function HotelSearchPanel() {
                   value={inputText}
                   onFocus={() => setOpen(inputText.trim().length >= 2 ? 'autocomplete' : 'city')}
                   onChange={(e) => handleInputChange(e.target.value)}
+                  onKeyDown={handleInputKeyDown}
                 />
               </div>
             </li>
@@ -152,6 +174,7 @@ export default function HotelSearchPanel() {
           <AutocompletePopover
             query={inputText.trim()}
             results={results}
+            activeIndex={activeIndex}
             onSelect={selectDestination}
           />
         )}

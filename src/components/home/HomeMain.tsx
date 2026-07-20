@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer';
 import MainSearchPanel, { type ServiceKey } from '@/components/search/MainSearchPanel';
 import BannerCarousel from '@/components/banner/BannerCarousel';
 import SiteInfoSection from '@/components/home/SiteInfoSection';
+import SearchRecentStrip from '@/components/search/SearchRecentStrip';
 import AppDownloadSection from '@/components/home/AppDownloadSection';
 import MobileHomeMain from '@/components/mobile/MobileHomeMain';
 import { usePlatform } from '@/hooks/usePlatform';
@@ -42,6 +43,7 @@ export default function HomeMain({ service }: { service: ServiceKey }) {
               <MainSearchPanel service={service} />
               <BannerCarousel id="banner-extra" className="marginLeft extra" banners={MAIN_BANNERS} />
             </section>
+            {service === 'hotel' && <SearchRecentStrip />}
           </section>
           <section id="bottom-contents">
             <section id="section-banner" className="omt-main-section">

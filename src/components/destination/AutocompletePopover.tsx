@@ -5,6 +5,8 @@ import type { Destination } from '@/types/search';
 interface AutocompletePopoverProps {
   query: string;
   results: Destination[];
+  /** 키보드 하이라이트 인덱스 (-1 = 없음) */
+  activeIndex?: number;
   onSelect: (d: Destination) => void;
 }
 
@@ -26,16 +28,16 @@ function HighlightedName({ name, query }: { name: string; query: string }) {
  * .search-result-wrap.modal-wrap > .layer-destination > ul > li >
  * button.destination-item.(city|hotel) > span.name + span.name2
  */
-export default function AutocompletePopover({ query, results, onSelect }: AutocompletePopoverProps) {
+export default function AutocompletePopover({ query, results, activeIndex = -1, onSelect }: AutocompletePopoverProps) {
   return (
     <div className="search-result-wrap modal-wrap" style={{ top: 103 }}>
       <div className="layer-destination">
         <ul>
-          {results.map((d) => (
+          {results.map((d, i) => (
             <li key={`${d.type}-${d.regionCode}-${d.hotelCode ?? d.nameEn}`}>
               <button
                 type="button"
-                className={`destination-item ${d.iconType}`}
+                className={`destination-item ${d.iconType}${i === activeIndex ? ' active' : ''}`}
                 onClick={() => onSelect(d)}
               >
                 <HighlightedName name={d.nameLn} query={query} />

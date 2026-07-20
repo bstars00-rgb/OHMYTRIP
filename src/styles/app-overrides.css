@@ -16,3 +16,14 @@
 
 /* banner indicator lives inside .main-banner in the original */
 .main-banner { position: relative; }
+
+/* 자동완성 키보드 하이라이트 — 원본에 없는 상태라 hover와 동일 톤으로만 표시 */
+.destination-item.active { background-color: var(--c-gray-1); }
+
+/* 정적 재현한 가격 슬라이더(ngx-slider) 레이아웃 보정 */
+.custom-slider .ngx-slider { display: block; position: relative; height: 4px; margin: 30px 6px 34px; }
+.custom-slider .ngx-slider .ngx-slider-bar-wrapper { position: absolute; left: 0; right: 0; }
+.custom-slider .ngx-slider .ngx-slider-bar { display: block; width: 100%; height: 4px; border-radius: 2px; background: var(--c-gray-2); }
+.custom-slider .ngx-slider .ngx-slider-bar.ngx-slider-selection { background: var(--c-orange); }
+.custom-slider .ngx-slider .ngx-slider-pointer { position: absolute; top: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--c-white); border: 2px solid var(--c-orange); }
+.custom-slider .ngx-slider .ngx-slider-bubble { position: absolute; top: 12px; font-size: var(--f-size-small); color: var(--c-gray-4); }
