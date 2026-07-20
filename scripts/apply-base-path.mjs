@@ -18,7 +18,7 @@ if (!base || !base.startsWith('/')) {
 const OUT = path.resolve(process.cwd(), 'out');
 const EXTS = new Set(['.html', '.css', '.js', '.txt']);
 /** 절대 경로로 참조되는 public/ 하위 루트 디렉터리·파일 */
-const ROOTS = ['omt-assets', 'assets', 'banners', 'brand', 'favicon.ico'];
+const ROOTS = ['omt-assets', 'assets', 'banners', 'brand', 'images', 'favicon.ico'];
 
 const files = [];
 (function walk(dir) {
@@ -43,6 +43,8 @@ for (const f of files) {
     out = out.split(`, /${root}`).join(`, ${base}/${root}`);
     // 번들에 남는 백틱 템플릿 리터럴: `/assets/images/common/${...}`
     out = out.split('`/' + root).join('`' + base + '/' + root);
+    // SSR HTML 인라인 스타일: url(&quot;/images/... 형태
+    out = out.split(`&quot;/${root}`).join(`&quot;${base}/${root}`);
   }
   if (out !== src) {
     writeFileSync(f, out);
