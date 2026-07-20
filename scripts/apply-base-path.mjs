@@ -41,6 +41,8 @@ for (const f of files) {
     out = out.split(`\\"/${root}`).join(`\\"${base}/${root}`);
     // srcset의 두 번째 이후 항목: "... 1x, /assets/...@2x 2x"
     out = out.split(`, /${root}`).join(`, ${base}/${root}`);
+    // 번들에 남는 백틱 템플릿 리터럴: `/assets/images/common/${...}`
+    out = out.split('`/' + root).join('`' + base + '/' + root);
   }
   if (out !== src) {
     writeFileSync(f, out);
