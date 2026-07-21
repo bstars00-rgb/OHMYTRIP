@@ -3,6 +3,7 @@ import 'pretendard/dist/web/static/pretendard.css';
 import '@/styles/omt-desktop.css';
 import '@/styles/omt-mobile.css';
 import '@/styles/omt-components.css';
+import '@/styles/omt-page-components.css';
 import '@/styles/omt-mobile-components.css';
 import '@/styles/app-overrides.css';
 

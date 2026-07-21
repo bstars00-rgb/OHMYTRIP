@@ -11,13 +11,12 @@ interface FilterSidebarProps {
   onReset: () => void;
 }
 
-/** 성급별 최저가 (원본: 필터 항목 옆 ₩ 최저가 표기) */
-const STAR_ROWS = ['5성급', '4성급', '3.5성급', '3성급', '2.5성급', '2성급', '1성급']
-  .map((label) => {
-    const prices = HOTELS.filter((h) => h.starText === label).map((h) => h.price);
-    return { label, lowest: prices.length ? Math.min(...prices) : null };
-  })
-  .filter((r) => r.lowest !== null);
+/** 성급 필터 — 원본은 5→1성급 고정 노출. 최저가는 Mock 데이터에서 산출(없으면 생략) */
+const STAR_ROWS = ['5성급', '4성급', '3성급', '2성급', '1성급'].map((label) => {
+  const grade = parseFloat(label);
+  const prices = HOTELS.filter((h) => Math.round(parseFloat(h.starText)) === grade).map((h) => h.price);
+  return { label, lowest: prices.length ? Math.min(...prices) : null };
+});
 
 const PROPERTY_TYPES = ['Hotel', 'Guesthouse', 'Motel', 'Aparthotel', 'Hostel/Backpacker Accommodation'];
 const MEALS = [
@@ -120,30 +119,28 @@ export default function FilterSidebar({ keyword, onKeywordChange, starFilters, o
       <details open className="accordion filter">
         <summary className="accordion-header">호텔 성급</summary>
         <div className="accordion-body">
-          <ul className="vertical ul-filter-list price shorten">
+          <ul className="vertical ul-filter-list price">
             {STAR_ROWS.map((r) => (
-              <li key={r.label}>
-                <label className="checkbox md ltr">
-                  <input
-                    className="control-input"
-                    type="checkbox"
-                    id={`starRatings_${r.label}`}
-                    checked={starFilters.includes(r.label)}
-                    onChange={() => onToggleStar(r.label)}
-                  />
-                  <span className="control-text" title={r.label}>
-                    {' '}
-                    {r.label}{' '}
-                  </span>
-                </label>
-                <span className="price">₩ {r.lowest!.toLocaleString()} ~</span>
-              </li>
+              <div key={r.label} className="checkbox-host">
+                <li>
+                  <label className="checkbox md ltr">
+                    <input
+                      className="control-input"
+                      type="checkbox"
+                      id={`starRatings_${r.label}`}
+                      checked={starFilters.includes(r.label)}
+                      onChange={() => onToggleStar(r.label)}
+                    />
+                    <span className="control-text" title={r.label}>
+                      {' '}
+                      {r.label}{' '}
+                    </span>
+                  </label>
+                  {r.lowest !== null && <span className="price">₩ {r.lowest.toLocaleString()} ~</span>}
+                </li>
+              </div>
             ))}
           </ul>
-          <button type="button" className="btn-filter-extend">
-            {' '}
-            더보기{' '}
-          </button>
         </div>
       </details>
       <details open className="accordion filter">
@@ -151,15 +148,17 @@ export default function FilterSidebar({ keyword, onKeywordChange, starFilters, o
         <div className="accordion-body">
           <ul className="vertical ul-filter-list shorten">
             {PROPERTY_TYPES.map((t) => (
-              <li key={t}>
-                <label className="checkbox md ltr">
-                  <input className="control-input" type="checkbox" id={`hotelTypes_${t}`} />
-                  <span className="control-text" title={t}>
-                    {' '}
-                    {t}{' '}
-                  </span>
-                </label>
-              </li>
+              <div key={t} className="checkbox-host">
+                <li>
+                  <label className="checkbox md ltr">
+                    <input className="control-input" type="checkbox" id={`hotelTypes_${t}`} />
+                    <span className="control-text" title={t}>
+                      {' '}
+                      {t}{' '}
+                    </span>
+                  </label>
+                </li>
+              </div>
             ))}
           </ul>
           <button type="button" className="btn-filter-extend">
@@ -192,16 +191,18 @@ export default function FilterSidebar({ keyword, onKeywordChange, starFilters, o
         <div className="accordion-body">
           <ul className="vertical ul-filter-list price shorten">
             {CHAINS.map((c) => (
-              <li key={c.name}>
-                <label className="checkbox md ltr">
-                  <input className="control-input" type="checkbox" id={`chains_${c.name}`} />
-                  <span className="control-text" title={c.name}>
-                    {' '}
-                    {c.name}{' '}
-                  </span>
-                </label>
-                <span className="price">₩ {c.lowest.toLocaleString()} ~</span>
-              </li>
+              <div key={c.name} className="checkbox-host">
+                <li>
+                  <label className="checkbox md ltr">
+                    <input className="control-input" type="checkbox" id={`chains_${c.name}`} />
+                    <span className="control-text" title={c.name}>
+                      {' '}
+                      {c.name}{' '}
+                    </span>
+                  </label>
+                  <span className="price">₩ {c.lowest.toLocaleString()} ~</span>
+                </li>
+              </div>
             ))}
           </ul>
           <button type="button" className="btn-filter-extend">

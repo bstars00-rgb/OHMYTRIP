@@ -28,4 +28,8 @@ export const EVENTS: MockEvent[] = [
   { id: 'ev-6', title: '[여름 베트남 여행] 휴양지 리조트 추천', text: '', period: '2026.07.01 ~ 2026.08.31', category: 'IC02', imageUrl: '/images/events/event-2.png' },
   { id: 'ev-7', title: '[여름 일본 여행] 호캉스 호텔 라인업', text: '', period: '2026.07.01 ~ 2026.08.31', category: 'IC02', imageUrl: '/images/events/event-3.png' },
   { id: 'ev-8', title: '제주도 항공권 최저가', text: '항공 발권대행 수수료 무료', period: '2026.07.01 ~ 2026.08.31', category: 'IC01', imageUrl: '/images/events/event-4.png' },
+  { id: 'ev-9', title: '[여름 국내 여행] 썸머 픽스 호캉스', text: '', period: '2026.07.01 ~ 2026.08.31', category: 'IC02', imageUrl: '/images/events/event-1.png' },
+  { id: 'ev-10', title: '[가을 특가] 대만·홍콩 자유여행 패키지', text: '', period: '2026.09.01 ~ 2026.10.31', category: 'IC02', imageUrl: '/images/events/event-2.png' },
+  { id: 'ev-11', title: '[렌터카 기획전] 제주 렌터카 최대 40% 할인', text: '', period: '2026.07.01 ~ 2026.09.30', category: 'IC03', imageUrl: '/images/events/event-3.png' },
+  { id: 'ev-12', title: '[액티비티] 해외 티켓·패스 상시 특가', text: '', period: '2026.07.01 ~ 2026.12.31', category: 'IC04', imageUrl: '/images/events/event-4.png' },
 ];

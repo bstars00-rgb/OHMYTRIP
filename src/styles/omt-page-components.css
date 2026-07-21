@@ -1,0 +1,59 @@
+/*
+ * 검색결과 / 호텔상세 페이지의 Angular 컴포넌트 스코프 스타일.
+ * 라이브 페이지의 주입 <style> 태그에서 [_ngcontent-*] 제거 후 그대로 이식.
+ * (홈은 omt-components.css, 이 파일은 result/detail 전용)
+ */
+body.omt-desktop {
+  /* 진행 단계 헤더 우측 정렬 */
+  .step-host { margin-left: auto; }
+
+  /* 검색결과 축약 검색바 텍스트 클릭 가능 */
+  #result-research-area .text { cursor: pointer; }
+
+  /* 룸타입 아이템: 벤더코드는 카드 위(-20px)에 흰 글자로 숨김 배치 */
+  .roomtype-list-item { position: relative; }
+  .roomtype-list-item .room-vendor-code { color: #fff; position: absolute; top: -20px; }
+  .roomtype-hotel-name { margin-bottom: 30px; }
+  .roomtype-search { position: relative; }
+  .roomtype-thumb-gallery { margin-bottom: 65px; }
+
+  /* 가격 표기: 판매가 오렌지 강조, 정가 취소선(오렌지) */
+  .price { flex: none; margin-left: auto; }
+  .price div { display: block; text-align: right; }
+  .price div strong:not(.origin-price) {
+    color: var(--c-orange);
+    font-size: calc(var(--f-size-extra) - 2px);
+    font-weight: var(--f-weight-semi);
+  }
+  .price div strong.origin-price {
+    color: var(--c-gray-4);
+    text-decoration: line-through;
+    text-decoration-color: var(--c-orange);
+    font-size: var(--f-size-base);
+    font-weight: var(--f-weight-base);
+  }
+
+  /* 가격대 슬라이더(ngx-slider) — 원본 컴포넌트 스타일 정확값 */
+  .custom-slider .ngx-slider { margin: -10px 0 34px; }
+  .custom-slider .ngx-slider .ngx-slider-bar-wrapper { padding: 0; margin: 0; }
+  .custom-slider .ngx-slider .ngx-slider-bar { position: relative; height: 2px; background-color: var(--c-gray-2); }
+  .custom-slider .ngx-slider .ngx-slider-selection { height: 2px; background-color: var(--c-orange); }
+  .custom-slider .ngx-slider .ngx-slider-pointer {
+    position: absolute; top: 6px; transform: translateY(-50%);
+    display: inline-block; width: 12px; height: 12px;
+    background-color: var(--c-white); cursor: col-resize;
+    border-radius: var(--radius-full); border-width: 2px; border-style: solid; border-color: var(--c-orange);
+  }
+  .custom-slider .ngx-slider .ngx-slider-pointer:nth-child(1) { left: 0; }
+  .custom-slider .ngx-slider .ngx-slider-pointer:nth-child(2) { right: 0; }
+  .custom-slider .ngx-slider .ngx-slider-pointer:after { display: none; }
+  .custom-slider .ngx-slider .ngx-slider-bubble.ngx-slider-limit { top: 22px; color: var(--c-gray-4); font-size: var(--f-size-base); }
+  .custom-slider .ngx-slider .ngx-slider-bubble.ngx-slider-limit.ngx-slider-floor { transform: translate(-3px) !important; }
+  .custom-slider .ngx-slider .ngx-slider-bubble.ngx-slider-limit.ngx-slider-ceil { transform: translate(3px) !important; }
+
+  /* 원본 app-check-box(=.checkbox-host)는 wrapper 없이 li가 ul의 레이아웃 자식이
+     되도록 display:contents로 동작 → li+li 간격/flex 유지 */
+  .ul-filter-list .checkbox-host { display: contents; }
+  /* 필터 목록 'shorten': 6번째부터 숨김(+ 더보기) */
+  .ul-filter-list.shorten .checkbox-host:nth-child(n + 6) { display: none; }
+}
