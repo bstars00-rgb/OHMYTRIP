@@ -22,6 +22,12 @@ interface CalendarPopoverProps {
   checkOut: string | null;
   onApply: (checkIn: string, checkOut: string) => void;
   onReset: () => void;
+  /** 'range' = 체크인~체크아웃(호텔/왕복), 'single' = 단일 날짜(편도) */
+  mode?: 'range' | 'single';
+  /** 상단 칩 라벨 [시작, 종료] (기본 체크인/체크아웃) */
+  labels?: [string, string];
+  /** 팝오버 위치 오버라이드 (기본 호텔 위치) */
+  positionStyle?: React.CSSProperties;
 }
 
 interface MonthGridProps {
@@ -103,7 +109,15 @@ function MonthGrid({ month, today, checkIn, checkOut, onSelect }: MonthGridProps
  * 원본 데스크톱 달력 팝오버 미러링:
  * .calendar-wrap.modal-wrap > .layer-calendar > .calendar-contents(2개월) + .control
  */
-export default function CalendarPopover({ checkIn, checkOut, onApply, onReset }: CalendarPopoverProps) {
+export default function CalendarPopover({
+  checkIn,
+  checkOut,
+  onApply,
+  onReset,
+  mode = 'range',
+  labels = ['체크인', '체크아웃'],
+  positionStyle = { left: 30, top: 181 },
+}: CalendarPopoverProps) {
   const today = startOfDay(new Date());
   const baseMonth = startOfMonth(today);
   const [view, setView] = useState(0);
@@ -113,6 +127,11 @@ export default function CalendarPopover({ checkIn, checkOut, onApply, onReset }:
   const months = Array.from({ length: MONTH_WINDOW }, (_, i) => addMonths(baseMonth, i));
 
   const handleSelect = (d: Date) => {
+    if (mode === 'single') {
+      setSelIn(d);
+      setSelOut(d);
+      return;
+    }
     if (!selIn || (selIn && selOut)) {
       setSelIn(d);
       setSelOut(null);
@@ -133,11 +152,15 @@ export default function CalendarPopover({ checkIn, checkOut, onApply, onReset }:
   };
 
   const handleApply = () => {
+    if (mode === 'single') {
+      if (selIn) onApply(toIsoDate(selIn), toIsoDate(selIn));
+      return;
+    }
     if (selIn && selOut) onApply(toIsoDate(selIn), toIsoDate(selOut));
   };
 
   return (
-    <div className="calendar-wrap modal-wrap" style={{ left: 30, top: 181 }}>
+    <div className="calendar-wrap modal-wrap" style={positionStyle}>
       <div className="layer-calendar">
         <div className="calendar-contents">
           <button
@@ -175,13 +198,15 @@ export default function CalendarPopover({ checkIn, checkOut, onApply, onReset }:
         </div>
         <div className="control">
           <button type="button" className={`itinerary${selIn ? ' selected' : selOut ? '' : ' active'}`}>
-            <span className="title">체크인</span>
+            <span className="title">{labels[0]}</span>
             {selIn && <span className="date">{formatItineraryDate(toIsoDate(selIn))}</span>}
           </button>
-          <button type="button" className={`itinerary${selOut ? ' selected' : selIn ? ' active' : ''}`}>
-            <span className="title">체크아웃</span>
-            {selOut && <span className="date">{formatItineraryDate(toIsoDate(selOut))}</span>}
-          </button>
+          {mode === 'range' && (
+            <button type="button" className={`itinerary${selOut ? ' selected' : selIn ? ' active' : ''}`}>
+              <span className="title">{labels[1]}</span>
+              {selOut && <span className="date">{formatItineraryDate(toIsoDate(selOut))}</span>}
+            </button>
+          )}
           <button type="button" title="초기화" className="btn-calendar-reset" onClick={handleReset}>
             {' '}
             초기화{' '}

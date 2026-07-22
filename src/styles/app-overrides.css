@@ -20,6 +20,11 @@
 /* 자동완성 키보드 하이라이트 — 원본에 없는 상태라 hover와 동일 톤으로만 표시 */
 .destination-item.active { background-color: var(--c-gray-1); }
 
+/* 항공 인원 팝오버 위치 — 원본 컴포넌트 스코프에 있으나 전역 CSS엔 없어 보강 */
+.flight-passenger-wrap { position: absolute; left: 30px; z-index: 100; }
+/* 액티비티 카테고리 선택 상태(원본은 즉시 이동 — 클론은 토글 선택 시 오렌지 강조) */
+.activity-category [class^='btn-activity-category'].active span { color: var(--c-orange); }
+
 /* ngx-slider 정적 재현: 트랙 레이아웃 컨텍스트만 보강(색/치수는 omt-page-components.css의 원본값) */
 .custom-slider .ngx-slider { position: relative; display: block; height: 2px; }
 .custom-slider .ngx-slider .ngx-slider-bar-wrapper { position: absolute; left: 0; right: 0; top: 0; }

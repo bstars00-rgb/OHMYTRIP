@@ -2,12 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import HotelSearchPanel from '@/components/search/HotelSearchPanel';
-import {
-  ActivitySearchPanel,
-  AirtelSearchPanel,
-  FlightSearchPanel,
-  RentalcarSearchPanel,
-} from '@/components/search/StaticServicePanels';
+import FlightSearchPanel from '@/components/search/FlightSearchPanel';
+import ActivitySearchPanel from '@/components/search/ActivitySearchPanel';
+import RentalcarSearchPanel from '@/components/search/RentalcarSearchPanel';
+import { AirtelSearchPanel } from '@/components/search/StaticServicePanels';
 
 export type ServiceKey = 'hotel' | 'flight' | 'activity' | 'rentalcar' | 'airtel';
 
