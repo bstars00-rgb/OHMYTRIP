@@ -13,6 +13,12 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    // OHMYGOLF 프로토타입은 SVG data URI placeholder를 <img>로 렌더한다
+    // (next/image는 data URI 최적화에 이점이 없고 정적 export와 무관).
+    files: ["src/components/golf/**/*.tsx", "src/app/golf/**/*.tsx"],
+    rules: { "@next/next/no-img-element": "off" },
+  },
 ]);
 
 export default eslintConfig;

@@ -47,6 +47,18 @@ export default function MainSearchPanel({ service }: { service: ServiceKey }) {
               </button>
             </li>
           ))}
+          {/* 실험적 진입점: 골프텔(OHMYGOLF 프로토타입). 롤백 시 이 li만 삭제 */}
+          <li>
+            <button
+              type="button"
+              className="btn-main-category btn-golf-entry"
+              onClick={() => router.push('/golf')}
+            >
+              <span className="icon-golf" />
+              <span className="name">골프텔</span>
+              <span className="golf-entry-badge">NEW</span>
+            </button>
+          </li>
         </ul>
         <div className="main-search-body">
           <Panel />

@@ -1,0 +1,142 @@
+/*
+ * OHMYGOLF — 골프텔 예약 프로토타입 디자인 시스템.
+ * 모든 규칙은 `.ohmygolf` 하위로 스코프하여 OHMYTRIP 클론과 완전히 격리한다.
+ * 롤백: 이 파일 + app/golf + components/golf + mocks/golf + features/golf 삭제.
+ */
+.ohmygolf {
+  /* Color — Premium / Natural */
+  --g-forest: #1f3d2b; /* Primary: deep forest green */
+  --g-forest-600: #2c5a3d;
+  --g-forest-400: #4a7a5c;
+  --g-ivory: #f6f1e7; /* Secondary: warm ivory */
+  --g-cream: #fbf9f4; /* Background */
+  --g-white: #ffffff;
+  --g-charcoal: #23271f; /* Text primary */
+  --g-charcoal-60: #5b5f57; /* Text secondary */
+  --g-charcoal-40: #8b8f86;
+  --g-line: #e7e2d6; /* border */
+  --g-line-soft: #efeae0;
+  --g-gold: #b98a2e; /* Accent (very limited) */
+  --g-lime: #7bad3f; /* Accent alt */
+  --g-danger: #c0492f;
+  --g-success: #2c7a4b;
+
+  --g-radius-sm: 10px;
+  --g-radius: 16px;
+  --g-radius-lg: 20px;
+  --g-radius-pill: 999px;
+
+  --g-shadow-xs: 0 1px 2px rgba(35, 39, 31, 0.05);
+  --g-shadow-sm: 0 2px 10px rgba(35, 39, 31, 0.06);
+  --g-shadow-md: 0 8px 30px rgba(35, 39, 31, 0.1);
+  --g-shadow-lg: 0 16px 48px rgba(35, 39, 31, 0.14);
+
+  --g-serif: 'Playfair Display', 'Noto Serif KR', Georgia, 'Times New Roman', serif;
+  --g-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+
+  --g-header-h: 74px;
+  --g-header-h-compact: 60px;
+  --g-max: 1240px;
+
+  font-family: var(--g-sans);
+  color: var(--g-charcoal);
+  background: var(--g-cream);
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ohmygolf *,
+.ohmygolf *::before,
+.ohmygolf *::after {
+  box-sizing: border-box;
+}
+.ohmygolf h1, .ohmygolf h2, .ohmygolf h3, .ohmygolf h4, .ohmygolf p, .ohmygolf ul, .ohmygolf ol, .ohmygolf figure {
+  margin: 0;
+  padding: 0;
+}
+.ohmygolf ul, .ohmygolf ol { list-style: none; }
+.ohmygolf a { color: inherit; text-decoration: none; }
+.ohmygolf button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+.ohmygolf img { max-width: 100%; display: block; }
+.ohmygolf :focus-visible { outline: 2px solid var(--g-forest-400); outline-offset: 2px; border-radius: 4px; }
+
+/* Typography */
+.g-display { font-family: var(--g-serif); font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
+.g-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g-forest-400); }
+.g-section-title { font-family: var(--g-serif); font-weight: 700; font-size: 30px; line-height: 1.15; color: var(--g-charcoal); }
+.g-section-sub { color: var(--g-charcoal-60); font-size: 15px; margin-top: 8px; }
+.g-muted { color: var(--g-charcoal-60); }
+
+/* Layout */
+.g-container { max-width: var(--g-max); margin: 0 auto; padding: 0 24px; }
+.g-section { padding: 64px 0; }
+.g-section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+
+/* Buttons */
+.g-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; border-radius: var(--g-radius-pill); font-size: 15px; font-weight: 600; transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .05s ease; white-space: nowrap; }
+.g-btn:active { transform: translateY(1px); }
+.g-btn-primary { background: var(--g-forest); color: var(--g-white); }
+.g-btn-primary:hover { background: var(--g-forest-600); }
+.g-btn-outline { background: transparent; color: var(--g-forest); border: 1px solid var(--g-forest); }
+.g-btn-outline:hover { background: var(--g-forest); color: var(--g-white); }
+.g-btn-ghost { background: transparent; color: var(--g-charcoal); border: 1px solid var(--g-line); }
+.g-btn-ghost:hover { border-color: var(--g-charcoal-40); }
+.g-btn-gold { background: var(--g-gold); color: var(--g-white); }
+.g-btn-gold:hover { filter: brightness(0.95); }
+.g-btn-sm { height: 38px; padding: 0 16px; font-size: 14px; }
+.g-btn-lg { height: 54px; padding: 0 28px; font-size: 16px; }
+.g-btn-block { width: 100%; }
+.g-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Badges */
+.g-badge { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 10px; border-radius: var(--g-radius-pill); font-size: 12px; font-weight: 600; line-height: 1; }
+.g-badge-instant { background: rgba(44, 122, 75, 0.12); color: var(--g-success); }
+.g-badge-quote { background: rgba(185, 138, 46, 0.14); color: var(--g-gold); }
+.g-badge-deal { background: var(--g-danger); color: #fff; }
+.g-badge-soft { background: var(--g-ivory); color: var(--g-charcoal-60); }
+.g-badge-best { background: var(--g-forest); color: #fff; }
+
+/* Cards */
+.g-card { background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-sm); overflow: hidden; transition: box-shadow .2s ease, transform .2s ease; }
+.g-card-hover:hover { box-shadow: var(--g-shadow-md); transform: translateY(-3px); }
+
+/* Chips */
+.g-chip { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 18px; border-radius: var(--g-radius-pill); border: 1px solid var(--g-line); background: var(--g-white); box-shadow: var(--g-shadow-xs); font-size: 14px; font-weight: 600; color: var(--g-charcoal); transition: all .16s ease; white-space: nowrap; }
+.g-chip:hover { border-color: var(--g-forest); color: var(--g-forest); box-shadow: var(--g-shadow-sm); }
+.g-chip.is-active { background: var(--g-forest); color: #fff; border-color: var(--g-forest); }
+
+/* Price */
+.g-price-strike { color: var(--g-charcoal-40); text-decoration: line-through; font-size: 14px; }
+.g-price-now { font-family: var(--g-sans); font-weight: 700; color: var(--g-charcoal); }
+.g-price-unit { color: var(--g-charcoal-60); font-size: 13px; font-weight: 500; }
+.g-discount { color: var(--g-danger); font-weight: 700; font-size: 14px; }
+
+/* Star rating */
+.g-stars { display: inline-flex; gap: 1px; color: var(--g-gold); }
+
+/* Inputs */
+.g-input { height: 48px; width: 100%; padding: 0 14px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); background: var(--g-white); font-size: 15px; font-family: inherit; color: var(--g-charcoal); }
+.g-input:focus { outline: none; border-color: var(--g-forest-400); box-shadow: 0 0 0 3px rgba(74, 122, 92, 0.12); }
+.g-label { font-size: 12px; font-weight: 600; color: var(--g-charcoal-60); letter-spacing: 0.02em; margin-bottom: 6px; display: block; }
+.g-field { position: relative; }
+
+/* Skeleton */
+.g-skel { background: linear-gradient(100deg, var(--g-line-soft) 30%, #f4efe4 50%, var(--g-line-soft) 70%); background-size: 200% 100%; animation: g-shimmer 1.3s ease-in-out infinite; border-radius: 8px; }
+@keyframes g-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Modal / sheet */
+.g-overlay { position: fixed; inset: 0; background: rgba(35, 39, 31, 0.5); backdrop-filter: blur(2px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.g-modal { background: var(--g-white); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-lg); max-width: 560px; width: 100%; max-height: 88vh; overflow: auto; }
+.g-sheet { position: fixed; left: 0; right: 0; bottom: 0; background: var(--g-white); border-radius: 20px 20px 0 0; box-shadow: var(--g-shadow-lg); z-index: 1000; max-height: 86vh; overflow: auto; }
+
+/* Divider / helpers */
+.g-hr { height: 1px; background: var(--g-line); border: 0; margin: 0; }
+.g-flex { display: flex; }
+.g-between { display: flex; align-items: center; justify-content: space-between; }
+.g-grid { display: grid; }
+.g-inc { color: var(--g-success); }
+.g-exc { color: var(--g-charcoal-40); }
+
+/* Include the golf page-specific stylesheets appended below via imports */

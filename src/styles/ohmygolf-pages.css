@@ -1,0 +1,409 @@
+/* OHMYGOLF — component & page layout styles (scoped under .ohmygolf) */
+
+/* ============ Header ============ */
+.ohmygolf .g-header { position: sticky; top: 0; z-index: 900; background: rgba(251, 249, 244, 0.92); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: height .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.ohmygolf .g-header.is-compact { border-color: var(--g-line); box-shadow: var(--g-shadow-xs); }
+.ohmygolf .g-header-inner { display: flex; align-items: center; gap: 24px; height: var(--g-header-h); transition: height .2s ease; }
+.ohmygolf .g-header.is-compact .g-header-inner { height: var(--g-header-h-compact); }
+.ohmygolf .g-logo { display: inline-flex; align-items: center; gap: 8px; font-family: var(--g-serif); font-size: 22px; font-weight: 700; color: var(--g-forest); letter-spacing: -0.02em; }
+.ohmygolf .g-logo b { font-weight: 700; color: var(--g-gold); }
+.ohmygolf .g-logo svg { color: var(--g-forest); }
+.ohmygolf .g-nav { display: flex; align-items: center; gap: 26px; margin-left: 8px; font-size: 15px; font-weight: 500; }
+.ohmygolf .g-nav a { color: var(--g-charcoal); padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .15s ease, color .15s ease; }
+.ohmygolf .g-nav a:hover { color: var(--g-forest); border-color: var(--g-forest); }
+.ohmygolf .g-header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.ohmygolf .g-icon-btn { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 12px; border-radius: var(--g-radius-pill); font-size: 14px; font-weight: 500; color: var(--g-charcoal); position: relative; transition: background-color .15s ease; }
+.ohmygolf .g-icon-btn:hover { background: var(--g-ivory); }
+.ohmygolf .g-drop-wrap { position: relative; }
+.ohmygolf .g-drop { position: absolute; right: 0; top: calc(100% + 6px); min-width: 150px; background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); box-shadow: var(--g-shadow-md); padding: 6px; z-index: 20; }
+.ohmygolf .g-drop button { display: block; width: 100%; text-align: left; padding: 9px 12px; border-radius: 8px; font-size: 14px; }
+.ohmygolf .g-drop button:hover { background: var(--g-ivory); }
+.ohmygolf .g-drop button.is-active { color: var(--g-forest); font-weight: 700; }
+.ohmygolf .g-wish-btn { padding: 0 12px; }
+.ohmygolf .g-wish-count { position: absolute; top: 2px; right: 2px; min-width: 16px; height: 16px; border-radius: 8px; background: var(--g-gold); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.ohmygolf .g-show-sm, .ohmygolf .g-show-md, .ohmygolf .g-show-sm-inline { display: none; }
+
+/* mobile menu */
+.ohmygolf .g-mobile-menu { position: fixed; inset: 0; z-index: 1000; background: var(--g-cream); padding: 20px 24px; display: flex; flex-direction: column; }
+.ohmygolf .g-mobile-menu-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.ohmygolf .g-mobile-menu nav { display: flex; flex-direction: column; gap: 4px; }
+.ohmygolf .g-mobile-menu nav a { font-size: 18px; font-weight: 600; padding: 14px 0; border-bottom: 1px solid var(--g-line); }
+.ohmygolf .g-mobile-menu > .g-btn { margin-top: auto; }
+
+/* ============ Hero ============ */
+.ohmygolf .g-hero { position: relative; min-height: 560px; display: flex; align-items: center; overflow: hidden; }
+.ohmygolf .g-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ohmygolf .g-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(31,61,43,0.42) 0%, rgba(31,61,43,0.16) 40%, rgba(31,61,43,0.34) 100%); }
+.ohmygolf .g-hero-inner { position: relative; padding: 70px 24px 90px; width: 100%; }
+.ohmygolf .g-hero-eyebrow { color: #dbe8db; margin-bottom: 14px; }
+.ohmygolf .g-hero-title { color: #fff; font-size: 62px; margin-bottom: 12px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
+.ohmygolf .g-hero-sub { color: #f2efe6; font-size: 19px; max-width: 560px; margin-bottom: 34px; }
+
+/* ============ SearchBox ============ */
+.ohmygolf .g-searchbox { display: flex; align-items: stretch; gap: 0; background: var(--g-white); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-lg); padding: 10px; max-width: 1000px; }
+.ohmygolf .g-searchbox-field { position: relative; flex: 1 1 auto; padding: 10px 16px; border-right: 1px solid var(--g-line-soft); min-width: 0; }
+.ohmygolf .g-field-date { flex: 0 0 150px; }
+.ohmygolf .g-field-party { flex: 1.4 1 0; }
+.ohmygolf .g-sb-label { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-charcoal-60); margin-bottom: 5px; }
+.ohmygolf .g-sb-input { width: 100%; border: none; background: none; font-size: 15px; font-family: inherit; color: var(--g-charcoal); padding: 0; height: 26px; }
+.ohmygolf .g-sb-input:focus { outline: none; }
+.ohmygolf .g-sb-partybtn { display: flex; align-items: center; justify-content: space-between; gap: 8px; cursor: pointer; text-align: left; }
+.ohmygolf .g-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ohmygolf .g-searchbox-submit { flex: 0 0 auto; margin-left: 6px; padding: 0 26px; border-radius: var(--g-radius); }
+.ohmygolf .g-sb-drop { position: absolute; left: 8px; right: 8px; top: calc(100% + 8px); background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); box-shadow: var(--g-shadow-md); z-index: 40; padding: 6px; max-height: 320px; overflow: auto; }
+.ohmygolf .g-sb-drop li button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px 12px; border-radius: 8px; }
+.ohmygolf .g-sb-drop li button:hover { background: var(--g-ivory); }
+.ohmygolf .g-sb-drop-hint { display: block; font-size: 12px; color: var(--g-charcoal-40); margin-top: 2px; }
+.ohmygolf .g-sb-partypop { position: absolute; right: 8px; top: calc(100% + 8px); width: 300px; background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius); box-shadow: var(--g-shadow-md); z-index: 40; padding: 16px; }
+.ohmygolf .g-counter-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+.ohmygolf .g-counter-label { font-weight: 600; font-size: 14px; }
+.ohmygolf .g-counter-hint { font-size: 12px; color: var(--g-charcoal-40); }
+.ohmygolf .g-counter-ctrl { display: flex; align-items: center; gap: 12px; }
+.ohmygolf .g-counter-ctrl button { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--g-line); display: flex; align-items: center; justify-content: center; color: var(--g-forest); }
+.ohmygolf .g-counter-ctrl button:hover:not(:disabled) { border-color: var(--g-forest); }
+.ohmygolf .g-counter-ctrl button:disabled { opacity: .35; }
+.ohmygolf .g-counter-ctrl span { min-width: 18px; text-align: center; font-weight: 600; }
+.ohmygolf .g-sb-partypop .g-btn { margin-top: 12px; }
+.ohmygolf .g-searchbox-compact { box-shadow: var(--g-shadow-sm); max-width: none; }
+
+/* ============ Categories ============ */
+.ohmygolf .g-cat-section { padding-top: 40px; }
+.ohmygolf .g-cat-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.ohmygolf .g-cat-row::-webkit-scrollbar { display: none; }
+
+/* ============ Sections ============ */
+.ohmygolf .g-section-ivory { background: var(--g-ivory); }
+.ohmygolf .g-section-forest { background: var(--g-forest); color: #eef2ec; }
+.ohmygolf .g-link-arrow { display: inline-flex; align-items: center; gap: 6px; color: var(--g-forest); font-weight: 600; font-size: 15px; }
+.ohmygolf .g-link-arrow:hover { gap: 9px; }
+
+/* Destinations */
+.ohmygolf .g-dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.ohmygolf .g-dest-card { display: block; }
+.ohmygolf .g-dest-media { position: relative; aspect-ratio: 1.35; }
+.ohmygolf .g-dest-media img { width: 100%; height: 100%; object-fit: cover; }
+.ohmygolf .g-dest-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(31,61,43,0.66) 100%); }
+.ohmygolf .g-dest-caption { position: absolute; left: 18px; bottom: 14px; color: #fff; }
+.ohmygolf .g-dest-caption h3 { font-family: var(--g-serif); font-size: 26px; }
+.ohmygolf .g-dest-caption span { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; opacity: .92; }
+.ohmygolf .g-dest-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px 18px; }
+.ohmygolf .g-dest-meta > div { display: flex; flex-direction: column; }
+.ohmygolf .g-dest-meta span { font-size: 11px; }
+.ohmygolf .g-dest-meta b { font-size: 14px; margin-top: 2px; }
+
+/* Package grid */
+.ohmygolf .g-pkg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+
+/* Package card */
+.ohmygolf .g-pkgcard { display: flex; flex-direction: column; }
+.ohmygolf .g-pkgcard-media { position: relative; aspect-ratio: 1.5; display: block; }
+.ohmygolf .g-pkgcard-media img { width: 100%; height: 100%; object-fit: cover; }
+.ohmygolf .g-pkgcard-badges { position: absolute; left: 12px; top: 12px; display: flex; flex-wrap: wrap; gap: 6px; max-width: 80%; }
+.ohmygolf .g-pkgcard-wish { position: absolute; right: 12px; top: 12px; }
+.ohmygolf .g-wishlist-btn { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; color: var(--g-charcoal); box-shadow: var(--g-shadow-sm); transition: transform .1s ease, color .15s ease; }
+.ohmygolf .g-wishlist-btn:hover { transform: scale(1.06); }
+.ohmygolf .g-wishlist-btn.is-active { color: var(--g-danger); }
+.ohmygolf .g-pkgcard-body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+.ohmygolf .g-pkgcard-score { font-size: 13px; }
+.ohmygolf .g-reviewscore b { background: var(--g-forest); color: #fff; padding: 2px 7px; border-radius: 6px 6px 6px 2px; font-size: 12px; }
+.ohmygolf .g-pkgcard-title { font-family: var(--g-serif); font-size: 19px; line-height: 1.2; margin-top: 10px; }
+.ohmygolf .g-pkgcard-title a:hover { color: var(--g-forest); }
+.ohmygolf .g-pkgcard-loc { display: flex; align-items: center; gap: 4px; color: var(--g-charcoal-60); font-size: 13px; margin-top: 4px; }
+.ohmygolf .g-pkgcard-pkg { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-weight: 700; font-size: 14px; color: var(--g-forest); }
+.ohmygolf .g-pkgcard-courses { font-size: 13px; color: var(--g-charcoal-60); margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ohmygolf .g-pkgcard-incl { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 12px; }
+.ohmygolf .g-pkgcard-incl li { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--g-charcoal-60); }
+.ohmygolf .g-pkgcard-incl svg { color: var(--g-forest-400); }
+.ohmygolf .g-pkgcard-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
+.ohmygolf .g-pkgcard-flag { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; }
+.ohmygolf .g-pkgcard-foot { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.ohmygolf .g-pkgcard-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.ohmygolf .g-compare-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--g-charcoal-60); }
+.ohmygolf .g-compare-toggle:hover:not(:disabled) { color: var(--g-forest); }
+.ohmygolf .g-compare-toggle.is-active { color: var(--g-forest); }
+.ohmygolf .g-compare-toggle:disabled { opacity: .4; }
+
+/* Why cards */
+.ohmygolf .g-why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.ohmygolf .g-why-card { padding: 26px 22px; text-align: center; }
+.ohmygolf .g-why-icon { display: inline-flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 50%; background: var(--g-ivory); color: var(--g-forest); margin-bottom: 16px; }
+.ohmygolf .g-why-card h3 { font-size: 17px; margin-bottom: 8px; }
+.ohmygolf .g-why-card p { font-size: 14px; line-height: 1.5; }
+
+/* Build CTA */
+.ohmygolf .g-build-cta { position: relative; border-radius: var(--g-radius-lg); overflow: hidden; min-height: 320px; display: flex; align-items: center; }
+.ohmygolf .g-build-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ohmygolf .g-build-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(31,61,43,0.86) 20%, rgba(31,61,43,0.5) 100%); }
+.ohmygolf .g-build-content { position: relative; padding: 48px; max-width: 620px; }
+.ohmygolf .g-build-title { color: #fff; font-size: 40px; margin: 10px 0 14px; }
+.ohmygolf .g-build-sub { color: #e9efe7; font-size: 16px; margin-bottom: 26px; line-height: 1.55; }
+
+/* Editorial */
+.ohmygolf .g-editorial-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.ohmygolf .g-editorial-media { aspect-ratio: 1.4; }
+.ohmygolf .g-editorial-media img { width: 100%; height: 100%; object-fit: cover; }
+.ohmygolf .g-editorial-body { padding: 16px 18px 20px; }
+.ohmygolf .g-editorial-body h3 { font-family: var(--g-serif); font-size: 18px; line-height: 1.25; margin: 8px 0 12px; }
+
+/* Trust */
+.ohmygolf .g-trust-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; margin-bottom: 44px; }
+.ohmygolf .g-trust-stats b { display: block; font-family: var(--g-serif); font-size: 34px; color: #fff; }
+.ohmygolf .g-trust-stats span { font-size: 14px; color: #c9d6c7; }
+.ohmygolf .g-review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.ohmygolf .g-review-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--g-radius); padding: 22px; }
+.ohmygolf .g-review-score { display: inline-flex; align-items: center; gap: 5px; color: var(--g-gold); font-weight: 700; margin-bottom: 12px; }
+.ohmygolf .g-review-card blockquote { font-size: 15px; line-height: 1.6; color: #eef2ec; margin-bottom: 14px; }
+.ohmygolf .g-review-card figcaption { font-size: 14px; color: #dbe4d9; }
+.ohmygolf .g-partner-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 36px; margin-top: 44px; opacity: 0.82; }
+.ohmygolf .g-partner-logo { font-family: var(--g-serif); font-size: 18px; letter-spacing: 0.02em; color: #cdd9cb; }
+
+/* ============ Footer ============ */
+.ohmygolf .g-footer { background: #141a14; color: #c7d0c5; padding: 56px 0 30px; margin-top: 40px; }
+.ohmygolf .g-footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 34px; }
+.ohmygolf .g-logo-light { color: #fff; }
+.ohmygolf .g-logo-light b { color: var(--g-gold); }
+.ohmygolf .g-footer-brand p { margin: 14px 0 18px; font-size: 14px; line-height: 1.6; max-width: 320px; color: #9fac9c; }
+.ohmygolf .g-footer-social { display: flex; gap: 10px; }
+.ohmygolf .g-footer-social a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #cfd8cd; }
+.ohmygolf .g-footer-social a:hover { background: var(--g-forest-600); color: #fff; }
+.ohmygolf .g-footer-col h4 { font-size: 14px; color: #fff; margin-bottom: 14px; letter-spacing: 0.04em; }
+.ohmygolf .g-footer-col li { margin-bottom: 10px; }
+.ohmygolf .g-footer-col a { font-size: 14px; color: #9fac9c; }
+.ohmygolf .g-footer-col a:hover { color: #fff; }
+.ohmygolf .g-footer .g-hr { background: rgba(255,255,255,0.1); }
+.ohmygolf .g-footer-bottom { display: flex; justify-content: space-between; padding-top: 20px; font-size: 13px; color: #8a968870; }
+.ohmygolf .g-footer-bottom span { color: #8a9688; }
+
+/* ============ Modal / sheet / misc ============ */
+.ohmygolf .g-modal-close { position: absolute; right: 14px; top: 14px; width: 34px; height: 34px; border-radius: 50%; background: var(--g-ivory); display: flex; align-items: center; justify-content: center; color: var(--g-charcoal); z-index: 2; }
+.ohmygolf .g-modal-close:hover { background: var(--g-line); }
+.ohmygolf .g-sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--g-line); position: sticky; top: 0; background: var(--g-white); }
+.ohmygolf .g-sheet-title { font-weight: 700; font-size: 16px; }
+.ohmygolf .g-empty { text-align: center; padding: 60px 20px; }
+.ohmygolf .g-empty-icon { font-size: 46px; margin-bottom: 14px; }
+.ohmygolf .g-empty h3 { font-family: var(--g-serif); font-size: 24px; margin-bottom: 8px; }
+
+/* ============ Compare tray ============ */
+.ohmygolf .g-compare-tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: 800; background: var(--g-white); border-top: 1px solid var(--g-line); box-shadow: 0 -8px 30px rgba(35,39,31,0.12); }
+.ohmygolf .g-compare-tray-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; }
+.ohmygolf .g-compare-tray-items { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.ohmygolf .g-compare-tray-count { font-weight: 700; font-size: 14px; white-space: nowrap; }
+.ohmygolf .g-compare-tray-chips { display: flex; gap: 8px; overflow: hidden; }
+.ohmygolf .g-compare-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 6px 5px 12px; background: var(--g-ivory); border-radius: var(--g-radius-pill); font-size: 13px; white-space: nowrap; }
+.ohmygolf .g-compare-chip button { width: 18px; height: 18px; border-radius: 50%; background: var(--g-line); display: flex; align-items: center; justify-content: center; }
+.ohmygolf .g-compare-tray-actions { display: flex; gap: 10px; }
+
+/* ============ Search results page ============ */
+.ohmygolf .g-searchbar-sticky { position: sticky; top: var(--g-header-h); z-index: 500; background: var(--g-cream); padding: 16px 0; border-bottom: 1px solid var(--g-line); }
+.ohmygolf .g-results-layout { display: grid; grid-template-columns: 288px 1fr; gap: 28px; align-items: start; }
+.ohmygolf .g-filter-sidebar { position: sticky; top: calc(var(--g-header-h) + 90px); background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius); padding: 8px 18px 18px; max-height: calc(100vh - var(--g-header-h) - 110px); overflow: auto; }
+.ohmygolf .g-filter-group { padding: 16px 0; border-bottom: 1px solid var(--g-line-soft); }
+.ohmygolf .g-filter-group:last-child { border-bottom: none; }
+.ohmygolf .g-filter-group h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+.ohmygolf .g-check { display: flex; align-items: center; gap: 9px; padding: 5px 0; font-size: 14px; cursor: pointer; }
+.ohmygolf .g-check input { width: 17px; height: 17px; accent-color: var(--g-forest); }
+.ohmygolf .g-check .g-check-hint { margin-left: auto; font-size: 12px; color: var(--g-charcoal-40); }
+.ohmygolf .g-range-val { display: flex; justify-content: space-between; font-size: 13px; color: var(--g-charcoal-60); margin-top: 8px; }
+.ohmygolf .g-range { width: 100%; accent-color: var(--g-forest); }
+.ohmygolf .g-results-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+.ohmygolf .g-results-count { font-family: var(--g-serif); font-size: 22px; }
+.ohmygolf .g-results-tools { display: flex; align-items: center; gap: 10px; }
+.ohmygolf .g-viewtoggle { display: inline-flex; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); overflow: hidden; }
+.ohmygolf .g-viewtoggle button { padding: 8px 14px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+.ohmygolf .g-viewtoggle button.is-active { background: var(--g-forest); color: #fff; }
+.ohmygolf .g-select { height: 40px; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); padding: 0 14px; font-family: inherit; font-size: 14px; background: var(--g-white); color: var(--g-charcoal); }
+.ohmygolf .g-results-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.ohmygolf .g-results-list.is-map { grid-template-columns: 1fr; }
+.ohmygolf .g-map-panel { position: relative; border-radius: var(--g-radius); overflow: hidden; border: 1px solid var(--g-line); min-height: 420px; background: linear-gradient(160deg, #dbe7dd, #eef4ec); }
+.ohmygolf .g-map-pin { position: absolute; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; }
+.ohmygolf .g-map-pin span { background: var(--g-forest); color: #fff; padding: 4px 10px; border-radius: var(--g-radius-pill); font-size: 12px; font-weight: 700; box-shadow: var(--g-shadow-sm); white-space: nowrap; }
+.ohmygolf .g-map-pin.is-active span { background: var(--g-gold); }
+.ohmygolf .g-mobile-filterbar { display: none; }
+
+/* Option comparison inside result card */
+.ohmygolf .g-options { border-top: 1px solid var(--g-line-soft); margin-top: 12px; padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.ohmygolf .g-option-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 10px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); font-size: 13px; }
+.ohmygolf .g-option-row b { font-size: 15px; }
+
+/* ============ Package detail ============ */
+.ohmygolf .g-breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--g-charcoal-60); padding: 18px 0; }
+.ohmygolf .g-breadcrumb a:hover { color: var(--g-forest); }
+.ohmygolf .g-detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.ohmygolf .g-detail-title { font-family: var(--g-serif); font-size: 34px; line-height: 1.1; }
+.ohmygolf .g-detail-sub { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 10px; color: var(--g-charcoal-60); font-size: 14px; }
+.ohmygolf .g-detail-actions { display: flex; gap: 8px; }
+.ohmygolf .g-gallery { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; border-radius: var(--g-radius-lg); overflow: hidden; margin-bottom: 34px; }
+.ohmygolf .g-gallery img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+.ohmygolf .g-gallery-main { grid-row: 1 / span 2; }
+.ohmygolf .g-gallery-more { position: relative; }
+.ohmygolf .g-gallery-more span { position: absolute; inset: 0; background: rgba(31,61,43,0.55); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+.ohmygolf .g-detail-layout { display: grid; grid-template-columns: 1fr 360px; gap: 34px; align-items: start; }
+.ohmygolf .g-detail-main > section { padding: 26px 0; border-top: 1px solid var(--g-line); }
+.ohmygolf .g-detail-main > section:first-child { border-top: none; padding-top: 0; }
+.ohmygolf .g-detail-h { font-family: var(--g-serif); font-size: 24px; margin-bottom: 16px; }
+.ohmygolf .g-incl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
+.ohmygolf .g-incl-item { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.ohmygolf .g-incl-item.inc svg { color: var(--g-success); }
+.ohmygolf .g-incl-item.exc { color: var(--g-charcoal-40); }
+.ohmygolf .g-incl-item.exc svg { color: var(--g-charcoal-40); }
+
+/* Booking summary card */
+.ohmygolf .g-booking-card { position: sticky; top: calc(var(--g-header-h) + 20px); background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-sm); padding: 22px; }
+.ohmygolf .g-booking-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.ohmygolf .g-booking-price .g-price-now { font-size: 30px; }
+.ohmygolf .g-booking-rows { margin: 16px 0; }
+.ohmygolf .g-booking-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; font-size: 14px; border-bottom: 1px solid var(--g-line-soft); }
+.ohmygolf .g-booking-row:last-child { border-bottom: none; }
+.ohmygolf .g-booking-total { display: flex; align-items: baseline; justify-content: space-between; padding: 14px 0; border-top: 2px solid var(--g-charcoal); margin-top: 6px; }
+.ohmygolf .g-booking-total b { font-size: 24px; }
+.ohmygolf .g-stepper-inline { display: flex; align-items: center; gap: 10px; }
+.ohmygolf .g-stepper-inline button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--g-line); display: flex; align-items: center; justify-content: center; }
+.ohmygolf .g-no-hidden { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--g-success); margin-top: 12px; }
+
+/* Itinerary timeline */
+.ohmygolf .g-timeline { position: relative; }
+.ohmygolf .g-timeline-day { border: 1px solid var(--g-line); border-radius: var(--g-radius); margin-bottom: 10px; overflow: hidden; }
+.ohmygolf .g-timeline-head { display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px 18px; text-align: left; background: var(--g-white); }
+.ohmygolf .g-timeline-head:hover { background: var(--g-cream); }
+.ohmygolf .g-timeline-daynum { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: var(--g-forest); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; line-height: 1.1; }
+.ohmygolf .g-timeline-daynum b { font-size: 16px; }
+.ohmygolf .g-timeline-title { font-weight: 600; flex: 1; }
+.ohmygolf .g-timeline-body { padding: 4px 18px 18px 78px; }
+.ohmygolf .g-timeline-item { display: flex; gap: 12px; padding: 7px 0; font-size: 14px; }
+.ohmygolf .g-timeline-time { flex: 0 0 52px; font-weight: 700; color: var(--g-forest); }
+
+/* Course cards */
+.ohmygolf .g-course-card { display: grid; grid-template-columns: 180px 1fr; gap: 18px; border: 1px solid var(--g-line); border-radius: var(--g-radius); overflow: hidden; margin-bottom: 14px; }
+.ohmygolf .g-course-card img { width: 100%; height: 100%; object-fit: cover; min-height: 150px; }
+.ohmygolf .g-course-info { padding: 16px 18px 16px 0; }
+.ohmygolf .g-course-info h4 { font-family: var(--g-serif); font-size: 19px; }
+.ohmygolf .g-course-stats { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0; font-size: 13px; color: var(--g-charcoal-60); }
+.ohmygolf .g-course-stats b { color: var(--g-charcoal); }
+
+/* Tee time */
+.ohmygolf .g-tee-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.ohmygolf .g-tee-btn { position: relative; min-width: 84px; height: 48px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+.ohmygolf .g-tee-btn:hover:not(:disabled) { border-color: var(--g-forest); }
+.ohmygolf .g-tee-btn.is-active { background: var(--g-forest); color: #fff; border-color: var(--g-forest); }
+.ohmygolf .g-tee-btn:disabled { opacity: .4; text-decoration: line-through; cursor: not-allowed; }
+.ohmygolf .g-tee-best { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: var(--g-gold); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+
+/* Review breakdown */
+.ohmygolf .g-rev-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 30px; margin-bottom: 24px; }
+.ohmygolf .g-rev-bar-row { display: grid; grid-template-columns: 130px 1fr 34px; align-items: center; gap: 10px; font-size: 13px; }
+.ohmygolf .g-rev-bar { height: 6px; border-radius: 3px; background: var(--g-line); overflow: hidden; }
+.ohmygolf .g-rev-bar span { display: block; height: 100%; background: var(--g-forest); }
+.ohmygolf .g-review-item { border: 1px solid var(--g-line); border-radius: var(--g-radius); padding: 16px 18px; margin-bottom: 12px; }
+.ohmygolf .g-review-item-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ohmygolf .g-review-badge { background: var(--g-forest); color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+.ohmygolf .g-tabs { display: inline-flex; gap: 6px; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); padding: 4px; margin-bottom: 18px; }
+.ohmygolf .g-tabs button { padding: 8px 16px; border-radius: var(--g-radius-pill); font-size: 14px; font-weight: 600; }
+.ohmygolf .g-tabs button.is-active { background: var(--g-forest); color: #fff; }
+
+/* mobile sticky cta on detail */
+.ohmygolf .g-mobile-cta { display: none; }
+
+/* ============ Compare page ============ */
+.ohmygolf .g-compare-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.ohmygolf .g-compare-table th, .ohmygolf .g-compare-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--g-line); vertical-align: top; font-size: 14px; }
+.ohmygolf .g-compare-table thead th { border-bottom: 2px solid var(--g-charcoal); }
+.ohmygolf .g-compare-rowlabel { font-weight: 600; color: var(--g-charcoal-60); width: 200px; background: var(--g-ivory); }
+.ohmygolf .g-compare-diff { background: rgba(185,138,46,0.08); }
+.ohmygolf .g-compare-hotel { font-family: var(--g-serif); font-size: 17px; }
+
+/* ============ Build wizard ============ */
+.ohmygolf .g-wizard { max-width: 760px; margin: 0 auto; }
+.ohmygolf .g-wizard-steps { display: flex; align-items: center; gap: 6px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 6px; }
+.ohmygolf .g-wizard-step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--g-charcoal-40); white-space: nowrap; }
+.ohmygolf .g-wizard-step .num { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--g-line); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+.ohmygolf .g-wizard-step.is-active { color: var(--g-forest); font-weight: 700; }
+.ohmygolf .g-wizard-step.is-active .num { border-color: var(--g-forest); background: var(--g-forest); color: #fff; }
+.ohmygolf .g-wizard-step.is-done .num { border-color: var(--g-forest); background: var(--g-forest); color: #fff; }
+.ohmygolf .g-wizard-card { background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius-lg); padding: 30px; }
+.ohmygolf .g-wizard-card h2 { font-family: var(--g-serif); font-size: 26px; margin-bottom: 6px; }
+.ohmygolf .g-wizard-card > p { color: var(--g-charcoal-60); margin-bottom: 22px; }
+.ohmygolf .g-wizard-foot { display: flex; justify-content: space-between; margin-top: 24px; }
+.ohmygolf .g-optiongrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.ohmygolf .g-optionbtn { padding: 16px; border: 1.5px solid var(--g-line); border-radius: var(--g-radius); text-align: left; font-weight: 500; }
+.ohmygolf .g-optionbtn:hover { border-color: var(--g-forest-400); }
+.ohmygolf .g-optionbtn.is-active { border-color: var(--g-forest); background: rgba(31,61,43,0.04); }
+.ohmygolf .g-optionbtn b { display: block; margin-bottom: 3px; }
+.ohmygolf .g-summary-card { background: var(--g-ivory); border-radius: var(--g-radius); padding: 22px; }
+.ohmygolf .g-summary-card dl { display: grid; grid-template-columns: 140px 1fr; gap: 10px 16px; }
+.ohmygolf .g-summary-card dt { color: var(--g-charcoal-60); font-size: 14px; }
+.ohmygolf .g-summary-card dd { font-weight: 600; font-size: 14px; }
+
+/* ============ Checkout ============ */
+.ohmygolf .g-checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 34px; align-items: start; }
+.ohmygolf .g-checkout-steps { display: flex; gap: 8px; margin-bottom: 26px; }
+.ohmygolf .g-checkout-step { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--g-charcoal-40); }
+.ohmygolf .g-checkout-step.is-active { color: var(--g-forest); }
+.ohmygolf .g-checkout-step .num { width: 24px; height: 24px; border-radius: 50%; background: var(--g-line); color: var(--g-charcoal-60); display: flex; align-items: center; justify-content: center; font-size: 12px; }
+.ohmygolf .g-checkout-step.is-active .num, .ohmygolf .g-checkout-step.is-done .num { background: var(--g-forest); color: #fff; }
+.ohmygolf .g-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ohmygolf .g-form-grid .g-field-full { grid-column: 1 / -1; }
+.ohmygolf .g-pay-methods { display: flex; flex-direction: column; gap: 10px; }
+.ohmygolf .g-pay-method { display: flex; align-items: center; gap: 12px; padding: 16px; border: 1.5px solid var(--g-line); border-radius: var(--g-radius); cursor: pointer; }
+.ohmygolf .g-pay-method.is-active { border-color: var(--g-forest); background: rgba(31,61,43,0.03); }
+.ohmygolf .g-pay-method input { accent-color: var(--g-forest); width: 18px; height: 18px; }
+
+/* ============ Booking complete ============ */
+.ohmygolf .g-complete { max-width: 620px; margin: 0 auto; text-align: center; padding: 50px 0; }
+.ohmygolf .g-complete-check { width: 84px; height: 84px; border-radius: 50%; background: rgba(44,122,75,0.12); color: var(--g-success); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
+.ohmygolf .g-complete h1 { font-family: var(--g-serif); font-size: 34px; margin-bottom: 10px; }
+.ohmygolf .g-complete-ref { display: inline-block; background: var(--g-ivory); border-radius: var(--g-radius-pill); padding: 8px 18px; font-weight: 700; margin: 14px 0 26px; }
+
+/* ============ My Trips ============ */
+.ohmygolf .g-mytrips-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--g-line); margin-bottom: 24px; overflow-x: auto; }
+.ohmygolf .g-mytrips-tab { padding: 12px 18px; font-weight: 600; font-size: 15px; color: var(--g-charcoal-60); border-bottom: 2px solid transparent; white-space: nowrap; }
+.ohmygolf .g-mytrips-tab.is-active { color: var(--g-forest); border-color: var(--g-forest); }
+.ohmygolf .g-trip-card { display: grid; grid-template-columns: 220px 1fr auto; gap: 20px; border: 1px solid var(--g-line); border-radius: var(--g-radius); overflow: hidden; margin-bottom: 16px; }
+.ohmygolf .g-trip-card img { width: 100%; height: 100%; object-fit: cover; min-height: 160px; }
+.ohmygolf .g-trip-info { padding: 18px 0; }
+.ohmygolf .g-trip-actions { padding: 18px; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+
+/* ============ Responsive ============ */
+@media (max-width: 1080px) {
+  .ohmygolf .g-pkg-grid, .ohmygolf .g-why-grid, .ohmygolf .g-editorial-grid { grid-template-columns: repeat(2, 1fr); }
+  .ohmygolf .g-dest-grid { grid-template-columns: repeat(2, 1fr); }
+  .ohmygolf .g-detail-layout, .ohmygolf .g-checkout-layout { grid-template-columns: 1fr; }
+  .ohmygolf .g-booking-card { position: static; }
+}
+@media (max-width: 900px) {
+  .ohmygolf .g-nav { display: none; }
+  .ohmygolf .g-show-md { display: inline-flex; }
+  .ohmygolf .g-hide-sm { display: none; }
+  .ohmygolf .g-results-layout { grid-template-columns: 1fr; }
+  .ohmygolf .g-filter-sidebar { display: none; }
+  .ohmygolf .g-mobile-filterbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 700; background: var(--g-white); border-top: 1px solid var(--g-line); padding: 12px 16px; gap: 10px; box-shadow: 0 -6px 20px rgba(35,39,31,0.1); }
+  .ohmygolf .g-mobile-filterbar .g-btn { flex: 1; }
+  .ohmygolf .g-results-list { grid-template-columns: 1fr; }
+  .ohmygolf .g-trust-stats { grid-template-columns: repeat(2, 1fr); }
+  .ohmygolf .g-review-grid { grid-template-columns: 1fr; }
+  .ohmygolf .g-hero-title { font-size: 44px; }
+  .ohmygolf .g-searchbox { flex-direction: column; }
+  .ohmygolf .g-searchbox-field { border-right: none; border-bottom: 1px solid var(--g-line-soft); }
+  .ohmygolf .g-field-date { flex: 1; }
+  .ohmygolf .g-searchbox-submit { width: 100%; margin: 6px 0 0; height: 50px; }
+  .ohmygolf .g-mobile-cta { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 700; background: var(--g-white); border-top: 1px solid var(--g-line); padding: 12px 16px; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -6px 20px rgba(35,39,31,0.1); }
+  .ohmygolf .g-detail-main .g-booking-card { display: none; }
+  .ohmygolf .g-gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 160px 160px; }
+  .ohmygolf .g-gallery-main { grid-row: 1 / span 2; }
+  .ohmygolf .g-course-card { grid-template-columns: 1fr; }
+  .ohmygolf .g-course-card img { min-height: 180px; }
+  .ohmygolf .g-form-grid { grid-template-columns: 1fr; }
+  .ohmygolf .g-footer-top { grid-template-columns: 1fr 1fr; }
+  .ohmygolf .g-optiongrid { grid-template-columns: 1fr 1fr; }
+  .ohmygolf .g-compare-tray-chips { display: none; }
+  .ohmygolf .g-show-sm { display: inline; }
+}
+@media (max-width: 560px) {
+  .ohmygolf .g-container { padding: 0 16px; }
+  .ohmygolf .g-pkg-grid, .ohmygolf .g-dest-grid, .ohmygolf .g-why-grid, .ohmygolf .g-editorial-grid { grid-template-columns: 1fr; }
+  .ohmygolf .g-section { padding: 44px 0; }
+  .ohmygolf .g-hero-title { font-size: 36px; }
+  .ohmygolf .g-incl-grid, .ohmygolf .g-rev-breakdown { grid-template-columns: 1fr; }
+  .ohmygolf .g-trip-card { grid-template-columns: 1fr; }
+  .ohmygolf .g-optiongrid { grid-template-columns: 1fr; }
+  .ohmygolf .g-build-content { padding: 30px 22px; }
+}
