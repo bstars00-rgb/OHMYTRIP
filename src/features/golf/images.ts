@@ -35,3 +35,6 @@ export function golfHeroImg(seed = 'hero'): string {
   const pool = POOLS.hero;
   return asset(`/golf/img/${pool[hashSeed(seed) % pool.length]}`);
 }
+
+/** 실측 원본 크기 (CLS 방지용 width/height 힌트) */
+export const IMG_DIM = { hero: { w: 1600, h: 720 }, card: { w: 800, h: 600 } } as const;

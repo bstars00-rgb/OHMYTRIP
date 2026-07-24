@@ -39,7 +39,7 @@ export default function GolfHome() {
     <>
       {/* A. Hero */}
       <section className="g-hero">
-        <img className="g-hero-bg" src={golfHeroImg('ohmygolf-hero')} alt="" aria-hidden />
+        <img className="g-hero-bg" src={golfHeroImg('ohmygolf-hero')} alt="" aria-hidden loading="eager" fetchPriority="high" decoding="async" width={1600} height={720} />
         <div className="g-hero-overlay" />
         <div className="g-container g-hero-inner">
           <p className="g-eyebrow g-hero-eyebrow">오마이트립 골프텔 · Stay &amp; Play</p>
@@ -75,7 +75,7 @@ export default function GolfHome() {
           {DESTINATIONS.map((d) => (
             <Link key={d.slug} href={`/golf/search?destination=${d.city}`} className="g-card g-card-hover g-dest-card">
               <div className="g-dest-media">
-                <img src={golfImg(d.slug, 'course')} alt={d.city} loading="lazy" />
+                <img src={golfImg(d.slug, 'course')} alt={d.city} loading="lazy" decoding="async" width={800} height={600} />
                 <div className="g-dest-overlay" />
                 <div className="g-dest-caption">
                   <h3>{d.city}</h3>
@@ -143,7 +143,7 @@ export default function GolfHome() {
       {/* F. Build your own trip */}
       <section className="g-container">
         <div className="g-build-cta">
-          <img src={golfHeroImg('build-cta')} alt="" aria-hidden className="g-build-bg" />
+          <img src={golfHeroImg('build-cta')} alt="" aria-hidden className="g-build-bg" loading="lazy" decoding="async" width={1600} height={720} />
           <div className="g-build-overlay" />
           <div className="g-build-content">
             <p className="g-eyebrow" style={{ color: '#ffd8b8' }}>완전 맞춤</p>
@@ -168,7 +168,7 @@ export default function GolfHome() {
           {EDITORIAL.map((e) => (
             <Link key={e.seed} href="/golf/search" className="g-card g-card-hover g-editorial-card">
               <div className="g-editorial-media">
-                <img src={golfImg(e.seed, 'course')} alt={e.title} loading="lazy" />
+                <img src={golfImg(e.seed, 'course')} alt={e.title} loading="lazy" decoding="async" width={800} height={600} />
               </div>
               <div className="g-editorial-body">
                 <span className="g-eyebrow">{e.tag}</span>

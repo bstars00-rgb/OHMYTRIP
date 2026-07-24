@@ -16,11 +16,11 @@ export default function PackageCard({ pkg }: { pkg: GolfPackage }) {
   return (
     <article className="g-card g-card-hover g-pkgcard">
       <Link href={`/golf/package/${pkg.id}`} className="g-pkgcard-media" aria-label={pkg.hotel}>
-        <img src={golfImg(pkg.id, 'resort')} alt={`${pkg.hotel}, ${pkg.destination}`} loading="lazy" />
+        <img src={golfImg(pkg.id, 'resort')} alt={`${pkg.hotel}, ${pkg.destination}`} loading="lazy" decoding="async" width={800} height={600} />
         <div className="g-pkgcard-badges">
-          {pkg.bestSeller && <span className="g-badge g-badge-best">Best Seller</span>}
-          {pkg.lastMinute && <span className="g-badge g-badge-deal">Last Minute</span>}
-          {pkg.allInclusive && <span className="g-badge g-badge-soft">All Inclusive</span>}
+          {pkg.bestSeller && <span className="g-badge g-badge-best">베스트</span>}
+          {pkg.lastMinute && <span className="g-badge g-badge-deal">임박특가</span>}
+          {pkg.allInclusive && <span className="g-badge g-badge-soft">올인클루시브</span>}
         </div>
         <WishlistButton id={pkg.id} className="g-pkgcard-wish" />
       </Link>

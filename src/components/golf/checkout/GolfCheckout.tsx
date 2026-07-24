@@ -50,6 +50,7 @@ export default function GolfCheckout() {
 
   return (
     <div className="g-container g-section">
+      <h1 className="g-sr-only">골프텔 예약 진행</h1>
       <div className="g-checkout-steps">
         {['패키지 확인', '예약자 정보', '결제'].map((label, i) => (
           <div key={label} className={`g-checkout-step${i + 1 === step ? ' is-active' : ''}${i + 1 < step ? ' is-done' : ''}`}>

@@ -18,6 +18,7 @@ export default function GolfCompare() {
   if (pkgs.length === 0) {
     return (
       <div className="g-container g-section">
+        <h1 className="g-sr-only">패키지 비교</h1>
         <EmptyState
           title="아직 비교할 패키지가 없어요"
           subtitle="검색이나 홈에서 최대 3개까지 담아 나란히 비교하세요."

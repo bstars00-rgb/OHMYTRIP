@@ -86,14 +86,22 @@ export default function PackageDetail({ id }: { id: string }) {
 
         {/* Gallery */}
         <div className="g-gallery">
-          <div className="g-gallery-main"><img src={golfImg(pkg.id, 'resort')} alt={pkg.hotel} onClick={() => setGalleryOpen(true)} /></div>
-          <img src={golfImg(pkg.id + '-2', 'resort')} alt="" onClick={() => setGalleryOpen(true)} />
-          <img src={golfImg(pkg.id + '-3', 'course')} alt="" onClick={() => setGalleryOpen(true)} />
-          <img src={golfImg(pkg.id + '-4', 'green')} alt="" onClick={() => setGalleryOpen(true)} />
-          <div className="g-gallery-more" onClick={() => setGalleryOpen(true)}>
-            <img src={golfImg(pkg.id + '-5', 'course')} alt="" />
+          <button type="button" className="g-gallery-main" onClick={() => setGalleryOpen(true)} aria-label={`${pkg.hotel} 사진 보기`}>
+            <img src={golfImg(pkg.id, 'resort')} alt={pkg.hotel} decoding="async" width={800} height={600} />
+          </button>
+          <button type="button" onClick={() => setGalleryOpen(true)} aria-label="사진 보기">
+            <img src={golfImg(pkg.id + '-2', 'resort')} alt="" decoding="async" loading="lazy" width={800} height={600} />
+          </button>
+          <button type="button" onClick={() => setGalleryOpen(true)} aria-label="사진 보기">
+            <img src={golfImg(pkg.id + '-3', 'course')} alt="" decoding="async" loading="lazy" width={800} height={600} />
+          </button>
+          <button type="button" onClick={() => setGalleryOpen(true)} aria-label="사진 보기">
+            <img src={golfImg(pkg.id + '-4', 'green')} alt="" decoding="async" loading="lazy" width={800} height={600} />
+          </button>
+          <button type="button" className="g-gallery-more" onClick={() => setGalleryOpen(true)} aria-label="전체 사진 보기">
+            <img src={golfImg(pkg.id + '-5', 'course')} alt="" decoding="async" loading="lazy" width={800} height={600} />
             <span>+ 전체 사진 보기</span>
-          </div>
+          </button>
         </div>
 
         <div className="g-detail-layout">
