@@ -14,7 +14,7 @@ export default function CompareTray() {
       <div className="g-container g-compare-tray-inner">
         <div className="g-compare-tray-items">
           <GitCompareArrows size={18} />
-          <span className="g-compare-tray-count">{cmp.ids.length} / 3 selected</span>
+          <span className="g-compare-tray-count">{cmp.ids.length} / 3 선택</span>
           <div className="g-compare-tray-chips">
             {cmp.ids.map((id) => {
               const p = getPackage(id);
@@ -31,10 +31,10 @@ export default function CompareTray() {
         </div>
         <div className="g-compare-tray-actions">
           <button type="button" className="g-btn g-btn-ghost g-btn-sm" onClick={cmp.clear}>
-            Clear
+            비우기
           </button>
           <Link href="/golf/compare" className="g-btn g-btn-primary g-btn-sm" aria-disabled={cmp.ids.length < 2}>
-            Compare {cmp.ids.length >= 2 ? `(${cmp.ids.length})` : ''}
+            비교 {cmp.ids.length >= 2 ? `(${cmp.ids.length})` : ''}
           </Link>
         </div>
       </div>

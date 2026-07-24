@@ -12,7 +12,7 @@ import FilterControls from '@/components/golf/search/FilterControls';
 import CompareTray from '@/components/golf/CompareTray';
 import { BottomSheet, CardSkeleton, EmptyState } from '@/components/golf/common/ui';
 import { usePrefs } from '@/features/golf/GolfProviders';
-import { golfScene } from '@/features/golf/scenery';
+import { golfImg } from '@/features/golf/images';
 
 export default function GolfSearch() {
   const params = useSearchParams();
@@ -33,7 +33,7 @@ export default function GolfSearch() {
     return sortPackages(filterPackages(base, filters), sort);
   }, [filters, sort, categoryKey]);
 
-  const destLabel = filters.destination ?? category?.label ?? 'all destinations';
+  const destLabel = filters.destination ?? category?.label ?? '전체 여행지';
 
   return (
     <>
@@ -47,9 +47,9 @@ export default function GolfSearch() {
         <div className="g-results-layout">
           <aside className="g-filter-sidebar" aria-label="Filters">
             <div className="g-between" style={{ padding: '14px 0 4px' }}>
-              <strong>Filters</strong>
+              <strong>필터</strong>
               <button type="button" className="g-link-arrow" style={{ fontSize: 13 }} onClick={() => setFilters({ destination: filters.destination })}>
-                Reset
+                초기화
               </button>
             </div>
             <FilterControls filters={filters} onChange={setFilters} />
@@ -58,15 +58,15 @@ export default function GolfSearch() {
           <div>
             <div className="g-results-head">
               <h1 className="g-results-count">
-                {results.length} golf {results.length === 1 ? 'package' : 'packages'} in {destLabel}
+                {destLabel} 골프 패키지 {results.length}개
               </h1>
               <div className="g-results-tools">
                 <div className="g-viewtoggle" role="tablist" aria-label="View">
                   <button type="button" className={view === 'list' ? 'is-active' : ''} onClick={() => setView('list')}>
-                    <LayoutGrid size={15} /> List
+                    <LayoutGrid size={15} /> 목록
                   </button>
                   <button type="button" className={view === 'map' ? 'is-active' : ''} onClick={() => setView('map')}>
-                    <MapIcon size={15} /> Map
+                    <MapIcon size={15} /> 지도
                   </button>
                 </div>
                 <select className="g-select" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="Sort by">
@@ -81,11 +81,11 @@ export default function GolfSearch() {
 
             {results.length === 0 ? (
               <EmptyState
-                title="No packages match your filters"
-                subtitle="Try widening your price range or removing a filter."
+                title="조건에 맞는 패키지가 없어요"
+                subtitle="가격 범위를 넓히거나 필터를 해제해 보세요."
                 action={
                   <button type="button" className="g-btn g-btn-outline" style={{ marginTop: 16 }} onClick={() => setFilters({ destination: filters.destination })}>
-                    Clear filters
+                    필터 초기화
                   </button>
                 }
               />
@@ -104,7 +104,7 @@ export default function GolfSearch() {
                   </div>
                 ))}
                 <div style={{ position: 'absolute', left: 16, bottom: 16, fontSize: 12 }} className="g-muted">
-                  Map preview — {results.length} packages
+                  지도 미리보기 — {results.length}개 패키지
                 </div>
               </div>
             ) : (
@@ -114,16 +114,16 @@ export default function GolfSearch() {
                     <PackageCard pkg={p} />
                     <details className="g-card" style={{ marginTop: 8, padding: '0 16px' }}>
                       <summary style={{ padding: '12px 0', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
-                        Compare {p.options.length} round options
+                        라운드 옵션 {p.options.length}개 비교
                       </summary>
                       <div className="g-options" style={{ borderTop: 'none', paddingTop: 0, paddingBottom: 14 }}>
                         {p.options.map((o, i) => (
                           <div key={o.id} className="g-option-row">
                             <span>
-                              <b>Option {String.fromCharCode(65 + i)}</b> · {o.label}
+                              <b>옵션 {String.fromCharCode(65 + i)}</b> · {o.label}
                             </span>
                             <span>
-                              <b>{fx(o.pricePerPersonUSD)}</b> <span className="g-price-unit">/ person</span>
+                              <b>{fx(o.pricePerPersonUSD)}</b> <span className="g-price-unit">/ 1인</span>
                             </span>
                           </div>
                         ))}
@@ -140,10 +140,10 @@ export default function GolfSearch() {
       {/* mobile filter/sort bar */}
       <div className="g-mobile-filterbar">
         <button type="button" className="g-btn g-btn-ghost" onClick={() => setSheetOpen(true)}>
-          <SlidersHorizontal size={16} /> Filters
+          <SlidersHorizontal size={16} /> 필터
         </button>
         <label className="g-btn g-btn-ghost" style={{ position: 'relative' }}>
-          <ArrowDownWideNarrow size={16} /> Sort
+          <ArrowDownWideNarrow size={16} /> 정렬
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
@@ -159,13 +159,13 @@ export default function GolfSearch() {
         </label>
       </div>
 
-      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="Filters">
+      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="필터">
         <div style={{ padding: '4px 20px 90px' }}>
           <FilterControls filters={filters} onChange={setFilters} />
         </div>
         <div style={{ position: 'sticky', bottom: 0, background: 'var(--g-white)', borderTop: '1px solid var(--g-line)', padding: 14 }}>
           <button type="button" className="g-btn g-btn-primary g-btn-block" onClick={() => setSheetOpen(false)}>
-            Show {results.length} packages
+            패키지 {results.length}개 보기
           </button>
         </div>
       </BottomSheet>
@@ -173,7 +173,7 @@ export default function GolfSearch() {
       {/* skeleton preload style hint (not shown, results are instant) */}
       <div style={{ display: 'none' }} aria-hidden>
         <CardSkeleton />
-        <img src={golfScene('preload')} alt="" />
+        <img src={golfImg('preload')} alt="" />
       </div>
 
       <CompareTray />

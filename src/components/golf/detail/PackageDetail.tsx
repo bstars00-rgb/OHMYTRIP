@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { getPackage, discountPct } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
-import { golfScene } from '@/features/golf/scenery';
+import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { StarRating, WishlistButton, Modal, EmptyState } from '@/components/golf/common/ui';
 
@@ -42,7 +42,7 @@ export default function PackageDetail({ id }: { id: string }) {
   if (!pkg || !option) {
     return (
       <div className="g-container g-section">
-        <EmptyState title="Package not found" subtitle="This package may have expired." action={<Link href="/golf/search" className="g-btn g-btn-primary" style={{ marginTop: 16 }}>Browse packages</Link>} />
+        <EmptyState title="패키지를 찾을 수 없어요" subtitle="만료된 패키지일 수 있어요." action={<Link href="/golf/search" className="g-btn g-btn-primary" style={{ marginTop: 16 }}>패키지 둘러보기</Link>} />
       </div>
     );
   }
@@ -59,7 +59,7 @@ export default function PackageDetail({ id }: { id: string }) {
     <>
       <div className="g-container">
         <nav className="g-breadcrumb" aria-label="Breadcrumb">
-          <Link href="/golf">Home</Link> <ChevronRight size={14} />
+          <Link href="/golf">홈</Link> <ChevronRight size={14} />
           <Link href={`/golf/search?destination=${pkg.destination}`}>{pkg.destination}</Link> <ChevronRight size={14} />
           <span className="g-muted">{pkg.hotel}</span>
         </nav>
@@ -68,31 +68,31 @@ export default function PackageDetail({ id }: { id: string }) {
           <div>
             <div className="g-between" style={{ justifyContent: 'flex-start', gap: 12 }}>
               <StarRating rating={pkg.hotelRating} />
-              <span className="g-badge g-badge-soft">{pkg.nights} Nights · {pkg.rounds} Rounds</span>
-              {pkg.instantConfirmation && <span className="g-badge g-badge-instant">Instant confirmation</span>}
+              <span className="g-badge g-badge-soft">{pkg.nights}박 · {pkg.rounds}라운드</span>
+              {pkg.instantConfirmation && <span className="g-badge g-badge-instant">즉시 확정</span>}
             </div>
             <h1 className="g-detail-title" style={{ marginTop: 10 }}>{pkg.hotel}</h1>
             <div className="g-detail-sub">
               <span><MapPin size={15} /> {pkg.destination}, {pkg.country}</span>
-              <span><b style={{ background: 'var(--g-forest)', color: '#fff', padding: '2px 7px', borderRadius: 6 }}>{pkg.reviewScore.toFixed(1)}</b> · {pkg.reviewCount.toLocaleString()} reviews</span>
-              <span className="g-muted">Best season: {pkg.recommendedSeason}</span>
+              <span><b style={{ background: 'var(--g-forest)', color: '#fff', padding: '2px 7px', borderRadius: 6 }}>{pkg.reviewScore.toFixed(1)}</b> · {pkg.reviewCount.toLocaleString()}개 후기</span>
+              <span className="g-muted">추천 시즌: {pkg.recommendedSeason}</span>
             </div>
           </div>
           <div className="g-detail-actions">
             <WishlistButton id={pkg.id} className="" />
-            <button type="button" className="g-btn g-btn-ghost g-btn-sm"><Share2 size={15} /> Share</button>
+            <button type="button" className="g-btn g-btn-ghost g-btn-sm"><Share2 size={15} /> 공유</button>
           </div>
         </div>
 
         {/* Gallery */}
         <div className="g-gallery">
-          <div className="g-gallery-main"><img src={golfScene(pkg.images[0], { ratio: 1.3 })} alt={pkg.hotel} onClick={() => setGalleryOpen(true)} /></div>
-          <img src={golfScene(pkg.images[1])} alt="" onClick={() => setGalleryOpen(true)} />
-          <img src={golfScene(pkg.images[2])} alt="" onClick={() => setGalleryOpen(true)} />
-          <img src={golfScene(pkg.images[3])} alt="" onClick={() => setGalleryOpen(true)} />
+          <div className="g-gallery-main"><img src={golfImg(pkg.id, 'resort')} alt={pkg.hotel} onClick={() => setGalleryOpen(true)} /></div>
+          <img src={golfImg(pkg.id + '-2', 'resort')} alt="" onClick={() => setGalleryOpen(true)} />
+          <img src={golfImg(pkg.id + '-3', 'course')} alt="" onClick={() => setGalleryOpen(true)} />
+          <img src={golfImg(pkg.id + '-4', 'green')} alt="" onClick={() => setGalleryOpen(true)} />
           <div className="g-gallery-more" onClick={() => setGalleryOpen(true)}>
-            <img src={golfScene(pkg.images[4])} alt="" />
-            <span>+ View all photos</span>
+            <img src={golfImg(pkg.id + '-5', 'course')} alt="" />
+            <span>+ 전체 사진 보기</span>
           </div>
         </div>
 
@@ -100,7 +100,7 @@ export default function PackageDetail({ id }: { id: string }) {
           <div className="g-detail-main">
             {/* B. Inclusions */}
             <section>
-              <h2 className="g-detail-h">What&apos;s included</h2>
+              <h2 className="g-detail-h">포함 사항</h2>
               <div className="g-incl-grid">
                 {pkg.inclusions.map((i) => (
                   <div key={i} className="g-incl-item inc"><Check size={16} /> {i}</div>
@@ -113,7 +113,7 @@ export default function PackageDetail({ id }: { id: string }) {
 
             {/* C. Itinerary */}
             <section>
-              <h2 className="g-detail-h">Your itinerary</h2>
+              <h2 className="g-detail-h">여행 일정</h2>
               <div className="g-timeline">
                 {pkg.itinerary.map((d) => (
                   <div key={d.day} className="g-timeline-day">
@@ -139,10 +139,10 @@ export default function PackageDetail({ id }: { id: string }) {
 
             {/* D. Hotel info */}
             <section>
-              <h2 className="g-detail-h">Hotel information</h2>
+              <h2 className="g-detail-h">호텔 정보</h2>
               <div className="g-incl-grid" style={{ marginBottom: 18 }}>
-                <div className="g-incl-item"><Clock size={16} className="g-muted" /> Check-in 15:00 · Check-out 11:00</div>
-                <div className="g-incl-item"><Flag size={16} className="g-muted" /> Room type: {pkg.roomType}</div>
+                <div className="g-incl-item"><Clock size={16} className="g-muted" /> 체크인 15:00 · 체크아웃 11:00</div>
+                <div className="g-incl-item"><Flag size={16} className="g-muted" /> 객실 타입: {pkg.roomType}</div>
               </div>
               <div className="g-incl-grid">
                 {pkg.hotelFacilities.map((f) => {
@@ -152,28 +152,28 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
               <div style={{ marginTop: 18, height: 200, borderRadius: 'var(--g-radius)', overflow: 'hidden', border: '1px solid var(--g-line)', background: 'linear-gradient(160deg,#dbe7dd,#eef4ec)', position: 'relative' }}>
                 <div className="g-map-pin is-active" style={{ left: '50%', top: '55%' }}><span>{pkg.hotel}</span></div>
-                <div style={{ position: 'absolute', left: 14, bottom: 12 }} className="g-muted">Map preview</div>
+                <div style={{ position: 'absolute', left: 14, bottom: 12 }} className="g-muted">지도 미리보기</div>
               </div>
             </section>
 
             {/* E. Courses */}
             <section>
-              <h2 className="g-detail-h">Golf courses</h2>
+              <h2 className="g-detail-h">골프장 정보</h2>
               {pkg.golfCourses.map((c, i) => (
                 <div key={c.name} className="g-course-card">
-                  <img src={golfScene(`${pkg.id}-course-${i}`, { ratio: 1.1 })} alt={c.name} />
+                  <img src={golfImg(`${pkg.id}-course-${i}`, i % 2 ? 'green' : 'course')} alt={c.name} />
                   <div className="g-course-info">
                     <h4>{c.name}</h4>
-                    <p className="g-muted" style={{ fontSize: 13 }}>Designed by {c.designer}</p>
+                    <p className="g-muted" style={{ fontSize: 13 }}>설계: {c.designer}</p>
                     <div className="g-course-stats">
-                      <span>{c.holes} holes · <b>Par {c.par}</b></span>
-                      <span>Rating <b>{c.courseRating}</b></span>
-                      <span>Difficulty <b>{c.difficulty}</b></span>
-                      <span><Bus size={13} /> <b>{c.transferMin} min</b> from hotel</span>
+                      <span>{c.holes}홀 · <b>파 {c.par}</b></span>
+                      <span>코스레이팅 <b>{c.courseRating}</b></span>
+                      <span>난이도 <b>{c.difficulty}</b></span>
+                      <span><Bus size={13} /> <b>{c.transferMin}분</b> 호텔에서</span>
                     </div>
                     <div className="g-course-stats" style={{ margin: 0 }}>
                       <span>{c.dressCode}</span>
-                      <span>{c.rentalClubs ? 'Club rental available' : 'Bring your own clubs'}</span>
+                      <span>{c.rentalClubs ? '클럽 렌탈 가능' : '개인 클럽 지참'}</span>
                     </div>
                   </div>
                 </div>
@@ -182,12 +182,12 @@ export default function PackageDetail({ id }: { id: string }) {
 
             {/* F. Tee time selection */}
             <section>
-              <h2 className="g-detail-h">Select your tee times</h2>
+              <h2 className="g-detail-h">티타임 선택</h2>
               {pkg.golfCourses.map((c, ci) => (
                 <div key={c.name} style={{ marginBottom: 22 }}>
                   <div className="g-between" style={{ justifyContent: 'flex-start', gap: 10, marginBottom: 12 }}>
                     <b>{c.name}</b>
-                    <span className="g-muted" style={{ fontSize: 13 }}>Round {ci + 1}</span>
+                    <span className="g-muted" style={{ fontSize: 13 }}>{ci + 1}라운드</span>
                   </div>
                   <div className="g-tee-grid">
                     {pkg.teeTimes.map((t) => (
@@ -198,7 +198,7 @@ export default function PackageDetail({ id }: { id: string }) {
                         disabled={t.soldOut}
                         onClick={() => setTeeByCourse((s) => ({ ...s, [ci]: t.time }))}
                       >
-                        {t.bestValue && !t.soldOut && <span className="g-tee-best">Best Value</span>}
+                        {t.bestValue && !t.soldOut && <span className="g-tee-best">추천</span>}
                         {t.time}
                       </button>
                     ))}
@@ -209,7 +209,7 @@ export default function PackageDetail({ id }: { id: string }) {
 
             {/* G. Terms */}
             <section>
-              <h2 className="g-detail-h">Booking conditions</h2>
+              <h2 className="g-detail-h">예약 조건</h2>
               <div className="g-incl-grid">
                 <div className="g-incl-item"><AlertTriangle size={16} className="g-muted" /> {pkg.cancellationPolicy}</div>
                 <div className="g-incl-item"><Wind size={16} className="g-muted" /> Bad weather: rounds rescheduled or refunded</div>
@@ -223,7 +223,7 @@ export default function PackageDetail({ id }: { id: string }) {
 
             {/* H. Reviews */}
             <section>
-              <h2 className="g-detail-h">Guest &amp; course reviews</h2>
+              <h2 className="g-detail-h">고객 · 골프장 후기</h2>
               <div className="g-rev-breakdown">
                 {Object.entries(pkg.reviewBreakdown).map(([k, v]) => (
                   <div key={k} className="g-rev-bar-row">
@@ -236,7 +236,7 @@ export default function PackageDetail({ id }: { id: string }) {
               <div className="g-tabs">
                 {(['Hotel', 'Course'] as const).map((t) => (
                   <button key={t} type="button" className={reviewTab === t ? 'is-active' : ''} onClick={() => setReviewTab(t)}>
-                    {t} reviews
+                    {t === 'Hotel' ? '호텔' : '골프장'} 후기
                   </button>
                 ))}
               </div>
@@ -251,7 +251,7 @@ export default function PackageDetail({ id }: { id: string }) {
                 </div>
               ))}
               {pkg.reviews.filter((r) => r.target === reviewTab).length === 0 && (
-                <p className="g-muted">No {reviewTab.toLowerCase()} reviews yet.</p>
+                <p className="g-muted">아직 후기가 없어요.</p>
               )}
             </section>
           </div>
@@ -264,7 +264,7 @@ export default function PackageDetail({ id }: { id: string }) {
                 <span className="g-price-unit">/ person</span>
                 {pct > 0 && <span className="g-discount" style={{ marginLeft: 'auto' }}>−{pct}%</span>}
               </div>
-              <p className="g-muted" style={{ fontSize: 13 }}><s>{fx(option.originalPerPersonUSD)}</s> · taxes &amp; fees included</p>
+              <p className="g-muted" style={{ fontSize: 13 }}><s>{fx(option.originalPerPersonUSD)}</s> · 세금·수수료 포함</p>
 
               <div style={{ marginTop: 16 }}>
                 <label className="g-label">Package option</label>
@@ -277,7 +277,7 @@ export default function PackageDetail({ id }: { id: string }) {
 
               <div className="g-booking-rows">
                 <div className="g-booking-row">
-                  <span>Golfers</span>
+                  <span>골퍼</span>
                   <span className="g-stepper-inline">
                     <button type="button" onClick={() => setGolfers((v) => Math.max(1, v - 1))} aria-label="fewer golfers">−</button>
                     <b>{golfers}</b>
@@ -285,29 +285,29 @@ export default function PackageDetail({ id }: { id: string }) {
                   </span>
                 </div>
                 <div className="g-booking-row">
-                  <span>Non-golfers</span>
+                  <span>비골퍼</span>
                   <span className="g-stepper-inline">
                     <button type="button" onClick={() => setNonGolfers((v) => Math.max(0, v - 1))} aria-label="fewer non-golfers">−</button>
                     <b>{nonGolfers}</b>
                     <button type="button" onClick={() => setNonGolfers((v) => Math.min(12, v + 1))} aria-label="more non-golfers">+</button>
                   </span>
                 </div>
-                <div className="g-booking-row"><span>Nights · Rounds</span><b>{option.nights} · {option.rounds}</b></div>
-                <div className="g-booking-row"><span>Tee times</span><b>{Object.keys(teeByCourse).length}/{pkg.golfCourses.length} selected</b></div>
+                <div className="g-booking-row"><span>숙박 · 라운드</span><b>{option.nights} · {option.rounds}</b></div>
+                <div className="g-booking-row"><span>티타임</span><b>{Object.keys(teeByCourse).length}/{pkg.golfCourses.length}개 선택</b></div>
               </div>
 
               <div className="g-booking-total">
-                <span>Total</span>
+                <span>총액</span>
                 <b>{fx(total)}</b>
               </div>
 
               <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} onClick={goCheckout}>
-                {pkg.instantConfirmation ? 'Check availability' : 'Request custom quote'}
+                {pkg.instantConfirmation ? '예약 가능 확인' : '맞춤 견적 요청'}
               </button>
               <Link href="/golf/build" className="g-btn g-btn-outline g-btn-block" style={{ marginTop: 10 }}>
-                Request custom quote
+                맞춤 견적 요청
               </Link>
-              <div className="g-no-hidden"><Check size={15} /> No hidden fees — green fees, cart &amp; transfers included</div>
+              <div className="g-no-hidden"><Check size={15} /> 숨은 비용 없음 — 그린피·카트·이동 포함</div>
             </div>
           </aside>
         </div>
@@ -320,16 +320,16 @@ export default function PackageDetail({ id }: { id: string }) {
           <span className="g-price-unit">/ person</span>
         </div>
         <button type="button" className="g-btn g-btn-primary" onClick={goCheckout}>
-          {pkg.instantConfirmation ? 'Check availability' : 'Request quote'}
+          {pkg.instantConfirmation ? '예약 가능 확인' : '견적 요청'}
         </button>
       </div>
 
       <Modal open={galleryOpen} onClose={() => setGalleryOpen(false)} label="Photo gallery">
         <div style={{ padding: 20 }}>
-          <h3 className="g-detail-h" style={{ fontSize: 20 }}>{pkg.hotel} — Gallery</h3>
+          <h3 className="g-detail-h" style={{ fontSize: 20 }}>{pkg.hotel} — 갤러리</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {pkg.images.map((s) => (
-              <img key={s} src={golfScene(s, { ratio: 1.4 })} alt="" style={{ borderRadius: 10 }} />
+              <img key={s} src={golfImg(s, 'resort')} alt="" style={{ borderRadius: 10 }} />
             ))}
           </div>
         </div>

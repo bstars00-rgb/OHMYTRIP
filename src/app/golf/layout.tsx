@@ -1,25 +1,14 @@
 import type { Metadata } from 'next';
-import { Playfair_Display } from 'next/font/google';
+import 'pretendard/dist/web/static/pretendard.css';
 import '@/styles/ohmygolf.css';
 import '@/styles/ohmygolf-pages.css';
 import GolfShell from '@/components/golf/layout/GolfShell';
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
-  variable: '--font-playfair',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
-  title: 'OHMYGOLF — Stay. Play. Discover.',
-  description: 'Handpicked golf resorts, hotels and tee times in one seamless trip.',
+  title: '오마이트립 골프텔 — Stay. Play. Discover.',
+  description: '오마이트립이 엄선한 골프텔 — 호텔과 라운드를 한 번에 예약하세요.',
 };
 
 export default function GolfLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={playfair.variable} style={{ ['--g-serif' as string]: `var(--font-playfair), 'Noto Serif KR', Georgia, serif` }}>
-      <GolfShell>{children}</GolfShell>
-    </div>
-  );
+  return <GolfShell>{children}</GolfShell>;
 }

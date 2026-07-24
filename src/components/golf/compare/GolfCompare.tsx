@@ -5,7 +5,7 @@ import { X, Check, Minus } from 'lucide-react';
 import { useCompare, usePrefs } from '@/features/golf/GolfProviders';
 import { getPackage, discountPct } from '@/mocks/golf/data';
 import type { GolfPackage } from '@/mocks/golf/types';
-import { golfScene } from '@/features/golf/scenery';
+import { golfImg } from '@/features/golf/images';
 import { EmptyState, StarRating } from '@/components/golf/common/ui';
 
 type RowDef = { label: string; get: (p: GolfPackage) => string | number | boolean; highlight?: boolean };
@@ -19,9 +19,9 @@ export default function GolfCompare() {
     return (
       <div className="g-container g-section">
         <EmptyState
-          title="Nothing to compare yet"
-          subtitle="Add up to 3 packages from search or the home page to compare them side by side."
-          action={<Link href="/golf/search" className="g-btn g-btn-primary" style={{ marginTop: 16 }}>Browse packages</Link>}
+          title="아직 비교할 패키지가 없어요"
+          subtitle="검색이나 홈에서 최대 3개까지 담아 나란히 비교하세요."
+          action={<Link href="/golf/search" className="g-btn g-btn-primary" style={{ marginTop: 16 }}>패키지 둘러보기</Link>}
         />
       </div>
     );
@@ -30,22 +30,22 @@ export default function GolfCompare() {
   const yn = (b: boolean) => (b ? <Check size={16} className="g-inc" /> : <Minus size={16} className="g-exc" />);
 
   const rows: RowDef[] = [
-    { label: 'Total (per person)', get: (p) => fx(p.salePriceUSD), highlight: true },
-    { label: 'Original price', get: (p) => fx(p.originalPriceUSD) },
-    { label: 'Discount', get: (p) => `−${discountPct(p)}%` },
-    { label: 'Nights', get: (p) => p.nights, highlight: true },
-    { label: 'Rounds', get: (p) => p.rounds, highlight: true },
-    { label: 'Room type', get: (p) => p.roomType },
-    { label: 'Golf courses', get: (p) => p.golfCourses.map((c) => c.name).join(', ') },
-    { label: 'Breakfast', get: (p) => p.breakfast },
-    { label: 'Cart included', get: (p) => p.cartIncluded },
-    { label: 'Caddie included', get: (p) => p.caddieIncluded, highlight: true },
-    { label: 'Airport transfer', get: (p) => p.airportTransfer },
-    { label: 'All inclusive', get: (p) => p.allInclusive },
-    { label: 'Free cancellation', get: (p) => p.freeCancellation, highlight: true },
-    { label: 'Instant confirmation', get: (p) => p.instantConfirmation },
-    { label: 'Guest rating', get: (p) => p.reviewScore.toFixed(1), highlight: true },
-    { label: 'Drive to course', get: (p) => `${p.transferTimeMin} min`, highlight: true },
+    { label: '총액 (1인)', get: (p) => fx(p.salePriceUSD), highlight: true },
+    { label: '정가', get: (p) => fx(p.originalPriceUSD) },
+    { label: '할인', get: (p) => `−${discountPct(p)}%` },
+    { label: '숙박', get: (p) => p.nights, highlight: true },
+    { label: '라운드', get: (p) => p.rounds, highlight: true },
+    { label: '객실 타입', get: (p) => p.roomType },
+    { label: '골프장', get: (p) => p.golfCourses.map((c) => c.name).join(', ') },
+    { label: '조식', get: (p) => p.breakfast },
+    { label: '카트 포함', get: (p) => p.cartIncluded },
+    { label: '캐디 포함', get: (p) => p.caddieIncluded, highlight: true },
+    { label: '공항 픽업', get: (p) => p.airportTransfer },
+    { label: '올인클루시브', get: (p) => p.allInclusive },
+    { label: '무료 취소', get: (p) => p.freeCancellation, highlight: true },
+    { label: '즉시 확정', get: (p) => p.instantConfirmation },
+    { label: '고객 평점', get: (p) => p.reviewScore.toFixed(1), highlight: true },
+    { label: '골프장 거리', get: (p) => `${p.transferTimeMin} min`, highlight: true },
   ];
 
   const isDiff = (row: RowDef) => new Set(pkgs.map((p) => String(row.get(p)))).size > 1;
@@ -54,10 +54,10 @@ export default function GolfCompare() {
     <div className="g-container g-section">
       <div className="g-section-head">
         <div>
-          <p className="g-eyebrow">Side by side</p>
-          <h1 className="g-section-title">Compare packages</h1>
+          <p className="g-eyebrow">한눈에 비교</p>
+          <h1 className="g-section-title">패키지 비교</h1>
         </div>
-        <button type="button" className="g-btn g-btn-ghost g-btn-sm" onClick={cmp.clear}>Clear all</button>
+        <button type="button" className="g-btn g-btn-ghost g-btn-sm" onClick={cmp.clear}>전체 비우기</button>
       </div>
 
       <div style={{ overflowX: 'auto' }}>
@@ -72,7 +72,7 @@ export default function GolfCompare() {
                       <X size={14} />
                     </button>
                     <Link href={`/golf/package/${p.id}`}>
-                      <img src={golfScene(p.images[0], { ratio: 1.6 })} alt={p.hotel} style={{ borderRadius: 10, marginBottom: 8 }} />
+                      <img src={golfImg(p.id, 'resort')} alt={p.hotel} style={{ borderRadius: 10, marginBottom: 8 }} />
                       <StarRating rating={p.hotelRating} />
                       <div className="g-compare-hotel">{p.hotel}</div>
                       <div className="g-muted" style={{ fontSize: 13 }}>{p.destination}, {p.country}</div>
@@ -103,7 +103,7 @@ export default function GolfCompare() {
               <td className="g-compare-rowlabel" />
               {pkgs.map((p) => (
                 <td key={p.id}>
-                  <Link href={`/golf/package/${p.id}`} className="g-btn g-btn-primary g-btn-sm g-btn-block">View package</Link>
+                  <Link href={`/golf/package/${p.id}`} className="g-btn g-btn-primary g-btn-sm g-btn-block">패키지 보기</Link>
                 </td>
               ))}
             </tr>
@@ -111,7 +111,7 @@ export default function GolfCompare() {
         </table>
       </div>
       <p className="g-muted" style={{ marginTop: 14, fontSize: 13 }}>
-        Highlighted cells show where the packages differ.
+        강조된 셀은 패키지 간 차이가 있는 항목입니다.
       </p>
     </div>
   );

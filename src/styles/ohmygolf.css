@@ -4,34 +4,37 @@
  * 롤백: 이 파일 + app/golf + components/golf + mocks/golf + features/golf 삭제.
  */
 .ohmygolf {
-  /* Color — Premium / Natural */
-  --g-forest: #1f3d2b; /* Primary: deep forest green */
-  --g-forest-600: #2c5a3d;
-  --g-forest-400: #4a7a5c;
-  --g-ivory: #f6f1e7; /* Secondary: warm ivory */
-  --g-cream: #fbf9f4; /* Background */
+  /* OHMYTRIP CI 정렬 — Primary orange #ef7f29, Pretendard, OMT 그레이 */
+  --g-forest: #ef7f29; /* Primary (OMT orange) — CTA/active/accent */
+  --g-forest-600: #e06f1c;
+  --g-forest-400: #f2965a;
+  --g-orange-050: #fff3ea;
+  --g-green: #008f42; /* OMT secondary green — included/success */
+  --g-ivory: #f5f5f5; /* Secondary surface (OMT gray-1) */
+  --g-cream: #ffffff; /* Background */
   --g-white: #ffffff;
-  --g-charcoal: #23271f; /* Text primary */
-  --g-charcoal-60: #5b5f57; /* Text secondary */
-  --g-charcoal-40: #8b8f86;
-  --g-line: #e7e2d6; /* border */
-  --g-line-soft: #efeae0;
-  --g-gold: #b98a2e; /* Accent (very limited) */
-  --g-lime: #7bad3f; /* Accent alt */
-  --g-danger: #c0492f;
-  --g-success: #2c7a4b;
+  --g-charcoal: #222222; /* Text primary */
+  --g-charcoal-60: #666666; /* Text secondary (OMT gray-5) */
+  --g-charcoal-40: #999999;
+  --g-line: #e5e5e5; /* border */
+  --g-line-soft: #efefef;
+  --g-gold: #ef7f29; /* Accent → OMT orange (통일) */
+  --g-dark: #2a2a2a; /* dark surfaces (footer/trust) */
+  --g-danger: #ff3b30;
+  --g-success: #008f42;
 
   --g-radius-sm: 10px;
-  --g-radius: 16px;
+  --g-radius: 15px;
   --g-radius-lg: 20px;
   --g-radius-pill: 999px;
 
-  --g-shadow-xs: 0 1px 2px rgba(35, 39, 31, 0.05);
-  --g-shadow-sm: 0 2px 10px rgba(35, 39, 31, 0.06);
-  --g-shadow-md: 0 8px 30px rgba(35, 39, 31, 0.1);
-  --g-shadow-lg: 0 16px 48px rgba(35, 39, 31, 0.14);
+  --g-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --g-shadow-sm: 5px 5px 10px 0 rgba(0, 0, 0, 0.06);
+  --g-shadow-md: 5px 5px 15px 0 rgba(0, 0, 0, 0.1);
+  --g-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.14);
 
-  --g-serif: 'Playfair Display', 'Noto Serif KR', Georgia, 'Times New Roman', serif;
+  /* CI 통일: 제목도 Pretendard (원본 OHMYTRIP과 동일 폰트) */
+  --g-serif: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
   --g-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', 'Malgun Gothic', sans-serif;
 
   --g-header-h: 74px;
@@ -41,7 +44,7 @@
   font-family: var(--g-sans);
   color: var(--g-charcoal);
   background: var(--g-cream);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.4px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;

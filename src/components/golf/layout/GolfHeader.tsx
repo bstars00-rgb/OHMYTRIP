@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Globe, Heart, Menu, User, X, ChevronDown, Flag } from 'lucide-react';
+import { Globe, Heart, Menu, User, X, ChevronDown } from 'lucide-react';
 import {
   CURRENCIES,
   LANGUAGES,
@@ -11,13 +11,14 @@ import {
   type CurrencyCode,
   type LanguageCode,
 } from '@/features/golf/GolfProviders';
+import { asset } from '@/features/golf/images';
 
 const NAV = [
-  { label: 'Golf Packages', href: '/golf/search' },
-  { label: 'Destinations', href: '/golf#destinations' },
-  { label: 'Courses', href: '/golf#packages' },
-  { label: 'Deals', href: '/golf/search?deals=1' },
-  { label: 'Custom Trip', href: '/golf/build' },
+  { label: '골프 패키지', href: '/golf/search' },
+  { label: '여행지', href: '/golf#destinations' },
+  { label: '골프장', href: '/golf#packages' },
+  { label: '특가', href: '/golf/search?deals=1' },
+  { label: '맞춤 견적', href: '/golf/build' },
 ];
 
 export default function GolfHeader() {
@@ -46,11 +47,9 @@ export default function GolfHeader() {
   return (
     <header className={`g-header${compact ? ' is-compact' : ''}`}>
       <div className="g-container g-header-inner">
-        <Link href="/golf" className="g-logo" aria-label="OHMYGOLF home">
-          <Flag size={22} strokeWidth={2.4} />
-          <span>
-            OHMY<b>GOLF</b>
-          </span>
+        <Link href="/golf" className="g-logo" aria-label="오마이트립 골프텔 home">
+          <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
+          <span className="g-logo-badge">골프텔</span>
         </Link>
 
         <nav className="g-nav" aria-label="Primary">
@@ -132,7 +131,7 @@ export default function GolfHeader() {
           </Link>
 
           <button type="button" className="g-btn g-btn-outline g-btn-sm g-hide-sm">
-            <User size={16} /> Login
+            <User size={16} /> 로그인
           </button>
 
           <button
@@ -150,7 +149,8 @@ export default function GolfHeader() {
         <div className="g-mobile-menu" role="dialog" aria-label="Menu">
           <div className="g-mobile-menu-head">
             <span className="g-logo">
-              OHMY<b>GOLF</b>
+              <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
+              <span className="g-logo-badge">골프텔</span>
             </span>
             <button type="button" className="g-icon-btn" onClick={() => setMenuOpen(false)} aria-label="Close">
               <X size={22} />
@@ -163,11 +163,11 @@ export default function GolfHeader() {
               </Link>
             ))}
             <Link href="/golf/my-trips" onClick={() => setMenuOpen(false)}>
-              My Trips
+              마이 트립
             </Link>
           </nav>
           <button type="button" className="g-btn g-btn-primary g-btn-block">
-            <User size={16} /> Login
+            <User size={16} /> 로그인
           </button>
         </div>
       )}

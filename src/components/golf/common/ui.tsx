@@ -18,7 +18,7 @@ export function ReviewScore({ score, count }: { score: number; count?: number })
   return (
     <span className="g-reviewscore">
       <b>{score.toFixed(1)}</b>
-      {count !== undefined && <span className="g-muted"> · {count.toLocaleString()} reviews</span>}
+      {count !== undefined && <span className="g-muted"> · 후기 {count.toLocaleString()}개</span>}
     </span>
   );
 }
@@ -60,7 +60,7 @@ export function CompareButton({ id }: { id: string }) {
       }}
       title={disabled ? 'You can compare up to 3 packages' : 'Add to compare'}
     >
-      <GitCompareArrows size={15} /> {active ? 'Added' : 'Compare'}
+      <GitCompareArrows size={15} /> {active ? '담김' : '비교'}
     </button>
   );
 }

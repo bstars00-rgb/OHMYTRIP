@@ -1,13 +1,14 @@
 /* OHMYGOLF — component & page layout styles (scoped under .ohmygolf) */
 
 /* ============ Header ============ */
-.ohmygolf .g-header { position: sticky; top: 0; z-index: 900; background: rgba(251, 249, 244, 0.92); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: height .2s ease, box-shadow .2s ease, border-color .2s ease; }
-.ohmygolf .g-header.is-compact { border-color: var(--g-line); box-shadow: var(--g-shadow-xs); }
+.ohmygolf .g-header { position: sticky; top: 0; z-index: 900; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--g-line); transition: height .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.ohmygolf .g-header.is-compact { box-shadow: var(--g-shadow-sm); }
 .ohmygolf .g-header-inner { display: flex; align-items: center; gap: 24px; height: var(--g-header-h); transition: height .2s ease; }
 .ohmygolf .g-header.is-compact .g-header-inner { height: var(--g-header-h-compact); }
-.ohmygolf .g-logo { display: inline-flex; align-items: center; gap: 8px; font-family: var(--g-serif); font-size: 22px; font-weight: 700; color: var(--g-forest); letter-spacing: -0.02em; }
+.ohmygolf .g-logo { display: inline-flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: var(--g-charcoal); }
+.ohmygolf .g-logo-img { height: 34px; width: auto; }
+.ohmygolf .g-logo-badge { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 6px; background: var(--g-forest); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: -0.02em; }
 .ohmygolf .g-logo b { font-weight: 700; color: var(--g-gold); }
-.ohmygolf .g-logo svg { color: var(--g-forest); }
 .ohmygolf .g-nav { display: flex; align-items: center; gap: 26px; margin-left: 8px; font-size: 15px; font-weight: 500; }
 .ohmygolf .g-nav a { color: var(--g-charcoal); padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .15s ease, color .15s ease; }
 .ohmygolf .g-nav a:hover { color: var(--g-forest); border-color: var(--g-forest); }
@@ -33,11 +34,11 @@
 /* ============ Hero ============ */
 .ohmygolf .g-hero { position: relative; min-height: 560px; display: flex; align-items: center; overflow: hidden; }
 .ohmygolf .g-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.ohmygolf .g-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(31,61,43,0.42) 0%, rgba(31,61,43,0.16) 40%, rgba(31,61,43,0.34) 100%); }
+.ohmygolf .g-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.22) 42%, rgba(0,0,0,0.5) 100%); }
 .ohmygolf .g-hero-inner { position: relative; padding: 70px 24px 90px; width: 100%; }
-.ohmygolf .g-hero-eyebrow { color: #dbe8db; margin-bottom: 14px; }
-.ohmygolf .g-hero-title { color: #fff; font-size: 62px; margin-bottom: 12px; text-shadow: 0 2px 24px rgba(0,0,0,0.25); }
-.ohmygolf .g-hero-sub { color: #f2efe6; font-size: 19px; max-width: 560px; margin-bottom: 34px; }
+.ohmygolf .g-hero-eyebrow { color: #ffd8b8; margin-bottom: 14px; }
+.ohmygolf .g-hero-title { color: #fff; font-size: 58px; font-weight: 800; margin-bottom: 12px; text-shadow: 0 2px 24px rgba(0,0,0,0.35); }
+.ohmygolf .g-hero-sub { color: #f3f3f3; font-size: 19px; max-width: 560px; margin-bottom: 34px; }
 
 /* ============ SearchBox ============ */
 .ohmygolf .g-searchbox { display: flex; align-items: stretch; gap: 0; background: var(--g-white); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-lg); padding: 10px; max-width: 1000px; }
@@ -73,7 +74,7 @@
 
 /* ============ Sections ============ */
 .ohmygolf .g-section-ivory { background: var(--g-ivory); }
-.ohmygolf .g-section-forest { background: var(--g-forest); color: #eef2ec; }
+.ohmygolf .g-section-forest { background: var(--g-dark); color: #f0f0f0; }
 .ohmygolf .g-link-arrow { display: inline-flex; align-items: center; gap: 6px; color: var(--g-forest); font-weight: 600; font-size: 15px; }
 .ohmygolf .g-link-arrow:hover { gap: 9px; }
 
@@ -133,10 +134,10 @@
 /* Build CTA */
 .ohmygolf .g-build-cta { position: relative; border-radius: var(--g-radius-lg); overflow: hidden; min-height: 320px; display: flex; align-items: center; }
 .ohmygolf .g-build-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.ohmygolf .g-build-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(31,61,43,0.86) 20%, rgba(31,61,43,0.5) 100%); }
+.ohmygolf .g-build-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(20,20,20,0.9) 18%, rgba(239,127,41,0.55) 100%); }
 .ohmygolf .g-build-content { position: relative; padding: 48px; max-width: 620px; }
-.ohmygolf .g-build-title { color: #fff; font-size: 40px; margin: 10px 0 14px; }
-.ohmygolf .g-build-sub { color: #e9efe7; font-size: 16px; margin-bottom: 26px; line-height: 1.55; }
+.ohmygolf .g-build-title { color: #fff; font-size: 40px; font-weight: 800; margin: 10px 0 14px; }
+.ohmygolf .g-build-sub { color: #f0f0f0; font-size: 16px; margin-bottom: 26px; line-height: 1.55; }
 
 /* Editorial */
 .ohmygolf .g-editorial-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
@@ -148,31 +149,31 @@
 /* Trust */
 .ohmygolf .g-trust-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; margin-bottom: 44px; }
 .ohmygolf .g-trust-stats b { display: block; font-family: var(--g-serif); font-size: 34px; color: #fff; }
-.ohmygolf .g-trust-stats span { font-size: 14px; color: #c9d6c7; }
+.ohmygolf .g-trust-stats span { font-size: 14px; color: #bdbdbd; }
 .ohmygolf .g-review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .ohmygolf .g-review-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--g-radius); padding: 22px; }
 .ohmygolf .g-review-score { display: inline-flex; align-items: center; gap: 5px; color: var(--g-gold); font-weight: 700; margin-bottom: 12px; }
-.ohmygolf .g-review-card blockquote { font-size: 15px; line-height: 1.6; color: #eef2ec; margin-bottom: 14px; }
-.ohmygolf .g-review-card figcaption { font-size: 14px; color: #dbe4d9; }
+.ohmygolf .g-review-card blockquote { font-size: 15px; line-height: 1.6; color: #e8e8e8; margin-bottom: 14px; }
+.ohmygolf .g-review-card figcaption { font-size: 14px; color: #d0d0d0; }
 .ohmygolf .g-partner-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 36px; margin-top: 44px; opacity: 0.82; }
-.ohmygolf .g-partner-logo { font-family: var(--g-serif); font-size: 18px; letter-spacing: 0.02em; color: #cdd9cb; }
+.ohmygolf .g-partner-logo { font-family: var(--g-serif); font-size: 18px; letter-spacing: 0.02em; color: #c4c4c4; }
 
 /* ============ Footer ============ */
-.ohmygolf .g-footer { background: #141a14; color: #c7d0c5; padding: 56px 0 30px; margin-top: 40px; }
+.ohmygolf .g-footer { background: #2a2a2a; color: #c9c9c9; padding: 56px 0 30px; margin-top: 40px; }
 .ohmygolf .g-footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 30px; margin-bottom: 34px; }
 .ohmygolf .g-logo-light { color: #fff; }
 .ohmygolf .g-logo-light b { color: var(--g-gold); }
-.ohmygolf .g-footer-brand p { margin: 14px 0 18px; font-size: 14px; line-height: 1.6; max-width: 320px; color: #9fac9c; }
+.ohmygolf .g-footer-brand p { margin: 14px 0 18px; font-size: 14px; line-height: 1.6; max-width: 320px; color: #9a9a9a; }
 .ohmygolf .g-footer-social { display: flex; gap: 10px; }
 .ohmygolf .g-footer-social a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #cfd8cd; }
 .ohmygolf .g-footer-social a:hover { background: var(--g-forest-600); color: #fff; }
 .ohmygolf .g-footer-col h4 { font-size: 14px; color: #fff; margin-bottom: 14px; letter-spacing: 0.04em; }
 .ohmygolf .g-footer-col li { margin-bottom: 10px; }
-.ohmygolf .g-footer-col a { font-size: 14px; color: #9fac9c; }
+.ohmygolf .g-footer-col a { font-size: 14px; color: #9a9a9a; }
 .ohmygolf .g-footer-col a:hover { color: #fff; }
 .ohmygolf .g-footer .g-hr { background: rgba(255,255,255,0.1); }
-.ohmygolf .g-footer-bottom { display: flex; justify-content: space-between; padding-top: 20px; font-size: 13px; color: #8a968870; }
-.ohmygolf .g-footer-bottom span { color: #8a9688; }
+.ohmygolf .g-footer-bottom { display: flex; justify-content: space-between; padding-top: 20px; font-size: 13px; color: #9a9a9a70; }
+.ohmygolf .g-footer-bottom span { color: #9a9a9a; }
 
 /* ============ Modal / sheet / misc ============ */
 .ohmygolf .g-modal-close { position: absolute; right: 14px; top: 14px; width: 34px; height: 34px; border-radius: 50%; background: var(--g-ivory); display: flex; align-items: center; justify-content: center; color: var(--g-charcoal); z-index: 2; }
@@ -407,3 +408,19 @@
   .ohmygolf .g-optiongrid { grid-template-columns: 1fr; }
   .ohmygolf .g-build-content { padding: 30px 22px; }
 }
+
+/* ============ Fix: button variants must beat `.ohmygolf button` reset (0,1,1) ============ */
+.ohmygolf button.g-btn { border-width: 1px; border-style: solid; border-color: transparent; }
+.ohmygolf button.g-btn-primary { background: var(--g-forest); color: var(--g-white); }
+.ohmygolf button.g-btn-primary:hover { background: var(--g-forest-600); }
+.ohmygolf button.g-btn-outline { background: transparent; color: var(--g-forest); border-color: var(--g-forest); }
+.ohmygolf button.g-btn-outline:hover { background: var(--g-forest); color: var(--g-white); }
+.ohmygolf button.g-btn-ghost { background: transparent; color: var(--g-charcoal); border-color: var(--g-line); }
+.ohmygolf button.g-btn-ghost:hover { border-color: var(--g-charcoal-40); }
+.ohmygolf button.g-btn-gold { background: var(--g-gold); color: var(--g-white); }
+.ohmygolf button.g-chip { background: var(--g-white); }
+.ohmygolf button.g-chip.is-active { background: var(--g-forest); color: #fff; }
+.ohmygolf button.g-tee-btn { background: var(--g-white); }
+.ohmygolf button.g-tee-btn.is-active { background: var(--g-forest); color: #fff; }
+.ohmygolf button.g-wishlist-btn { background: rgba(255,255,255,0.92); }
+.ohmygolf button.g-wishlist-btn.is-active { color: var(--g-danger); }

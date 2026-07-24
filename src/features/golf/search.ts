@@ -4,12 +4,12 @@ import { PACKAGES, discountPct } from '@/mocks/golf/data';
 export type SortKey = 'recommended' | 'price-low' | 'rating' | 'popular' | 'distance' | 'discount';
 
 export const SORT_OPTIONS: { key: SortKey; label: string }[] = [
-  { key: 'recommended', label: 'Recommended' },
-  { key: 'price-low', label: 'Lowest Price' },
-  { key: 'rating', label: 'Highest Rated' },
-  { key: 'popular', label: 'Most Popular' },
-  { key: 'distance', label: 'Distance to Golf Course' },
-  { key: 'discount', label: 'Biggest Discount' },
+  { key: 'recommended', label: '추천순' },
+  { key: 'price-low', label: '낮은 가격순' },
+  { key: 'rating', label: '평점 높은순' },
+  { key: 'popular', label: '인기순' },
+  { key: 'distance', label: '골프장 거리순' },
+  { key: 'discount', label: '할인율순' },
 ];
 
 export interface GolfFilters {

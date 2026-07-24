@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { FileText, Flag, CalendarClock, MessageCircle, UserPlus, RefreshCw, XCircle, MapPin } from 'lucide-react';
 import { PACKAGES, getPackage } from '@/mocks/golf/data';
 import { useWishlist, usePrefs } from '@/features/golf/GolfProviders';
-import { golfScene } from '@/features/golf/scenery';
+import { golfImg } from '@/features/golf/images';
 import { EmptyState, StarRating } from '@/components/golf/common/ui';
 import PackageCard from '@/components/golf/PackageCard';
 
@@ -28,7 +28,7 @@ function TripCard({ pkgId, dates, status }: { pkgId: string; dates: string; stat
   if (!pkg) return null;
   return (
     <div className="g-trip-card">
-      <img src={golfScene(pkg.images[0], { ratio: 1.3 })} alt={pkg.hotel} />
+      <img src={golfImg(pkg.id, 'resort')} alt={pkg.hotel} />
       <div className="g-trip-info">
         <StarRating rating={pkg.hotelRating} />
         <h3 style={{ fontFamily: 'var(--g-serif)', fontSize: 20, margin: '6px 0 4px' }}>{pkg.hotel}</h3>

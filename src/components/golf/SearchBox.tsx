@@ -59,7 +59,7 @@ export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'co
     (d) => !dest.trim() || d.city.toLowerCase().includes(dest.toLowerCase()) || d.country.toLowerCase().includes(dest.toLowerCase()),
   );
 
-  const partyLabel = `${party.golfers} golfer${party.golfers !== 1 ? 's' : ''}${party.nonGolfers ? `, ${party.nonGolfers} non-golfer${party.nonGolfers !== 1 ? 's' : ''}` : ''} · ${party.rooms} room${party.rooms !== 1 ? 's' : ''} · ${party.rounds} rounds`;
+  const partyLabel = `골퍼 ${party.golfers}명${party.nonGolfers ? `, 비골퍼 ${party.nonGolfers}명` : ''} · 객실 ${party.rooms}개 · ${party.rounds}라운드`;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,11 +80,11 @@ export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'co
   return (
     <form ref={rootRef} className={`g-searchbox g-searchbox-${variant}`} onSubmit={submit}>
       <div className="g-searchbox-field g-field-dest">
-        <label className="g-sb-label"><MapPin size={15} /> Destination or Golf Resort</label>
+        <label className="g-sb-label"><MapPin size={15} /> 여행지 또는 골프 리조트</label>
         <input
           className="g-sb-input"
           type="text"
-          placeholder="Where do you want to play?"
+          placeholder="어디서 플레이할까요?"
           value={dest}
           onChange={(e) => {
             setDest(e.target.value);
@@ -108,7 +108,7 @@ export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'co
                   <span>
                     <b>{d.city}</b>
                     <span className="g-muted"> · {d.country}</span>
-                    <span className="g-sb-drop-hint">{d.courseCount} courses · {d.season}</span>
+                    <span className="g-sb-drop-hint">골프장 {d.courseCount}개 · {d.season}</span>
                   </span>
                 </button>
               </li>
@@ -118,36 +118,36 @@ export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'co
       </div>
 
       <div className="g-searchbox-field g-field-date">
-        <label className="g-sb-label"><CalendarDays size={15} /> Check-in</label>
+        <label className="g-sb-label"><CalendarDays size={15} /> 체크인</label>
         <input className="g-sb-input" type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)} />
       </div>
       <div className="g-searchbox-field g-field-date">
-        <label className="g-sb-label"><CalendarDays size={15} /> Check-out</label>
+        <label className="g-sb-label"><CalendarDays size={15} /> 체크아웃</label>
         <input className="g-sb-input" type="date" value={checkOut} min={checkIn || undefined} onChange={(e) => setCheckOut(e.target.value)} />
       </div>
 
       <div className="g-searchbox-field g-field-party">
-        <label className="g-sb-label"><Users size={15} /> Golfers &amp; rounds</label>
+        <label className="g-sb-label"><Users size={15} /> 골퍼 · 라운드</label>
         <button type="button" className="g-sb-input g-sb-partybtn" onClick={() => setOpenParty((v) => !v)}>
           <span className="g-ellipsis">{partyLabel}</span>
           <ChevronDown size={16} />
         </button>
         {openParty && (
           <div className="g-sb-partypop">
-            <Counter label="Golfers" hint="Playing golf" value={party.golfers} min={1} max={12} onChange={(v) => setParty((p) => ({ ...p, golfers: v }))} />
-            <Counter label="Non-golfers" hint="Joining the trip" value={party.nonGolfers} min={0} max={12} onChange={(v) => setParty((p) => ({ ...p, nonGolfers: v }))} />
+            <Counter label="골퍼" hint="라운드 참여" value={party.golfers} min={1} max={12} onChange={(v) => setParty((p) => ({ ...p, golfers: v }))} />
+            <Counter label="비골퍼" hint="동반 여행" value={party.nonGolfers} min={0} max={12} onChange={(v) => setParty((p) => ({ ...p, nonGolfers: v }))} />
             <div className="g-hr" />
-            <Counter label="Rooms" value={party.rooms} min={1} max={8} onChange={(v) => setParty((p) => ({ ...p, rooms: v }))} />
-            <Counter label="Rounds" hint="18-hole rounds" value={party.rounds} min={1} max={7} onChange={(v) => setParty((p) => ({ ...p, rounds: v }))} />
+            <Counter label="객실" value={party.rooms} min={1} max={8} onChange={(v) => setParty((p) => ({ ...p, rooms: v }))} />
+            <Counter label="라운드" hint="18홀 라운드" value={party.rounds} min={1} max={7} onChange={(v) => setParty((p) => ({ ...p, rounds: v }))} />
             <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-sm" onClick={() => setOpenParty(false)}>
-              Apply
+              적용
             </button>
           </div>
         )}
       </div>
 
       <button type="submit" className="g-btn g-btn-primary g-searchbox-submit">
-        <Flag size={18} /> <span>Search</span>
+        <Flag size={18} /> <span>검색</span>
         <Search size={18} className="g-show-sm-inline" />
       </button>
     </form>
