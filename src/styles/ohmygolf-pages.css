@@ -5,9 +5,11 @@
 .ohmygolf .g-header.is-compact { box-shadow: var(--g-shadow-sm); }
 .ohmygolf .g-header-inner { display: flex; align-items: center; gap: 24px; height: var(--g-header-h); transition: height .2s ease; }
 .ohmygolf .g-header.is-compact .g-header-inner { height: var(--g-header-h-compact); }
-.ohmygolf .g-logo { display: inline-flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: var(--g-charcoal); }
-.ohmygolf .g-logo-img { height: 34px; width: auto; }
-.ohmygolf .g-logo-badge { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 6px; background: var(--g-forest); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: -0.02em; }
+.ohmygolf .g-logo { display: inline-flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: var(--g-charcoal); flex-shrink: 0; }
+.ohmygolf .g-logo-img { height: 34px; width: auto; flex-shrink: 0; }
+.ohmygolf .g-logo-badge { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 6px; background: var(--g-forest); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; flex-shrink: 0; }
+.ohmygolf .g-header-inner { min-width: 0; }
+.ohmygolf .g-header-actions { flex-shrink: 0; }
 .ohmygolf .g-logo b { font-weight: 700; color: var(--g-gold); }
 .ohmygolf .g-nav { display: flex; align-items: center; gap: 26px; margin-left: 8px; font-size: 15px; font-weight: 500; }
 .ohmygolf .g-nav a { color: var(--g-charcoal); padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color .15s ease, color .15s ease; }

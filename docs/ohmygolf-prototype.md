@@ -94,6 +94,16 @@ recommendedSeason·tags·options[]·itinerary[]·hotelFacilities·reviews[]
 5. 다국어(i18n) 실번역, 다중 통화 정산
 6. 골프장 상세(코스 레이아웃·홀 정보)·리뷰 수집
 
+## 7-1. CI 통일 · 실제 이미지 (2026-07 고도화)
+
+- **CI 통일**: OHMYTRIP 오렌지(#ef7f29) primary, Pretendard(Serif 제거), OMT 그레이/라운드,
+  실제 OHMYTRIP 헤더 로고 + 오렌지 "골프텔" 배지, 다크뉴트럴 trust/footer. 전체 UI 한국어화.
+- **실제 이미지**: `/public/golf/img`에 골프장·리조트·그린 실사진 24장. `features/golf/images.ts`의
+  `golfImg(seed, kind)` 결정적 리졸버가 seed→실사진 매핑(basePath 자동 반영). SVG placeholder 전면 대체.
+  - 이미지 출처: 프로토타입용 loremflickr(Flickr CC) 수집본. **운영 시 자사 보유/라이선스 사진으로 교체** 필요.
+- CSS 주의: `.ohmygolf button` 리셋(0,1,1)이 `.g-btn-*`(0,1,0)을 이기므로, 버튼 변형은
+  `.ohmygolf button.g-btn-*`로 우선순위를 올려 정의(ohmygolf-pages.css 하단).
+
 ## 8. 기술 참고
 
 요청 스택은 Tailwind + shadcn/ui였으나, **OHMYTRIP 클론과의 완전 격리 및 무손실 롤백**을
