@@ -485,3 +485,66 @@
 .ohmygolf button.g-tee-btn.is-active { background: var(--g-forest); color: #fff; }
 .ohmygolf button.g-wishlist-btn { background: rgba(255,255,255,0.92); }
 .ohmygolf button.g-wishlist-btn.is-active { color: var(--g-danger); }
+
+/* ============ 골프장 상세 ============ */
+.ohmygolf .g-course-info h4 a { color: inherit; }
+.ohmygolf .g-course-info h4 a:hover { color: var(--g-forest); }
+.ohmygolf .g-course-card > a { display: block; flex-shrink: 0; }
+
+.ohmygolf .g-course-subnav { position: sticky; top: 64px; z-index: 20; display: flex; gap: 6px; background: var(--g-white); border-bottom: 1px solid var(--g-line); padding: 4px 0; margin: 20px 0 6px; overflow-x: auto; }
+.ohmygolf .g-course-subnav a { padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--g-charcoal-60); border-radius: var(--g-radius-pill); white-space: nowrap; }
+.ohmygolf .g-course-subnav a:hover { background: var(--g-ivory); color: var(--g-forest); }
+
+.ohmygolf .g-course-subh { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; margin: 0 0 10px; color: var(--g-charcoal); }
+.ohmygolf .g-course-subh svg { color: var(--g-forest); }
+
+.ohmygolf .g-sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ohmygolf .g-sig-card { display: flex; gap: 14px; align-items: center; border: 1px solid var(--g-line); border-radius: var(--g-radius); padding: 16px; background: var(--g-ivory); }
+.ohmygolf .g-sig-num { flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%; background: var(--g-forest); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; line-height: 1; }
+.ohmygolf .g-sig-num span { font-size: 10px; font-weight: 600; margin-top: 3px; }
+
+.ohmygolf .g-spec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 24px; }
+.ohmygolf .g-spec-item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--g-line-soft); }
+.ohmygolf .g-spec-ic { flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px; background: var(--g-ivory); color: var(--g-forest); display: flex; align-items: center; justify-content: center; }
+.ohmygolf .g-spec-label { font-size: 12px; color: var(--g-charcoal-40); }
+.ohmygolf .g-spec-val { font-size: 15px; font-weight: 600; margin-top: 1px; }
+
+.ohmygolf .g-scorecard-block { min-width: 640px; margin-bottom: 14px; }
+.ohmygolf .g-scorecard { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ohmygolf .g-scorecard th, .ohmygolf .g-scorecard td { text-align: center; padding: 9px 6px; border: 1px solid var(--g-line); }
+.ohmygolf .g-scorecard thead th { background: var(--g-forest); color: #fff; font-weight: 700; }
+.ohmygolf .g-scorecard .g-sc-rowlabel { background: var(--g-ivory); font-weight: 700; text-align: left; padding-left: 12px; white-space: nowrap; }
+.ohmygolf .g-scorecard thead .g-sc-rowlabel { background: var(--g-forest); }
+.ohmygolf .g-scorecard .g-sc-sum { background: #fdece0; font-weight: 800; }
+.ohmygolf .g-scorecard thead .g-sc-sum { background: var(--g-forest-600, #d96f1f); }
+.ohmygolf .g-scorecard .g-sc-si td { color: var(--g-charcoal-60); }
+.ohmygolf .g-scorecard-total { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--g-ivory); border-radius: var(--g-radius); margin-top: 4px; }
+.ohmygolf .g-scorecard-total b { color: var(--g-forest); }
+
+.ohmygolf .g-fee-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.ohmygolf .g-fee-item { border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); padding: 12px 14px; }
+.ohmygolf .g-fee-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; }
+.ohmygolf .g-fee-top b { font-size: 16px; color: var(--g-forest); }
+.ohmygolf .g-fee-note { font-size: 12px; color: var(--g-charcoal-40); margin-top: 3px; }
+
+.ohmygolf .g-team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.ohmygolf .g-team-item { text-align: center; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); padding: 14px 8px; }
+.ohmygolf .g-team-item span { display: block; font-size: 13px; color: var(--g-charcoal-60); }
+.ohmygolf .g-team-item b { display: block; margin-top: 6px; font-size: 16px; color: var(--g-forest); }
+
+.ohmygolf .g-course-fact { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--g-line-soft); font-size: 14px; }
+.ohmygolf .g-course-fact:last-of-type { border-bottom: none; }
+
+.ohmygolf .g-course-index-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.ohmygolf .g-course-index-card { display: block; }
+.ohmygolf .g-course-index-body { padding: 18px; }
+
+@media (max-width: 860px) {
+  .ohmygolf .g-sig-grid, .ohmygolf .g-spec-grid, .ohmygolf .g-fee-grid { grid-template-columns: 1fr; }
+  .ohmygolf .g-team-grid { grid-template-columns: repeat(2, 1fr); }
+  .ohmygolf .g-course-index-grid { grid-template-columns: 1fr 1fr; }
+  .ohmygolf .g-course-subnav { top: 56px; }
+}
+@media (max-width: 560px) {
+  .ohmygolf .g-course-index-grid { grid-template-columns: 1fr; }
+}

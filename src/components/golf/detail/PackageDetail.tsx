@@ -8,6 +8,7 @@ import {
   Waves, Utensils, Dumbbell, Sparkles, ChevronDown, AlertTriangle, Wind, UserX, Baby,
 } from 'lucide-react';
 import { getPackage, discountPct } from '@/mocks/golf/data';
+import { courseSlug } from '@/mocks/golf/courses';
 import type { PackageOption } from '@/mocks/golf/types';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
@@ -171,9 +172,11 @@ export default function PackageDetail({ id }: { id: string }) {
               <h2 className="g-detail-h">골프장 정보</h2>
               {pkg.golfCourses.map((c, i) => (
                 <div key={c.name} className="g-course-card">
-                  <img src={golfImg(`${pkg.id}-course-${i}`, i % 2 ? 'green' : 'course')} alt={c.name} />
+                  <Link href={`/golf/course/${courseSlug(c.name)}`} aria-label={`${c.name} 상세`}>
+                    <img src={golfImg(`${pkg.id}-course-${i}`, i % 2 ? 'green' : 'course')} alt={c.name} />
+                  </Link>
                   <div className="g-course-info">
-                    <h4>{c.name}</h4>
+                    <h4><Link href={`/golf/course/${courseSlug(c.name)}`}>{c.name}</Link></h4>
                     <p className="g-muted" style={{ fontSize: 13 }}>설계: {c.designer}</p>
                     <div className="g-course-stats">
                       <span>{c.holes}홀 · <b>파 {c.par}</b></span>
@@ -185,6 +188,9 @@ export default function PackageDetail({ id }: { id: string }) {
                       <span>{c.dressCode}</span>
                       <span>{c.rentalClubs ? '클럽 렌탈 가능' : '개인 클럽 지참'}</span>
                     </div>
+                    <Link href={`/golf/course/${courseSlug(c.name)}`} className="g-link-arrow" style={{ marginTop: 10, fontSize: 13 }}>
+                      코스 상세 정보 <ChevronRight size={14} />
+                    </Link>
                   </div>
                 </div>
               ))}

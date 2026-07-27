@@ -92,6 +92,60 @@ export interface GolfPackage {
   lastMinute?: boolean;
 }
 
+export interface ScorecardHole {
+  hole: number;
+  par: number;
+  yards: number;
+  si: number; // 스트로크 인덱스(핸디캡) 1~18
+}
+
+export interface CourseFee {
+  label: string;
+  amount: string; // 현지 통화 표기 문자열
+  note?: string;
+}
+
+export interface SignatureHole {
+  hole: number;
+  par: number;
+  yards: number;
+  note: string;
+}
+
+/** 골프장 상세페이지용 확장 모델 (monkeytravel 골프텔 상세 참조) */
+export interface CourseDetail {
+  slug: string;
+  name: string;
+  destination: string;
+  country: string;
+  designer: string;
+  holes: number;
+  par: number;
+  yardage: number; // 총 전장(야드)
+  courseRating: number;
+  slopeRating: number;
+  difficulty: GolfCourse['difficulty'];
+  established: number;
+  greenGrass: string;
+  fairwayGrass: string;
+  greenSpeed: string;
+  drivingRangeHours: string;
+  restaurantHours: string;
+  distanceFromHotel: string;
+  transferMin: number;
+  dressCode: string;
+  rentalClubs: boolean;
+  localFees: CourseFee[];
+  playRules: string[];
+  teamConfig: { slot: string; max: number }[];
+  facilities: string[];
+  signatureHoles: SignatureHole[];
+  description: string;
+  scorecard: ScorecardHole[];
+  images: string[];
+  packageIds: string[];
+}
+
 export interface Destination {
   slug: string;
   city: string;
