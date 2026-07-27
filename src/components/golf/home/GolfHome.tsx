@@ -11,10 +11,10 @@ import { usePrefs } from '@/features/golf/GolfProviders';
 import CompareTray from '@/components/golf/CompareTray';
 
 const WHY = [
-  { icon: ShieldCheck, title: '엄선한 골프 리조트', text: '모든 리조트와 골프장을 직접 검증해 품질과 코스 상태를 보장합니다.' },
-  { icon: Zap, title: '실시간 즉시 확정', text: '숙박·라운드·티타임을 한 번에 예약하고 즉시 확정받으세요.' },
-  { icon: BadgeDollarSign, title: '투명한 패키지 가격', text: '1인당 명확한 가격. 그린피·카트·이동까지 모두 포함입니다.' },
-  { icon: Headset, title: '골프 여행 전문가 지원', text: '예약부터 18홀까지, 골프 여행 전문가가 24시간 함께합니다.' },
+  { icon: ShieldCheck, t: 'home.why1t', x: 'home.why1x' },
+  { icon: Zap, t: 'home.why2t', x: 'home.why2x' },
+  { icon: BadgeDollarSign, t: 'home.why3t', x: 'home.why3x' },
+  { icon: Headset, t: 'home.why4t', x: 'home.why4x' },
 ];
 
 const EDITORIAL = [
@@ -32,7 +32,7 @@ const REVIEWS = [
 
 export default function GolfHome() {
   const router = useRouter();
-  const { fx } = usePrefs();
+  const { fx, t } = usePrefs();
   const best = PACKAGES.slice(0, 8);
 
   return (
@@ -42,9 +42,9 @@ export default function GolfHome() {
         <img className="g-hero-bg" src={golfHeroImg('ohmygolf-hero')} alt="" aria-hidden loading="eager" fetchPriority="high" decoding="async" width={1600} height={720} />
         <div className="g-hero-overlay" />
         <div className="g-container g-hero-inner">
-          <p className="g-eyebrow g-hero-eyebrow">오마이트립 골프텔 · Stay &amp; Play</p>
-          <h1 className="g-display g-hero-title">Stay. Play. Discover.</h1>
-          <p className="g-hero-sub">엄선한 골프텔과 티타임을 한 번의 여행으로 — 숙박부터 라운드까지.</p>
+          <p className="g-eyebrow g-hero-eyebrow">{t('hero.eyebrow')}</p>
+          <h1 className="g-display g-hero-title">{t('hero.title')}</h1>
+          <p className="g-hero-sub">{t('hero.sub')}</p>
           <SearchBox variant="hero" />
         </div>
       </section>
@@ -54,7 +54,7 @@ export default function GolfHome() {
         <div className="g-cat-row">
           {CATEGORIES.map((c) => (
             <button key={c.key} type="button" className="g-chip" onClick={() => router.push(`/golf/search?category=${c.key}`)}>
-              {c.label}
+              {t(`cat.${c.key}`)}
             </button>
           ))}
         </div>
@@ -64,11 +64,11 @@ export default function GolfHome() {
       <section id="destinations" className="g-section g-container">
         <div className="g-section-head">
           <div>
-            <p className="g-eyebrow">어디서 칠까요</p>
-            <h2 className="g-section-title">인기 골프 여행지</h2>
+            <p className="g-eyebrow">{t('home.destEyebrow')}</p>
+            <h2 className="g-section-title">{t('home.destTitle')}</h2>
           </div>
           <Link href="/golf/search" className="g-link-arrow">
-            전체 보기 <ArrowRight size={16} />
+            {t('home.viewAll')} <ArrowRight size={16} />
           </Link>
         </div>
         <div className="g-dest-grid">
@@ -84,15 +84,15 @@ export default function GolfHome() {
               </div>
               <div className="g-dest-meta">
                 <div>
-                  <span className="g-muted">평균 패키지</span>
+                  <span className="g-muted">{t('home.avgPackage')}</span>
                   <b>{fx(d.avgPackageUSD)}</b>
                 </div>
                 <div>
-                  <span className="g-muted">추천 시즌</span>
+                  <span className="g-muted">{t('home.season')}</span>
                   <b>{d.season}</b>
                 </div>
                 <div>
-                  <span className="g-muted">골프장</span>
+                  <span className="g-muted">{t('home.courseCount')}</span>
                   <b>{d.courseCount}개</b>
                 </div>
               </div>
@@ -106,11 +106,11 @@ export default function GolfHome() {
         <div className="g-container">
           <div className="g-section-head">
             <div>
-              <p className="g-eyebrow">당신을 위한 추천</p>
-              <h2 className="g-section-title">베스트 골프 패키지</h2>
+              <p className="g-eyebrow">{t('home.pkgEyebrow')}</p>
+              <h2 className="g-section-title">{t('home.pkgTitle')}</h2>
             </div>
             <Link href="/golf/search" className="g-link-arrow">
-              패키지 전체 보기 <ArrowRight size={16} />
+              {t('home.viewAllPkg')} <ArrowRight size={16} />
             </Link>
           </div>
           <div className="g-pkg-grid">
@@ -124,17 +124,17 @@ export default function GolfHome() {
       {/* E. Why book with us */}
       <section className="g-section g-container">
         <div className="g-section-head" style={{ justifyContent: 'center', textAlign: 'center', flexDirection: 'column', gap: 6 }}>
-          <p className="g-eyebrow">왜 오마이트립 골프텔인가</p>
-          <h2 className="g-section-title">제대로 만든 골프 여행</h2>
+          <p className="g-eyebrow">{t('home.whyEyebrow')}</p>
+          <h2 className="g-section-title">{t('home.whyTitle')}</h2>
         </div>
         <div className="g-why-grid">
           {WHY.map((w) => (
-            <div key={w.title} className="g-card g-why-card">
+            <div key={w.t} className="g-card g-why-card">
               <span className="g-why-icon">
                 <w.icon size={22} />
               </span>
-              <h3>{w.title}</h3>
-              <p className="g-muted">{w.text}</p>
+              <h3>{t(w.t)}</h3>
+              <p className="g-muted">{t(w.x)}</p>
             </div>
           ))}
         </div>
@@ -146,11 +146,11 @@ export default function GolfHome() {
           <img src={golfHeroImg('build-cta')} alt="" aria-hidden className="g-build-bg" loading="lazy" decoding="async" width={1600} height={720} />
           <div className="g-build-overlay" />
           <div className="g-build-content">
-            <p className="g-eyebrow" style={{ color: '#ffd8b8' }}>완전 맞춤</p>
-            <h2 className="g-display g-build-title">나만의 골프 여행 만들기</h2>
-            <p className="g-build-sub">호텔·골프장·교통을 자유롭게 조합해 맞춤 일정을 완성하세요. 꿈꾸던 여행을 알려주시면 전문가가 견적을 드립니다.</p>
+            <p className="g-eyebrow" style={{ color: '#ffd8b8' }}>{t('home.buildEyebrow')}</p>
+            <h2 className="g-display g-build-title">{t('home.buildTitle')}</h2>
+            <p className="g-build-sub">{t('home.buildSub')}</p>
             <Link href="/golf/build" className="g-btn g-btn-gold g-btn-lg">
-              내 골프 여행 만들기 <ArrowRight size={18} />
+              {t('home.buildCta')} <ArrowRight size={18} />
             </Link>
           </div>
         </div>
@@ -160,8 +160,8 @@ export default function GolfHome() {
       <section className="g-section g-container">
         <div className="g-section-head">
           <div>
-            <p className="g-eyebrow">인사이트</p>
-            <h2 className="g-section-title">골프 여행 이야기</h2>
+            <p className="g-eyebrow">{t('home.edEyebrow')}</p>
+            <h2 className="g-section-title">{t('home.edTitle')}</h2>
           </div>
         </div>
         <div className="g-editorial-grid">
@@ -173,7 +173,7 @@ export default function GolfHome() {
               <div className="g-editorial-body">
                 <span className="g-eyebrow">{e.tag}</span>
                 <h3>{e.title}</h3>
-                <span className="g-link-arrow">더 보기 <ArrowRight size={14} /></span>
+                <span className="g-link-arrow">{t('home.more')} <ArrowRight size={14} /></span>
               </div>
             </Link>
           ))}
@@ -186,19 +186,19 @@ export default function GolfHome() {
           <div className="g-trust-stats">
             <div>
               <b>120,000+</b>
-              <span>골퍼가 예약</span>
+              <span>{t('home.trust1')}</span>
             </div>
             <div>
               <b>9.1 / 10</b>
-              <span>평균 평점</span>
+              <span>{t('home.trust2')}</span>
             </div>
             <div>
               <b>24/7</b>
-              <span>여행 지원</span>
+              <span>{t('home.trust3')}</span>
             </div>
             <div>
               <b>100%</b>
-              <span>안전 결제</span>
+              <span>{t('home.trust4')}</span>
             </div>
           </div>
           <div className="g-review-grid">

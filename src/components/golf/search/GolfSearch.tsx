@@ -16,7 +16,7 @@ import { golfImg } from '@/features/golf/images';
 
 export default function GolfSearch() {
   const params = useSearchParams();
-  const { fx } = usePrefs();
+  const { fx, t } = usePrefs();
   const parsed = useMemo(() => parseFilters(params), [params]);
   const categoryKey = params.get('category');
   const category = CATEGORIES.find((c) => c.key === categoryKey);
@@ -33,7 +33,7 @@ export default function GolfSearch() {
     return sortPackages(filterPackages(base, filters), sort);
   }, [filters, sort, categoryKey]);
 
-  const destLabel = filters.destination ?? category?.label ?? '전체 여행지';
+  const destLabel = filters.destination ?? (category ? t(`cat.${category.key}`) : t('search.allDest'));
 
   return (
     <>
@@ -47,9 +47,9 @@ export default function GolfSearch() {
         <div className="g-results-layout">
           <aside className="g-filter-sidebar" aria-label="Filters">
             <div className="g-between" style={{ padding: '14px 0 4px' }}>
-              <strong>필터</strong>
+              <strong>{t('search.filter')}</strong>
               <button type="button" className="g-link-arrow" style={{ fontSize: 13 }} onClick={() => setFilters({ destination: filters.destination })}>
-                초기화
+                {t('search.reset')}
               </button>
             </div>
             <FilterControls filters={filters} onChange={setFilters} />
@@ -58,21 +58,21 @@ export default function GolfSearch() {
           <div>
             <div className="g-results-head">
               <h1 className="g-results-count">
-                {destLabel} 골프 패키지 {results.length}개
+                {t('search.count', { dest: destLabel, n: results.length })}
               </h1>
               <div className="g-results-tools">
                 <div className="g-viewtoggle" role="tablist" aria-label="View">
                   <button type="button" className={view === 'list' ? 'is-active' : ''} onClick={() => setView('list')}>
-                    <LayoutGrid size={15} /> 목록
+                    <LayoutGrid size={15} /> {t('search.list')}
                   </button>
                   <button type="button" className={view === 'map' ? 'is-active' : ''} onClick={() => setView('map')}>
-                    <MapIcon size={15} /> 지도
+                    <MapIcon size={15} /> {t('search.map')}
                   </button>
                 </div>
                 <select className="g-select" value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="Sort by">
                   {SORT_OPTIONS.map((o) => (
                     <option key={o.key} value={o.key}>
-                      {o.label}
+                      {t(`sort.${o.key}`)}
                     </option>
                   ))}
                 </select>
@@ -81,11 +81,11 @@ export default function GolfSearch() {
 
             {results.length === 0 ? (
               <EmptyState
-                title="조건에 맞는 패키지가 없어요"
-                subtitle="가격 범위를 넓히거나 필터를 해제해 보세요."
+                title={t('search.emptyTitle')}
+                subtitle={t('search.emptySub')}
                 action={
                   <button type="button" className="g-btn g-btn-outline" style={{ marginTop: 16 }} onClick={() => setFilters({ destination: filters.destination })}>
-                    필터 초기화
+                    {t('search.emptyReset')}
                   </button>
                 }
               />
@@ -104,7 +104,7 @@ export default function GolfSearch() {
                   </div>
                 ))}
                 <div style={{ position: 'absolute', left: 16, bottom: 16, fontSize: 12 }} className="g-muted">
-                  지도 미리보기 — {results.length}개 패키지
+                  {t('search.mapPreview', { n: results.length })}
                 </div>
               </div>
             ) : (
@@ -114,16 +114,16 @@ export default function GolfSearch() {
                     <PackageCard pkg={p} />
                     <details className="g-card" style={{ marginTop: 8, padding: '0 16px' }}>
                       <summary style={{ padding: '12px 0', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
-                        라운드 옵션 {p.options.length}개 비교
+                        {t('search.optionsCompare', { n: p.options.length })}
                       </summary>
                       <div className="g-options" style={{ borderTop: 'none', paddingTop: 0, paddingBottom: 14 }}>
                         {p.options.map((o, i) => (
                           <div key={o.id} className="g-option-row">
                             <span>
-                              <b>옵션 {String.fromCharCode(65 + i)}</b> · {o.label}
+                              <b>{t('search.option', { x: String.fromCharCode(65 + i) })}</b> · {o.label}
                             </span>
                             <span>
-                              <b>{fx(o.pricePerPersonUSD)}</b> <span className="g-price-unit">/ 1인</span>
+                              <b>{fx(o.pricePerPersonUSD)}</b> <span className="g-price-unit">{t('search.perPerson')}</span>
                             </span>
                           </div>
                         ))}
@@ -140,10 +140,10 @@ export default function GolfSearch() {
       {/* mobile filter/sort bar */}
       <div className="g-mobile-filterbar">
         <button type="button" className="g-btn g-btn-ghost" onClick={() => setSheetOpen(true)}>
-          <SlidersHorizontal size={16} /> 필터
+          <SlidersHorizontal size={16} /> {t('search.mobileFilter')}
         </button>
         <label className="g-btn g-btn-ghost" style={{ position: 'relative' }}>
-          <ArrowDownWideNarrow size={16} /> 정렬
+          <ArrowDownWideNarrow size={16} /> {t('search.mobileSort')}
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
@@ -152,20 +152,20 @@ export default function GolfSearch() {
           >
             {SORT_OPTIONS.map((o) => (
               <option key={o.key} value={o.key}>
-                {o.label}
+                {t(`sort.${o.key}`)}
               </option>
             ))}
           </select>
         </label>
       </div>
 
-      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="필터">
+      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title={t('search.filter')}>
         <div style={{ padding: '4px 20px 90px' }}>
           <FilterControls filters={filters} onChange={setFilters} />
         </div>
         <div style={{ position: 'sticky', bottom: 0, background: 'var(--g-white)', borderTop: '1px solid var(--g-line)', padding: 14 }}>
           <button type="button" className="g-btn g-btn-primary g-btn-block" onClick={() => setSheetOpen(false)}>
-            패키지 {results.length}개 보기
+            {t('search.viewN', { n: results.length })}
           </button>
         </div>
       </BottomSheet>

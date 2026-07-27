@@ -16,19 +16,19 @@ export default function BookingComplete() {
   return (
     <div className="g-container g-complete">
       <div className="g-complete-check"><Check size={40} strokeWidth={3} /></div>
-      <h1>Your golf trip is confirmed!</h1>
+      <h1>골프 여행이 확정됐어요!</h1>
       <p className="g-muted">
-        {pkg ? <>We&apos;ve booked <b>{pkg.hotel}</b> in {pkg.destination}.</> : 'Your booking is confirmed.'}
-        {' '}A confirmation email with vouchers is on its way.
+        {pkg ? <><b>{pkg.hotel}</b>({pkg.destination}) 예약이 완료됐습니다.</> : '예약이 확정됐습니다.'}
+        {' '}바우처가 포함된 확정 이메일을 곧 보내드립니다.
       </p>
-      <div className="g-complete-ref">Booking reference · {ref}</div>
+      <div className="g-complete-ref">예약 번호 · {ref}</div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, textAlign: 'left', marginBottom: 26 }}>
         {[
-          { icon: FileText, label: 'Hotel voucher', text: 'Ready to download' },
-          { icon: Flag, label: 'Golf voucher', text: `${pkg?.rounds ?? 2} rounds confirmed` },
-          { icon: CalendarClock, label: 'Tee times', text: 'Confirmed with courses' },
-          { icon: MessageCircle, label: '24/7 concierge', text: 'Chat anytime before you fly' },
+          { icon: FileText, label: '호텔 바우처', text: '다운로드 준비 완료' },
+          { icon: Flag, label: '골프 바우처', text: `${pkg?.rounds ?? 2}라운드 확정` },
+          { icon: CalendarClock, label: '티타임', text: '골프장 예약 확정' },
+          { icon: MessageCircle, label: '24/7 컨시어지', text: '출발 전 언제든 문의하세요' },
         ].map((c) => (
           <div key={c.label} className="g-card" style={{ padding: 16, display: 'flex', gap: 12, alignItems: 'center' }}>
             <span className="g-why-icon" style={{ width: 42, height: 42, margin: 0 }}><c.icon size={18} /></span>
@@ -40,11 +40,11 @@ export default function BookingComplete() {
         ))}
       </div>
 
-      {total > 0 && <p style={{ marginBottom: 22 }}>Total paid: <b>{fx(total)}</b></p>}
+      {total > 0 && <p style={{ marginBottom: 22 }}>결제 총액: <b>{fx(total)}</b></p>}
 
       <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-        <Link href="/golf/my-trips" className="g-btn g-btn-primary g-btn-lg">View my trips</Link>
-        <Link href="/golf" className="g-btn g-btn-outline g-btn-lg">Back to home</Link>
+        <Link href="/golf/my-trips" className="g-btn g-btn-primary g-btn-lg">마이 트립 보기</Link>
+        <Link href="/golf" className="g-btn g-btn-outline g-btn-lg">홈으로</Link>
       </div>
     </div>
   );

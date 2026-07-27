@@ -33,7 +33,7 @@ export default function GolfCheckout() {
   if (!pkg || !option) {
     return (
       <div className="g-container g-section">
-        <EmptyState title="선택된 패키지가 없어요" subtitle="예약을 시작할 패키지를 선택하세요." action={<Link href="/golf/search" className="g-btn g-btn-primary" style={{ marginTop: 16 }}>Browse packages</Link>} />
+        <EmptyState title="선택된 패키지가 없어요" subtitle="예약을 시작할 패키지를 선택하세요." action={<Link href="/golf/search" className="g-btn g-btn-primary" style={{ marginTop: 16 }}>패키지 둘러보기</Link>} />
       </div>
     );
   }

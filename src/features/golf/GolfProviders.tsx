@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { makeT, type TFunc } from './i18n';
 
 /* ---------- Currency ---------- */
 export type CurrencyCode = 'USD' | 'KRW' | 'JPY' | 'VND' | 'EUR';
@@ -37,6 +38,8 @@ interface PrefsCtx {
   setLanguage: (l: LanguageCode) => void;
   /** USD 정가를 현재 통화로 포맷 */
   fx: (usd: number) => string;
+  /** 현재 언어로 UI 문자열 번역 */
+  t: TFunc;
 }
 
 const PrefsContext = createContext<PrefsCtx | null>(null);
@@ -72,7 +75,7 @@ const readLS = (key: string): string[] => {
 
 export function GolfProviders({ children }: { children: React.ReactNode }) {
   const [currency, setCurrency] = useState<CurrencyCode>('USD');
-  const [language, setLanguage] = useState<LanguageCode>('en');
+  const [language, setLanguage] = useState<LanguageCode>('ko');
   const [wish, setWish] = useState<string[]>([]);
   const [compare, setCompare] = useState<string[]>([]);
 
@@ -107,6 +110,8 @@ export function GolfProviders({ children }: { children: React.ReactNode }) {
     [currency],
   );
 
+  const t = useMemo<TFunc>(() => makeT(language), [language]);
+
   const prefsValue = useMemo<PrefsCtx>(
     () => ({
       currency,
@@ -128,8 +133,9 @@ export function GolfProviders({ children }: { children: React.ReactNode }) {
         }
       },
       fx,
+      t,
     }),
-    [currency, language, fx],
+    [currency, language, fx, t],
   );
 
   const wishlistValue = useMemo<WishlistCtx>(

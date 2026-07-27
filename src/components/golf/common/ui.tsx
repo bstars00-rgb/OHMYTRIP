@@ -58,7 +58,7 @@ export function CompareButton({ id }: { id: string }) {
         e.stopPropagation();
         cmp.toggle(id);
       }}
-      title={disabled ? 'You can compare up to 3 packages' : 'Add to compare'}
+      title={disabled ? '최대 3개까지 비교할 수 있어요' : '비교에 담기'}
     >
       <GitCompareArrows size={15} /> {active ? '담김' : '비교'}
     </button>

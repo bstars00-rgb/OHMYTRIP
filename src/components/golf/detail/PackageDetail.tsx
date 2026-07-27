@@ -22,9 +22,11 @@ function facIcon(f: string) {
   return Check;
 }
 
+const DIFFICULTY_KO: Record<string, string> = { Championship: '챔피언십', Intermediate: '중급', Beginner: '초급', Advanced: '상급' };
+
 export default function PackageDetail({ id }: { id: string }) {
   const router = useRouter();
-  const { fx } = usePrefs();
+  const { fx, t } = usePrefs();
   const pkg = getPackage(id);
   const [optionId, setOptionId] = useState<string>(pkg?.options[0].id ?? '');
   const [golfers, setGolfers] = useState(2);
@@ -59,7 +61,7 @@ export default function PackageDetail({ id }: { id: string }) {
     <>
       <div className="g-container">
         <nav className="g-breadcrumb" aria-label="Breadcrumb">
-          <Link href="/golf">홈</Link> <ChevronRight size={14} />
+          <Link href="/golf">{t('detail.home')}</Link> <ChevronRight size={14} />
           <Link href={`/golf/search?destination=${pkg.destination}`}>{pkg.destination}</Link> <ChevronRight size={14} />
           <span className="g-muted">{pkg.hotel}</span>
         </nav>
@@ -80,7 +82,7 @@ export default function PackageDetail({ id }: { id: string }) {
           </div>
           <div className="g-detail-actions">
             <WishlistButton id={pkg.id} className="" />
-            <button type="button" className="g-btn g-btn-ghost g-btn-sm"><Share2 size={15} /> 공유</button>
+            <button type="button" className="g-btn g-btn-ghost g-btn-sm"><Share2 size={15} /> {t('detail.share')}</button>
           </div>
         </div>
 
@@ -176,7 +178,7 @@ export default function PackageDetail({ id }: { id: string }) {
                     <div className="g-course-stats">
                       <span>{c.holes}홀 · <b>파 {c.par}</b></span>
                       <span>코스레이팅 <b>{c.courseRating}</b></span>
-                      <span>난이도 <b>{c.difficulty}</b></span>
+                      <span>난이도 <b>{DIFFICULTY_KO[c.difficulty] ?? c.difficulty}</b></span>
                       <span><Bus size={13} /> <b>{c.transferMin}분</b> 호텔에서</span>
                     </div>
                     <div className="g-course-stats" style={{ margin: 0 }}>
@@ -220,12 +222,12 @@ export default function PackageDetail({ id }: { id: string }) {
               <h2 className="g-detail-h">예약 조건</h2>
               <div className="g-incl-grid">
                 <div className="g-incl-item"><AlertTriangle size={16} className="g-muted" /> {pkg.cancellationPolicy}</div>
-                <div className="g-incl-item"><Wind size={16} className="g-muted" /> Bad weather: rounds rescheduled or refunded</div>
-                <div className="g-incl-item"><UserX size={16} className="g-muted" /> No-show: non-refundable</div>
-                <div className="g-incl-item"><Flag size={16} className="g-muted" /> Caddie tip customary (not included)</div>
-                <div className="g-incl-item"><Car size={16} className="g-muted" /> Carts must stay on cart paths</div>
-                <div className="g-incl-item"><Check size={16} className="g-muted" /> Handicap certificate not required</div>
-                <div className="g-incl-item"><Baby size={16} className="g-muted" /> Children 12+ welcome on course</div>
+                <div className="g-incl-item"><Wind size={16} className="g-muted" /> 악천후 시 라운드 일정 변경 또는 환불</div>
+                <div className="g-incl-item"><UserX size={16} className="g-muted" /> 노쇼 시 환불 불가</div>
+                <div className="g-incl-item"><Flag size={16} className="g-muted" /> 캐디 팁은 관례 (미포함)</div>
+                <div className="g-incl-item"><Car size={16} className="g-muted" /> 카트는 카트 도로로만 이동</div>
+                <div className="g-incl-item"><Check size={16} className="g-muted" /> 핸디캡 증명서 불필요</div>
+                <div className="g-incl-item"><Baby size={16} className="g-muted" /> 만 12세 이상 라운드 가능</div>
               </div>
             </section>
 
@@ -269,23 +271,23 @@ export default function PackageDetail({ id }: { id: string }) {
             <div className="g-booking-card">
               <div className="g-booking-price">
                 <span className="g-price-now">{fx(option.pricePerPersonUSD)}</span>
-                <span className="g-price-unit">/ person</span>
+                <span className="g-price-unit">{t('detail.perPerson')}</span>
                 {pct > 0 && <span className="g-discount" style={{ marginLeft: 'auto' }}>−{pct}%</span>}
               </div>
               <p className="g-muted" style={{ fontSize: 13 }}><s>{fx(option.originalPerPersonUSD)}</s> · 세금·수수료 포함</p>
 
               <div style={{ marginTop: 16 }}>
-                <label className="g-label">Package option</label>
+                <label className="g-label">{t('detail.pkgOption')}</label>
                 <select className="g-input" value={optionId} onChange={(e) => setOptionId(e.target.value)}>
                   {pkg.options.map((o, i) => (
-                    <option key={o.id} value={o.id}>Option {String.fromCharCode(65 + i)} — {o.label}</option>
+                    <option key={o.id} value={o.id}>{t('search.option', { x: String.fromCharCode(65 + i) })} — {o.label}</option>
                   ))}
                 </select>
               </div>
 
               <div className="g-booking-rows">
                 <div className="g-booking-row">
-                  <span>골퍼</span>
+                  <span>{t('detail.golfers')}</span>
                   <span className="g-stepper-inline">
                     <button type="button" onClick={() => setGolfers((v) => Math.max(1, v - 1))} aria-label="fewer golfers">−</button>
                     <b>{golfers}</b>
@@ -293,29 +295,29 @@ export default function PackageDetail({ id }: { id: string }) {
                   </span>
                 </div>
                 <div className="g-booking-row">
-                  <span>비골퍼</span>
+                  <span>{t('detail.nonGolfers')}</span>
                   <span className="g-stepper-inline">
                     <button type="button" onClick={() => setNonGolfers((v) => Math.max(0, v - 1))} aria-label="fewer non-golfers">−</button>
                     <b>{nonGolfers}</b>
                     <button type="button" onClick={() => setNonGolfers((v) => Math.min(12, v + 1))} aria-label="more non-golfers">+</button>
                   </span>
                 </div>
-                <div className="g-booking-row"><span>숙박 · 라운드</span><b>{option.nights} · {option.rounds}</b></div>
-                <div className="g-booking-row"><span>티타임</span><b>{Object.keys(teeByCourse).length}/{pkg.golfCourses.length}개 선택</b></div>
+                <div className="g-booking-row"><span>{t('detail.nightsRounds')}</span><b>{option.nights} · {option.rounds}</b></div>
+                <div className="g-booking-row"><span>{t('detail.teeTime')}</span><b>{t('detail.teeSelected', { a: Object.keys(teeByCourse).length, b: pkg.golfCourses.length })}</b></div>
               </div>
 
               <div className="g-booking-total">
-                <span>총액</span>
+                <span>{t('detail.total')}</span>
                 <b>{fx(total)}</b>
               </div>
 
               <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} onClick={goCheckout}>
-                {pkg.instantConfirmation ? '예약 가능 확인' : '맞춤 견적 요청'}
+                {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}
               </button>
               <Link href="/golf/build" className="g-btn g-btn-outline g-btn-block" style={{ marginTop: 10 }}>
-                맞춤 견적 요청
+                {t('detail.requestQuote')}
               </Link>
-              <div className="g-no-hidden"><Check size={15} /> 숨은 비용 없음 — 그린피·카트·이동 포함</div>
+              <div className="g-no-hidden"><Check size={15} /> {t('detail.noHidden')}</div>
             </div>
           </aside>
         </div>
@@ -325,10 +327,10 @@ export default function PackageDetail({ id }: { id: string }) {
       <div className="g-mobile-cta">
         <div>
           <b className="g-price-now" style={{ fontSize: 20 }}>{fx(option.pricePerPersonUSD)}</b>{' '}
-          <span className="g-price-unit">/ person</span>
+          <span className="g-price-unit">{t('detail.perPerson')}</span>
         </div>
         <button type="button" className="g-btn g-btn-primary" onClick={goCheckout}>
-          {pkg.instantConfirmation ? '예약 가능 확인' : '견적 요청'}
+          {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}
         </button>
       </div>
 

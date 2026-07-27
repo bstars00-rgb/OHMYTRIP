@@ -14,18 +14,18 @@ import {
 import { asset } from '@/features/golf/images';
 
 const NAV = [
-  { label: '골프 패키지', href: '/golf/search' },
-  { label: '여행지', href: '/golf#destinations' },
-  { label: '골프장', href: '/golf#packages' },
-  { label: '특가', href: '/golf/search?deals=1' },
-  { label: '맞춤 견적', href: '/golf/build' },
+  { key: 'nav.packages', href: '/golf/search' },
+  { key: 'nav.destinations', href: '/golf#destinations' },
+  { key: 'nav.courses', href: '/golf#packages' },
+  { key: 'nav.deals', href: '/golf/search?deals=1' },
+  { key: 'nav.custom', href: '/golf/build' },
 ];
 
 export default function GolfHeader() {
   const [compact, setCompact] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDrop, setOpenDrop] = useState<'lang' | 'curr' | null>(null);
-  const { currency, setCurrency, language, setLanguage } = usePrefs();
+  const { currency, setCurrency, language, setLanguage, t } = usePrefs();
   const wishlist = useWishlist();
   const dropRef = useRef<HTMLDivElement>(null);
 
@@ -49,13 +49,13 @@ export default function GolfHeader() {
       <div className="g-container g-header-inner">
         <Link href="/golf" className="g-logo" aria-label="오마이트립 골프텔 home">
           <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
-          <span className="g-logo-badge">골프텔</span>
+          <span className="g-logo-badge">{t('brand.badge')}</span>
         </Link>
 
         <nav className="g-nav" aria-label="Primary">
           {NAV.map((n) => (
-            <Link key={n.label} href={n.href}>
-              {n.label}
+            <Link key={n.key} href={n.href}>
+              {t(n.key)}
             </Link>
           ))}
         </nav>
@@ -125,19 +125,19 @@ export default function GolfHeader() {
             )}
           </div>
 
-          <Link href="/golf/my-trips" className="g-icon-btn g-wish-btn" aria-label="Wishlist">
+          <Link href="/golf/my-trips" className="g-icon-btn g-wish-btn" aria-label={t('nav.wishlist')}>
             <Heart size={18} />
             {wishlist.ids.length > 0 && <span className="g-wish-count">{wishlist.ids.length}</span>}
           </Link>
 
           <button type="button" className="g-btn g-btn-outline g-btn-sm g-hide-sm">
-            <User size={16} /> 로그인
+            <User size={16} /> {t('nav.login')}
           </button>
 
           <button
             type="button"
             className="g-icon-btn g-show-md"
-            aria-label="Menu"
+            aria-label={t('nav.menu')}
             onClick={() => setMenuOpen(true)}
           >
             <Menu size={22} />
@@ -150,24 +150,24 @@ export default function GolfHeader() {
           <div className="g-mobile-menu-head">
             <span className="g-logo">
               <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
-              <span className="g-logo-badge">골프텔</span>
+              <span className="g-logo-badge">{t('brand.badge')}</span>
             </span>
-            <button type="button" className="g-icon-btn" onClick={() => setMenuOpen(false)} aria-label="Close">
+            <button type="button" className="g-icon-btn" onClick={() => setMenuOpen(false)} aria-label={t('nav.close')}>
               <X size={22} />
             </button>
           </div>
           <nav>
             {NAV.map((n) => (
-              <Link key={n.label} href={n.href} onClick={() => setMenuOpen(false)}>
-                {n.label}
+              <Link key={n.key} href={n.href} onClick={() => setMenuOpen(false)}>
+                {t(n.key)}
               </Link>
             ))}
             <Link href="/golf/my-trips" onClick={() => setMenuOpen(false)}>
-              마이 트립
+              {t('nav.myTrips')}
             </Link>
           </nav>
           <button type="button" className="g-btn g-btn-primary g-btn-block">
-            <User size={16} /> 로그인
+            <User size={16} /> {t('nav.login')}
           </button>
         </div>
       )}

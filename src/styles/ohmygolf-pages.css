@@ -34,8 +34,9 @@
 .ohmygolf .g-mobile-menu > .g-btn { margin-top: auto; }
 
 /* ============ Hero ============ */
-.ohmygolf .g-hero { position: relative; min-height: 560px; display: flex; align-items: center; overflow: hidden; }
-.ohmygolf .g-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* overflow:hidden 제거 — 여행지 자동완성/인원 팝업이 히어로 밖으로 나올 수 있게 */
+.ohmygolf .g-hero { position: relative; min-height: 560px; display: flex; align-items: center; }
+.ohmygolf .g-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
 .ohmygolf .g-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.22) 42%, rgba(0,0,0,0.5) 100%); }
 .ohmygolf .g-hero-inner { position: relative; padding: 70px 24px 90px; width: 100%; }
 .ohmygolf .g-hero-eyebrow { color: #ffd8b8; margin-bottom: 14px; }
@@ -241,6 +242,8 @@
 .ohmygolf .g-gallery-more { position: relative; }
 .ohmygolf .g-gallery-more span { position: absolute; inset: 0; background: rgba(31,61,43,0.55); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 .ohmygolf .g-detail-layout { display: grid; grid-template-columns: 1fr 360px; gap: 34px; align-items: start; }
+/* aside가 본문 높이만큼 늘어나야 sticky 예약카드가 스크롤을 끝까지 따라옴 */
+.ohmygolf .g-detail-layout > aside { align-self: stretch; }
 .ohmygolf .g-detail-main > section { padding: 26px 0; border-top: 1px solid var(--g-line); }
 .ohmygolf .g-detail-main > section:first-child { border-top: none; padding-top: 0; }
 .ohmygolf .g-detail-h { font-family: var(--g-serif); font-size: 24px; margin-bottom: 16px; }

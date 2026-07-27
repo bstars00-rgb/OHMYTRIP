@@ -38,8 +38,8 @@ function makeReviews(seed: number, hotel: string, course: string): GolfReview[] 
       date: '2026.05.18',
       target: 'Hotel',
       score: 9.2,
-      title: 'Seamless stay & play',
-      body: `${hotel} handled everything — transfers, tee times and breakfast were all on time. Rooms were spacious and quiet.`,
+      title: '숙박과 라운드가 매끄러웠어요',
+      body: `${hotel}에서 픽업·티타임·조식까지 전부 제시간에 진행됐어요. 객실도 넓고 조용했습니다.`,
     },
     {
       author: pick(2)[0],
@@ -47,8 +47,8 @@ function makeReviews(seed: number, hotel: string, course: string): GolfReview[] 
       date: '2026.04.30',
       target: 'Course',
       score: 8.8,
-      title: `${course} in great condition`,
-      body: 'Fairways and greens were immaculate. Caddie was knowledgeable and pace of play was excellent even on a weekend.',
+      title: `${course} 코스 상태 최고`,
+      body: '페어웨이와 그린 관리가 완벽했어요. 캐디도 노련했고 주말인데도 진행 속도가 빨랐습니다.',
     },
     {
       author: pick(4)[0],
@@ -56,33 +56,33 @@ function makeReviews(seed: number, hotel: string, course: string): GolfReview[] 
       date: '2026.03.22',
       target: 'Hotel',
       score: 8.4,
-      title: 'Great value package',
-      body: 'The per-person pricing was fully transparent. No hidden green fees or cart charges at check-in. Would book again.',
+      title: '가성비 훌륭한 패키지',
+      body: '1인당 가격이 완전히 투명했어요. 체크인 때 그린피나 카트 추가 요금이 전혀 없었습니다. 또 예약할게요.',
     },
   ];
 }
 
 function itinerary(nights: number, courses: GolfCourse[]): ItineraryDay[] {
   const days: ItineraryDay[] = [
-    { day: 1, title: 'Arrival & check-in', items: [{ text: 'Private airport pickup' }, { text: 'Hotel check-in & welcome drink' }, { time: '19:00', text: 'Dinner at resort restaurant (optional)' }] },
+    { day: 1, title: '도착 & 체크인', items: [{ text: '전용 공항 픽업' }, { text: '호텔 체크인 & 웰컴 드링크' }, { time: '19:00', text: '리조트 레스토랑 디너 (선택)' }] },
   ];
   for (let d = 2; d <= nights; d++) {
     const c = courses[(d - 2) % courses.length];
     days.push({
       day: d,
-      title: `Golf day — ${c.name}`,
+      title: `골프 라운드 — ${c.name}`,
       items: [
-        { time: '07:00', text: 'Breakfast at hotel' },
-        { time: '08:20', text: `Round-trip transfer to ${c.name}` },
-        { time: '09:00', text: `18 holes · shared cart & caddie included` },
-        { text: 'Return to hotel · leisure time' },
+        { time: '07:00', text: '호텔 조식' },
+        { time: '08:20', text: `${c.name} 왕복 이동` },
+        { time: '09:00', text: '18홀 · 카트·캐디 포함' },
+        { text: '호텔 복귀 · 자유 시간' },
       ],
     });
   }
   days.push({
     day: nights + 1,
-    title: 'Checkout & departure',
-    items: [{ time: '08:00', text: 'Breakfast at hotel' }, { text: 'Checkout' }, { text: 'Airport transfer' }],
+    title: '체크아웃 & 출발',
+    items: [{ time: '08:00', text: '호텔 조식' }, { text: '체크아웃' }, { text: '공항 이동' }],
   });
   return days;
 }
@@ -90,7 +90,7 @@ function itinerary(nights: number, courses: GolfCourse[]): ItineraryDay[] {
 function options(base: number, nights: number, rounds: number): PackageOption[] {
   const mk = (n: number, r: number, transfer: boolean, mult: number): PackageOption => ({
     id: `n${n}r${r}${transfer ? 't' : ''}`,
-    label: `${n} Nights + ${r} Rounds${transfer ? ' + Airport Transfer' : ''}`,
+    label: `${n}박 + ${r}라운드${transfer ? ' + 공항 픽업' : ''}`,
     nights: n,
     rounds: r,
     airportTransfer: transfer,
@@ -104,7 +104,28 @@ function options(base: number, nights: number, rounds: number): PackageOption[] 
   ];
 }
 
-const DRESS = 'Collared shirt & golf shoes required';
+const DRESS = '카라 셔츠 · 골프화 필수';
+
+/** 호텔 편의시설 영문 → 한국어 (미등록 항목은 원문 유지) */
+const FACILITY_KO: Record<string, string> = {
+  'Infinity pool': '인피니티 풀', 'Spa & sauna': '스파 & 사우나', '3 restaurants': '레스토랑 3곳',
+  '4 restaurants': '레스토랑 4곳', '2 restaurants': '레스토랑 2곳', 'Beach access': '해변 이용',
+  'Fitness center': '피트니스 센터', 'Fitness': '피트니스', 'Kids club': '키즈 클럽', 'Kids pool': '어린이 풀',
+  'On-site clubhouse': '클럽하우스', 'Spa': '스파', 'Korean & Western dining': '한식·양식 다이닝',
+  'Indoor pool': '실내 수영장', 'Driving range': '드라이빙 레인지', 'Rooftop pool': '루프탑 풀',
+  'River-view dining': '리버뷰 다이닝', 'Golf lounge': '골프 라운지', 'Free shuttle': '무료 셔틀',
+  'Private beach': '프라이빗 비치', 'Snorkeling': '스노클링', 'Island access': '섬 투어',
+  'Water park': '워터파크', 'Buffet dining': '뷔페 다이닝', 'Buffet': '뷔페', 'Pool bar': '풀 바',
+  'Onsen': '온천', 'Fine dining': '파인 다이닝', 'Hiking trails': '하이킹 트레일', 'Wine cellar': '와인 셀러',
+  'Golf academy': '골프 아카데미', 'Michelin dining': '미쉐린 다이닝', 'Spa & thalasso': '스파 & 탈라소',
+  '3 pools': '수영장 3개', 'Tennis': '테니스', 'Wine tasting': '와인 테이스팅', 'Beachfront': '비치프론트',
+  'Pool': '수영장', 'Golf bar': '골프 바', 'Late checkout': '레이트 체크아웃', 'Rooftop bar': '루프탑 바',
+  'Night market nearby': '야시장 인접', 'Private villa pool': '프라이빗 빌라 풀', 'Cliffside spa': '클리프 스파',
+  'Yoga deck': '요가 데크', 'Butler service': '버틀러 서비스', 'Lagoon pool': '라군 풀',
+  'Beach shuttle': '해변 셔틀', 'Marina view': '마리나 뷰', 'Seafood dining': '해산물 다이닝',
+  'Sauna': '사우나', 'Beach access ': '해변 이용', 'Premier': '프리미어',
+};
+const faci = (f: string): string => FACILITY_KO[f] ?? f;
 
 interface Seed {
   id: string;
@@ -291,21 +312,21 @@ export const PACKAGES: GolfPackage[] = SEEDS.map((s, idx) => {
   const courses = buildCourses(s);
   const flags = s.flags;
   const inclusions = [
-    `${s.nights} nights at ${s.hotel}`,
-    'Daily breakfast',
-    `${s.rounds} × 18-hole rounds (green fee)`,
-    ...(flags.caddieIncluded ? ['Caddie fee'] : []),
-    'Shared golf cart',
-    ...(flags.airportTransfer ? ['Airport transfer (round trip)'] : []),
-    'Golf course transfer',
-    ...(flags.allInclusive ? ['All meals & selected drinks'] : []),
+    `${s.hotel} ${s.nights}박 숙박`,
+    '매일 조식',
+    `18홀 라운드 ${s.rounds}회 (그린피)`,
+    ...(flags.caddieIncluded ? ['캐디피'] : []),
+    '공용 골프 카트',
+    ...(flags.airportTransfer ? ['공항 왕복 픽업'] : []),
+    '골프장 왕복 이동',
+    ...(flags.allInclusive ? ['전 식사 & 지정 음료'] : []),
   ];
   const exclusions = [
-    'International flights',
-    'Travel insurance',
-    ...(flags.caddieIncluded ? [] : ['Caddie fee (payable locally)']),
-    'Personal expenses & tips',
-    'Club rental (available on request)',
+    '국제선 항공권',
+    '여행자 보험',
+    ...(flags.caddieIncluded ? [] : ['캐디피 (현지 결제)']),
+    '개인 경비 & 팁',
+    '클럽 렌탈 (요청 시)',
   ];
   return {
     id: s.id,
@@ -335,8 +356,8 @@ export const PACKAGES: GolfPackage[] = SEEDS.map((s, idx) => {
     originalPriceUSD: s.original,
     salePriceUSD: s.sale,
     cancellationPolicy: flags.freeCancellation
-      ? 'Free cancellation up to 14 days before check-in. 50% refund up to 7 days.'
-      : 'Non-refundable. Date change allowed once, subject to availability.',
+      ? '체크인 14일 전까지 무료 취소. 7일 전까지 50% 환불.'
+      : '환불 불가. 잔여 상황에 따라 날짜 변경 1회 가능.',
     instantConfirmation: Boolean(flags.instantConfirmation),
     recommendedSeason: s.season,
     tags: s.tags,
@@ -351,7 +372,7 @@ export const PACKAGES: GolfPackage[] = SEEDS.map((s, idx) => {
     images: [s.id, `${s.id}-2`, `${s.id}-3`, `${s.id}-4`, `${s.id}-5`],
     options: options(s.sale, s.nights, s.rounds),
     itinerary: itinerary(s.nights, courses),
-    hotelFacilities: s.facilities,
+    hotelFacilities: s.facilities.map(faci),
     reviews: makeReviews(idx, s.hotel, courses[0].name),
     bestSeller: flags.bestSeller,
     lastMinute: flags.lastMinute,

@@ -4,16 +4,7 @@ import type { GolfFilters } from '@/features/golf/search';
 import { priceBounds } from '@/features/golf/search';
 import { usePrefs } from '@/features/golf/GolfProviders';
 
-const AMENITIES: { key: string; label: string }[] = [
-  { key: 'allInclusive', label: 'All Inclusive' },
-  { key: 'airportTransfer', label: 'Airport Transfer' },
-  { key: 'cartIncluded', label: 'Cart Included' },
-  { key: 'caddieIncluded', label: 'Caddie Included' },
-  { key: 'freeCancellation', label: 'Free Cancellation' },
-  { key: 'instantConfirmation', label: 'Instant Confirmation' },
-  { key: 'beginnerFriendly', label: 'Beginner Friendly' },
-  { key: 'groupFriendly', label: 'Group Friendly' },
-];
+const AMENITY_KEYS = ['allInclusive', 'airportTransfer', 'cartIncluded', 'caddieIncluded', 'freeCancellation', 'instantConfirmation', 'beginnerFriendly', 'groupFriendly'];
 
 const toggle = (arr: (string | number)[] | undefined, v: string | number): (string | number)[] => {
   const a = arr ?? [];
@@ -22,14 +13,14 @@ const toggle = (arr: (string | number)[] | undefined, v: string | number): (stri
 
 /** 필터 컨트롤 (사이드바 & bottom-sheet 공용) */
 export default function FilterControls({ filters, onChange }: { filters: GolfFilters; onChange: (f: GolfFilters) => void }) {
-  const { fx } = usePrefs();
+  const { fx, t } = usePrefs();
   const bounds = priceBounds();
   const priceMax = filters.priceMax ?? bounds.max;
 
   return (
     <>
       <div className="g-filter-group">
-        <h4>Price (per person)</h4>
+        <h4>{t('filter.price')}</h4>
         <input
           className="g-range"
           type="range"
@@ -41,78 +32,78 @@ export default function FilterControls({ filters, onChange }: { filters: GolfFil
         />
         <div className="g-range-val">
           <span>{fx(bounds.min)}</span>
-          <span>Up to {fx(priceMax)}</span>
+          <span>{t('filter.upTo', { v: fx(priceMax) })}</span>
         </div>
       </div>
 
       <div className="g-filter-group">
-        <h4>Nights</h4>
+        <h4>{t('filter.nights')}</h4>
         {[2, 3, 4, 5].map((n) => (
           <label key={n} className="g-check">
             <input type="checkbox" checked={(filters.nights ?? []).includes(n)} onChange={() => onChange({ ...filters, nights: toggle(filters.nights, n) as number[] })} />
-            {n} nights
+            {t('filter.nightsN', { n })}
           </label>
         ))}
       </div>
 
       <div className="g-filter-group">
-        <h4>Rounds</h4>
+        <h4>{t('filter.rounds')}</h4>
         {[2, 3].map((r) => (
           <label key={r} className="g-check">
             <input type="checkbox" checked={(filters.rounds ?? []).includes(r)} onChange={() => onChange({ ...filters, rounds: toggle(filters.rounds, r) as number[] })} />
-            {r} rounds
+            {t('filter.roundsN', { n: r })}
           </label>
         ))}
       </div>
 
       <div className="g-filter-group">
-        <h4>Hotel rating</h4>
+        <h4>{t('filter.hotelRating')}</h4>
         {[5, 4].map((s) => (
           <label key={s} className="g-check">
             <input type="checkbox" checked={(filters.hotelRating ?? []).includes(s)} onChange={() => onChange({ ...filters, hotelRating: toggle(filters.hotelRating, s) as number[] })} />
-            {s} stars
+            {t('filter.starsN', { n: s })}
           </label>
         ))}
       </div>
 
       <div className="g-filter-group">
-        <h4>Guest rating</h4>
+        <h4>{t('filter.guestRating')}</h4>
         {[9, 8].map((r) => (
           <label key={r} className="g-check">
             <input type="radio" name="reviewMin" checked={filters.reviewMin === r} onChange={() => onChange({ ...filters, reviewMin: r })} />
-            {r}+ Excellent
+            {t('filter.excellent', { n: r })}
           </label>
         ))}
         <label className="g-check">
           <input type="radio" name="reviewMin" checked={!filters.reviewMin} onChange={() => onChange({ ...filters, reviewMin: undefined })} />
-          Any
+          {t('filter.any')}
         </label>
       </div>
 
       <div className="g-filter-group">
-        <h4>Meals</h4>
+        <h4>{t('filter.meals')}</h4>
         <label className="g-check">
           <input type="checkbox" checked={(filters.meals ?? []).includes('breakfast')} onChange={() => onChange({ ...filters, meals: toggle(filters.meals, 'breakfast') as GolfFilters['meals'] })} />
-          Breakfast included
+          {t('filter.breakfast')}
         </label>
         <label className="g-check">
           <input type="checkbox" checked={(filters.meals ?? []).includes('all-inclusive')} onChange={() => onChange({ ...filters, meals: toggle(filters.meals, 'all-inclusive') as GolfFilters['meals'] })} />
-          All inclusive
+          {t('filter.allInclusive')}
         </label>
       </div>
 
       <div className="g-filter-group">
-        <h4>Package includes</h4>
-        {AMENITIES.map((a) => (
-          <label key={a.key} className="g-check">
-            <input type="checkbox" checked={(filters.amenities ?? []).includes(a.key)} onChange={() => onChange({ ...filters, amenities: toggle(filters.amenities, a.key) as string[] })} />
-            {a.label}
+        <h4>{t('filter.includes')}</h4>
+        {AMENITY_KEYS.map((key) => (
+          <label key={key} className="g-check">
+            <input type="checkbox" checked={(filters.amenities ?? []).includes(key)} onChange={() => onChange({ ...filters, amenities: toggle(filters.amenities, key) as string[] })} />
+            {t(`amenity.${key}`)}
           </label>
         ))}
       </div>
 
       <div className="g-filter-group">
-        <h4>Max drive to course</h4>
+        <h4>{t('filter.maxDrive')}</h4>
         <input
           className="g-range"
           type="range"
@@ -123,8 +114,8 @@ export default function FilterControls({ filters, onChange }: { filters: GolfFil
           onChange={(e) => onChange({ ...filters, maxDriveMin: Number(e.target.value) })}
         />
         <div className="g-range-val">
-          <span>5 min</span>
-          <span>Up to {filters.maxDriveMin ?? 45} min</span>
+          <span>{t('filter.minUnit', { n: 5 })}</span>
+          <span>{t('filter.upToMin', { n: filters.maxDriveMin ?? 45 })}</span>
         </div>
       </div>
     </>
