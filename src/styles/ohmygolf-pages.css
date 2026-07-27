@@ -44,10 +44,11 @@
 .ohmygolf .g-hero-sub { color: #f3f3f3; font-size: 19px; max-width: 560px; margin-bottom: 34px; }
 
 /* ============ SearchBox ============ */
-.ohmygolf .g-searchbox { display: flex; align-items: stretch; gap: 0; background: var(--g-white); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-lg); padding: 10px; max-width: 1000px; }
+.ohmygolf .g-searchbox { position: relative; display: flex; align-items: stretch; gap: 0; background: var(--g-white); border-radius: var(--g-radius-lg); box-shadow: var(--g-shadow-lg); padding: 10px; max-width: 1000px; }
 .ohmygolf .g-searchbox-field { position: relative; flex: 1 1 auto; padding: 10px 16px; border-right: 1px solid var(--g-line-soft); min-width: 0; }
-.ohmygolf .g-field-date { flex: 0 0 150px; }
+.ohmygolf .g-field-date { flex: 1.3 1 0; }
 .ohmygolf .g-field-party { flex: 1.4 1 0; }
+.ohmygolf .g-sb-ph { color: var(--g-charcoal-40); }
 .ohmygolf .g-sb-label { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g-charcoal-60); margin-bottom: 5px; }
 .ohmygolf .g-sb-input { width: 100%; border: none; background: none; font-size: 15px; font-family: inherit; color: var(--g-charcoal); padding: 0; height: 26px; }
 .ohmygolf .g-sb-input:focus { outline: none; }
@@ -69,6 +70,61 @@
 .ohmygolf .g-counter-ctrl span { min-width: 18px; text-align: center; font-weight: 600; }
 .ohmygolf .g-sb-partypop .g-btn { margin-top: 12px; }
 .ohmygolf .g-searchbox-compact { box-shadow: var(--g-shadow-sm); max-width: none; }
+
+/* ===== 목적지 팝오버 (OHMYTRIP 미러) ===== */
+.ohmygolf .g-destpop { position: absolute; left: 8px; top: calc(100% + 12px); width: min(820px, calc(100vw - 40px)); background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius); box-shadow: var(--g-shadow-lg); z-index: 60; overflow: hidden; }
+.ohmygolf .g-destpop-hint { display: flex; align-items: center; gap: 8px; background: #fff4ec; color: #b45a1e; font-size: 13px; padding: 12px 22px; }
+.ohmygolf .g-destpop-tabs { display: flex; gap: 26px; padding: 4px 24px 0; border-bottom: 1px solid var(--g-line); }
+.ohmygolf .g-destpop-tabs button { position: relative; padding: 12px 2px; font-size: 15px; font-weight: 600; color: var(--g-charcoal-40); background: none; }
+.ohmygolf .g-destpop-tabs button.is-active { color: var(--g-forest); }
+.ohmygolf .g-destpop-tabs button.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--g-forest); }
+.ohmygolf .g-destpop-body { display: grid; grid-template-columns: 132px 1fr; min-height: 300px; }
+.ohmygolf .g-region-rail { border-right: 1px solid var(--g-line); padding: 14px 12px; display: flex; flex-direction: column; gap: 2px; }
+.ohmygolf .g-region-rail button { width: 100%; text-align: center; padding: 12px 8px; border-radius: var(--g-radius-sm); font-size: 14px; color: var(--g-charcoal-60); font-weight: 600; background: none; }
+.ohmygolf .g-region-rail button:hover { background: var(--g-ivory); }
+.ohmygolf .g-region-rail button.is-active { background: var(--g-forest); color: #fff; }
+.ohmygolf .g-region-cities, .ohmygolf .g-destpop-panel { padding: 20px 22px; }
+.ohmygolf .g-city-grid { display: flex; flex-wrap: wrap; gap: 10px; align-content: flex-start; }
+.ohmygolf .g-city-chip { display: inline-flex; align-items: center; gap: 7px; padding: 10px 16px; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); background: var(--g-white); font-size: 14px; color: var(--g-charcoal); }
+.ohmygolf .g-city-chip:hover { border-color: var(--g-forest); color: var(--g-forest); }
+.ohmygolf .g-city-chip-country { font-size: 12px; color: var(--g-charcoal-40); }
+.ohmygolf .g-destpop-recenthead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+.ohmygolf .g-destpop-empty { color: var(--g-charcoal-40); font-size: 14px; display: flex; align-items: center; gap: 8px; padding: 14px 2px; }
+
+/* ===== 달력 팝오버 (OHMYTRIP 미러) ===== */
+.ohmygolf .g-cal { position: absolute; left: 8px; top: calc(100% + 12px); width: min(880px, calc(100vw - 40px)); background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius); box-shadow: var(--g-shadow-lg); z-index: 60; padding: 18px 24px 24px; }
+.ohmygolf .g-cal-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 14px; margin-bottom: 4px; border-bottom: 1px solid var(--g-line); }
+.ohmygolf .g-cal-range { font-size: 16px; font-weight: 700; color: var(--g-charcoal); margin: 0 auto; padding-left: 90px; }
+.ohmygolf .g-cal-reset { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--g-charcoal-60); background: none; white-space: nowrap; }
+.ohmygolf .g-cal-reset:hover { color: var(--g-forest); }
+.ohmygolf .g-cal-months { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; padding-top: 6px; }
+.ohmygolf .g-cal-nav { position: absolute; top: 0; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--g-line); display: flex; align-items: center; justify-content: center; color: var(--g-charcoal-60); background: var(--g-white); z-index: 1; }
+.ohmygolf .g-cal-nav:hover:not(:disabled) { border-color: var(--g-forest); color: var(--g-forest); }
+.ohmygolf .g-cal-nav:disabled { opacity: .3; cursor: default; }
+.ohmygolf .g-cal-prev { left: -4px; }
+.ohmygolf .g-cal-next { right: -4px; }
+.ohmygolf .g-cal-title { text-align: center; font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.ohmygolf .g-cal-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.ohmygolf .g-cal-table th { font-size: 12px; font-weight: 600; color: var(--g-charcoal-60); padding: 6px 0; }
+.ohmygolf .g-cal-table th.is-sun { color: #e8654e; }
+.ohmygolf .g-cal-table td { text-align: center; padding: 0; height: 44px; }
+.ohmygolf .g-cal-table td.td-mid { background: #fdece0; }
+.ohmygolf .g-cal-table td.td-start { background: linear-gradient(to right, transparent 50%, #fdece0 50%); }
+.ohmygolf .g-cal-table td.td-end { background: linear-gradient(to left, transparent 50%, #fdece0 50%); }
+.ohmygolf .g-cal-day { width: 40px; height: 40px; line-height: 40px; border-radius: 50%; font-size: 14px; color: var(--g-charcoal); margin: 0 auto; background: none; }
+.ohmygolf .g-cal-day.is-sun { color: #e8654e; }
+.ohmygolf .g-cal-day:hover:not(:disabled):not(.is-start):not(.is-end) { background: var(--g-ivory); }
+.ohmygolf .g-cal-day.is-past { color: var(--g-line); }
+.ohmygolf .g-cal-day.is-start, .ohmygolf .g-cal-day.is-end { background: var(--g-forest); color: #fff; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .ohmygolf .g-cal { width: min(420px, calc(100vw - 24px)); left: 4px; }
+  .ohmygolf .g-cal-months { grid-template-columns: 1fr; gap: 8px; }
+  .ohmygolf .g-cal-months > .g-cal-month:nth-child(4) { display: none; } /* 모바일은 1개월만 */
+  .ohmygolf .g-cal-next { right: 0; }
+  .ohmygolf .g-destpop { width: calc(100vw - 24px); }
+  .ohmygolf .g-destpop-body { grid-template-columns: 104px 1fr; }
+}
 
 /* ============ Categories ============ */
 .ohmygolf .g-cat-section { padding-top: 40px; }

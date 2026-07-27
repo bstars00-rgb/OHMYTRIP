@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MapPin, CalendarDays, Users, Flag, Search, Minus, Plus, ChevronDown } from 'lucide-react';
-import { DESTINATIONS } from '@/mocks/golf/data';
 import { usePrefs } from '@/features/golf/GolfProviders';
+import { findGeoCity, type GeoCity } from '@/features/golf/regions';
+import { formatConditionRange } from '@/utils/date';
+import GolfDestPopover from '@/components/golf/search/GolfDestPopover';
+import GolfRangeCalendar from '@/components/golf/search/GolfRangeCalendar';
 
 interface Party {
   golfers: number;
@@ -14,22 +17,16 @@ interface Party {
 }
 
 const DEFAULT_PARTY: Party = { golfers: 2, nonGolfers: 0, rooms: 1, rounds: 2 };
+const RECENT_KEY = 'omg-recent-golf';
 
-/** YYYY-MM-DD 문자열에 일수를 더함 (로컬 기준) */
-function addDaysISO(iso: string, days: number): string {
-  const [y, m, d] = iso.split('-').map(Number);
-  const dt = new Date(y, m - 1, d + days);
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `${dt.getFullYear()}-${p(dt.getMonth() + 1)}-${p(dt.getDate())}`;
-}
-
-/** input[type=date] 클릭 시 브라우저 달력 즉시 열기 */
-function openPicker(e: React.MouseEvent<HTMLInputElement>) {
-  const el = e.currentTarget as HTMLInputElement & { showPicker?: () => void };
+function readRecent(): GeoCity[] {
+  if (typeof window === 'undefined') return [];
   try {
-    el.showPicker?.();
+    const raw = window.localStorage.getItem(RECENT_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr : [];
   } catch {
-    /* 사용자 제스처 밖 호출 등은 무시 */
+    return [];
   }
 }
 
@@ -53,53 +50,77 @@ function Counter({ label, hint, value, min, max, onChange }: { label: string; hi
   );
 }
 
+type Layer = 'dest' | 'date' | 'party' | null;
+
 export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'compact' }) {
   const router = useRouter();
-  const { t } = usePrefs();
+  const { t, language } = usePrefs();
   const rootRef = useRef<HTMLFormElement>(null);
+  const [open, setOpen] = useState<Layer>(null);
   const [dest, setDest] = useState('');
-  const [openDest, setOpenDest] = useState(false);
-  const [openParty, setOpenParty] = useState(false);
+  const [selCity, setSelCity] = useState<GeoCity | null>(null);
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
-  const [today, setToday] = useState('');
   const [party, setParty] = useState<Party>(DEFAULT_PARTY);
+  const [recent, setRecent] = useState<GeoCity[]>([]);
 
   useEffect(() => {
-    const now = new Date();
-    const p = (n: number) => String(n).padStart(2, '0');
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- 오늘 날짜는 마운트 후 계산해 하이드레이션 불일치 방지
-    setToday(`${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())}`);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage는 마운트 후 접근
+    setRecent(readRecent());
   }, []);
 
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        setOpenDest(false);
-        setOpenParty(false);
-      }
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(null);
     };
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(null);
     document.addEventListener('mousedown', onDown);
-    return () => document.removeEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
   }, []);
 
-  // 체크인 변경: 과거·역전 방지 + 체크아웃 자동 보정(체크인 +2박)
-  const onCheckIn = (v: string) => {
-    setCheckIn(v);
-    if (v && (!checkOut || checkOut <= v)) setCheckOut(addDaysISO(v, 2));
+  const destLabel = selCity ? (language === 'ko' ? selCity.ko : selCity.city) : dest;
+
+  const persistRecent = (c: GeoCity) => {
+    setRecent((prev) => {
+      const next = [c, ...prev.filter((x) => x.city !== c.city)].slice(0, 6);
+      try {
+        window.localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
   };
 
-  const matches = DESTINATIONS.filter(
-    (d) => !dest.trim() || d.city.toLowerCase().includes(dest.toLowerCase()) || d.country.toLowerCase().includes(dest.toLowerCase()),
-  );
+  const selectCity = (c: GeoCity) => {
+    setSelCity(c);
+    setDest('');
+    persistRecent(c);
+    // OHMYTRIP 동작: 목적지 선택 후 날짜가 없으면 달력 자동 오픈
+    setOpen(checkIn && checkOut ? null : 'date');
+  };
+
+  const clearRecent = () => {
+    setRecent([]);
+    try {
+      window.localStorage.removeItem(RECENT_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
 
   const partyLabel = `${t('sb.partyGolfers', { n: party.golfers })}${party.nonGolfers ? `, ${t('sb.partyNonGolfers', { n: party.nonGolfers })}` : ''} · ${t('sb.partyRooms', { n: party.rooms })} · ${t('sb.partyRounds', { n: party.rounds })}`;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const p = new URLSearchParams();
-    if (dest.trim()) {
-      const exact = DESTINATIONS.find((d) => d.city.toLowerCase() === dest.trim().toLowerCase());
+    if (selCity) p.set('destination', selCity.city);
+    else if (dest.trim()) {
+      const exact = findGeoCity(dest.trim());
       p.set('destination', exact ? exact.city : dest.trim());
     }
     if (checkIn) p.set('checkIn', checkIn);
@@ -113,81 +134,50 @@ export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'co
 
   return (
     <form ref={rootRef} className={`g-searchbox g-searchbox-${variant}`} onSubmit={submit}>
+      {/* 목적지 */}
       <div className="g-searchbox-field g-field-dest">
         <label className="g-sb-label"><MapPin size={15} /> {t('sb.destLabel')}</label>
         <input
           className="g-sb-input"
           type="text"
           placeholder={t('sb.destPlaceholder')}
-          value={dest}
+          value={destLabel}
           onChange={(e) => {
+            setSelCity(null);
             setDest(e.target.value);
-            setOpenDest(true);
+            setOpen('dest');
           }}
-          onFocus={() => setOpenDest(true)}
+          onFocus={() => setOpen('dest')}
           autoComplete="off"
         />
-        {openDest && matches.length > 0 && (
-          <ul className="g-sb-drop" role="listbox">
-            {matches.map((d) => (
-              <li key={d.slug}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setDest(d.city);
-                    setOpenDest(false);
-                  }}
-                >
-                  <MapPin size={15} className="g-muted" />
-                  <span>
-                    <b>{d.city}</b>
-                    <span className="g-muted"> · {d.country}</span>
-                    <span className="g-sb-drop-hint">{t('sb.courseHint', { n: d.courseCount, season: d.season })}</span>
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
+      {/* 여행일정 */}
       <div className="g-searchbox-field g-field-date">
-        <label className="g-sb-label"><CalendarDays size={15} /> {t('sb.checkIn')}</label>
-        <input
-          className="g-sb-input"
-          type="date"
-          value={checkIn}
-          min={today || undefined}
-          onClick={openPicker}
-          onChange={(e) => onCheckIn(e.target.value)}
-        />
-      </div>
-      <div className="g-searchbox-field g-field-date">
-        <label className="g-sb-label"><CalendarDays size={15} /> {t('sb.checkOut')}</label>
-        <input
-          className="g-sb-input"
-          type="date"
-          value={checkOut}
-          min={checkIn ? addDaysISO(checkIn, 1) : today || undefined}
-          onClick={openPicker}
-          onChange={(e) => setCheckOut(e.target.value)}
-        />
+        <label className="g-sb-label"><CalendarDays size={15} /> {t('sb.dateLabel')}</label>
+        <button type="button" className="g-sb-input g-sb-partybtn" onClick={() => setOpen((v) => (v === 'date' ? null : 'date'))}>
+          <span className={checkIn && checkOut ? 'g-ellipsis' : 'g-ellipsis g-sb-ph'}>
+            {checkIn && checkOut ? formatConditionRange(checkIn, checkOut) : t('sb.datePlaceholder')}
+          </span>
+          <ChevronDown size={16} />
+        </button>
       </div>
 
+      {/* 인원 */}
       <div className="g-searchbox-field g-field-party">
         <label className="g-sb-label"><Users size={15} /> {t('sb.party')}</label>
-        <button type="button" className="g-sb-input g-sb-partybtn" onClick={() => setOpenParty((v) => !v)}>
+        <button type="button" className="g-sb-input g-sb-partybtn" onClick={() => setOpen((v) => (v === 'party' ? null : 'party'))}>
           <span className="g-ellipsis">{partyLabel}</span>
           <ChevronDown size={16} />
         </button>
-        {openParty && (
+        {open === 'party' && (
           <div className="g-sb-partypop">
             <Counter label={t('sb.golfers')} hint={t('sb.golfersHint')} value={party.golfers} min={1} max={12} onChange={(v) => setParty((p) => ({ ...p, golfers: v }))} />
             <Counter label={t('sb.nonGolfers')} hint={t('sb.nonGolfersHint')} value={party.nonGolfers} min={0} max={12} onChange={(v) => setParty((p) => ({ ...p, nonGolfers: v }))} />
             <div className="g-hr" />
             <Counter label={t('sb.rooms')} value={party.rooms} min={1} max={8} onChange={(v) => setParty((p) => ({ ...p, rooms: v }))} />
             <Counter label={t('sb.rounds')} hint={t('sb.roundsHint')} value={party.rounds} min={1} max={7} onChange={(v) => setParty((p) => ({ ...p, rounds: v }))} />
-            <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-sm" onClick={() => setOpenParty(false)}>
+            <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-sm" onClick={() => setOpen(null)}>
               {t('sb.apply')}
             </button>
           </div>
@@ -198,6 +188,25 @@ export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'co
         <Flag size={18} /> <span>{t('sb.search')}</span>
         <Search size={18} className="g-show-sm-inline" />
       </button>
+
+      {open === 'dest' && (
+        <GolfDestPopover query={dest} recent={recent} onSelect={selectCity} onClearRecent={clearRecent} />
+      )}
+      {open === 'date' && (
+        <GolfRangeCalendar
+          checkIn={checkIn || null}
+          checkOut={checkOut || null}
+          onApply={(ci, co) => {
+            setCheckIn(ci);
+            setCheckOut(co);
+            setOpen(null);
+          }}
+          onReset={() => {
+            setCheckIn('');
+            setCheckOut('');
+          }}
+        />
+      )}
     </form>
   );
 }
