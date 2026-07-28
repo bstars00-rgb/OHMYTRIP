@@ -4,12 +4,12 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  ChevronRight, MapPin, Share2, Check, X, Car, Flag, Bus, Clock,
+  ChevronRight, MapPin, Share2, Check, X, Car, Flag, Clock,
   Waves, Utensils, Dumbbell, Sparkles, ChevronDown, AlertTriangle, Wind, UserX, Baby,
 } from 'lucide-react';
 import { getPackage, discountPct } from '@/mocks/golf/data';
-import { courseSlug } from '@/mocks/golf/courses';
 import type { PackageOption } from '@/mocks/golf/types';
+import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { StarRating, WishlistButton, Modal, EmptyState } from '@/components/golf/common/ui';
@@ -23,7 +23,6 @@ function facIcon(f: string) {
   return Check;
 }
 
-const DIFFICULTY_KO: Record<string, string> = { Championship: '챔피언십', Intermediate: '중급', Beginner: '초급', Advanced: '상급' };
 
 export default function PackageDetail({ id }: { id: string }) {
   const router = useRouter();
@@ -167,33 +166,10 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
             </section>
 
-            {/* E. Courses */}
+            {/* E. Courses — 패키지 내부 인라인 상세 */}
             <section>
               <h2 className="g-detail-h">골프장 정보</h2>
-              {pkg.golfCourses.map((c, i) => (
-                <div key={c.name} className="g-course-card">
-                  <Link href={`/golf/course/${courseSlug(c.name)}`} aria-label={`${c.name} 상세`}>
-                    <img src={golfImg(`${pkg.id}-course-${i}`, i % 2 ? 'green' : 'course')} alt={c.name} />
-                  </Link>
-                  <div className="g-course-info">
-                    <h4><Link href={`/golf/course/${courseSlug(c.name)}`}>{c.name}</Link></h4>
-                    <p className="g-muted" style={{ fontSize: 13 }}>설계: {c.designer}</p>
-                    <div className="g-course-stats">
-                      <span>{c.holes}홀 · <b>파 {c.par}</b></span>
-                      <span>코스레이팅 <b>{c.courseRating}</b></span>
-                      <span>난이도 <b>{DIFFICULTY_KO[c.difficulty] ?? c.difficulty}</b></span>
-                      <span><Bus size={13} /> <b>{c.transferMin}분</b> 호텔에서</span>
-                    </div>
-                    <div className="g-course-stats" style={{ margin: 0 }}>
-                      <span>{c.dressCode}</span>
-                      <span>{c.rentalClubs ? '클럽 렌탈 가능' : '개인 클럽 지참'}</span>
-                    </div>
-                    <Link href={`/golf/course/${courseSlug(c.name)}`} className="g-link-arrow" style={{ marginTop: 10, fontSize: 13 }}>
-                      코스 상세 정보 <ChevronRight size={14} />
-                    </Link>
-                  </div>
-                </div>
-              ))}
+              <CourseInfoSection courses={pkg.golfCourses} pkgId={pkg.id} />
             </section>
 
             {/* F. Tee time selection */}

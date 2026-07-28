@@ -486,15 +486,28 @@
 .ohmygolf button.g-wishlist-btn { background: rgba(255,255,255,0.92); }
 .ohmygolf button.g-wishlist-btn.is-active { color: var(--g-danger); }
 
-/* ============ 골프장 상세 ============ */
-.ohmygolf .g-course-info h4 a { color: inherit; }
-.ohmygolf .g-course-info h4 a:hover { color: var(--g-forest); }
-.ohmygolf .g-course-card > a { display: block; flex-shrink: 0; }
+/* ============ 골프장 정보 (패키지 내부 인라인 아코디언) ============ */
+.ohmygolf .g-course-acc { display: flex; flex-direction: column; gap: 12px; }
+.ohmygolf .g-course-acc-item { border: 1px solid var(--g-line); border-radius: var(--g-radius); overflow: hidden; }
+.ohmygolf .g-course-acc-item.is-open { border-color: var(--g-forest); box-shadow: var(--g-shadow-sm); }
+.ohmygolf .g-course-acc-head { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; padding: 14px 16px; background: var(--g-white); }
+.ohmygolf .g-course-acc-head:hover { background: var(--g-ivory); }
+.ohmygolf .g-course-acc-head > img { width: 96px; height: 68px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+.ohmygolf .g-course-acc-head-main { flex: 1; min-width: 0; }
+.ohmygolf .g-course-acc-head-main > b { display: block; font-size: 16px; }
+.ohmygolf .g-course-acc-head-main > span { display: block; font-size: 13px; margin: 2px 0 6px; }
+.ohmygolf .g-course-acc-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ohmygolf .g-course-acc-chevron { flex-shrink: 0; color: var(--g-charcoal-60); transition: transform .18s ease; }
+.ohmygolf .g-course-acc-body { padding: 6px 20px 22px; border-top: 1px solid var(--g-line-soft); }
+.ohmygolf .g-course-acc-desc { font-size: 14.5px; line-height: 1.75; color: var(--g-charcoal); margin: 16px 0 20px; }
+.ohmygolf .g-course-usage { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 20px; }
+.ohmygolf .g-incl-grid-1 { grid-template-columns: 1fr; }
+.ohmygolf .g-fee-grid-1 { grid-template-columns: 1fr; }
+.ohmygolf .g-course-facilities { display: flex; flex-wrap: wrap; gap: 6px; }
+.ohmygolf .g-scorecard-details { margin: 20px 0 4px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); padding: 12px 16px; }
+.ohmygolf .g-scorecard-details > summary { cursor: pointer; font-weight: 700; font-size: 14px; color: var(--g-forest); }
 
-.ohmygolf .g-course-subnav { position: sticky; top: 64px; z-index: 20; display: flex; gap: 6px; background: var(--g-white); border-bottom: 1px solid var(--g-line); padding: 4px 0; margin: 20px 0 6px; overflow-x: auto; }
-.ohmygolf .g-course-subnav a { padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--g-charcoal-60); border-radius: var(--g-radius-pill); white-space: nowrap; }
-.ohmygolf .g-course-subnav a:hover { background: var(--g-ivory); color: var(--g-forest); }
-
+/* ============ 골프장 상세 공통(스펙/스코어카드/요금/팀) ============ */
 .ohmygolf .g-course-subh { display: flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 700; margin: 0 0 10px; color: var(--g-charcoal); }
 .ohmygolf .g-course-subh svg { color: var(--g-forest); }
 
@@ -532,19 +545,8 @@
 .ohmygolf .g-team-item span { display: block; font-size: 13px; color: var(--g-charcoal-60); }
 .ohmygolf .g-team-item b { display: block; margin-top: 6px; font-size: 16px; color: var(--g-forest); }
 
-.ohmygolf .g-course-fact { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--g-line-soft); font-size: 14px; }
-.ohmygolf .g-course-fact:last-of-type { border-bottom: none; }
-
-.ohmygolf .g-course-index-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.ohmygolf .g-course-index-card { display: block; }
-.ohmygolf .g-course-index-body { padding: 18px; }
-
 @media (max-width: 860px) {
-  .ohmygolf .g-sig-grid, .ohmygolf .g-spec-grid, .ohmygolf .g-fee-grid { grid-template-columns: 1fr; }
+  .ohmygolf .g-sig-grid, .ohmygolf .g-spec-grid, .ohmygolf .g-fee-grid, .ohmygolf .g-course-usage { grid-template-columns: 1fr; }
   .ohmygolf .g-team-grid { grid-template-columns: repeat(2, 1fr); }
-  .ohmygolf .g-course-index-grid { grid-template-columns: 1fr 1fr; }
-  .ohmygolf .g-course-subnav { top: 56px; }
-}
-@media (max-width: 560px) {
-  .ohmygolf .g-course-index-grid { grid-template-columns: 1fr; }
+  .ohmygolf .g-course-acc-head > img { width: 68px; height: 52px; }
 }

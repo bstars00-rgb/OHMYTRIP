@@ -16,7 +16,7 @@ import { asset } from '@/features/golf/images';
 const NAV = [
   { key: 'nav.packages', href: '/golf/search' },
   { key: 'nav.destinations', href: '/golf#destinations' },
-  { key: 'nav.courses', href: '/golf/course' },
+  { key: 'nav.courses', href: '/golf#packages' },
   { key: 'nav.deals', href: '/golf/search?deals=1' },
   { key: 'nav.custom', href: '/golf/build' },
 ];
