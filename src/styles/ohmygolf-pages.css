@@ -146,10 +146,17 @@
 .ohmygolf .g-dest-caption { position: absolute; left: 18px; bottom: 14px; color: #fff; }
 .ohmygolf .g-dest-caption h3 { font-family: var(--g-serif); font-size: 26px; }
 .ohmygolf .g-dest-caption span { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; opacity: .92; }
-.ohmygolf .g-dest-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 16px 18px; }
+.ohmygolf .g-dest-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 16px 18px 10px; }
 .ohmygolf .g-dest-meta > div { display: flex; flex-direction: column; }
 .ohmygolf .g-dest-meta span { font-size: 11px; }
-.ohmygolf .g-dest-meta b { font-size: 14px; margin-top: 2px; }
+.ohmygolf .g-dest-meta b { font-size: 15px; margin-top: 2px; }
+.ohmygolf .g-dest-season { display: flex; align-items: center; gap: 7px; margin: 0 18px 16px; padding: 8px 12px; background: var(--g-ivory); border-radius: var(--g-radius-pill); font-size: 12.5px; color: var(--g-charcoal-60); white-space: nowrap; overflow: hidden; }
+.ohmygolf .g-dest-season svg { color: var(--g-forest); flex-shrink: 0; }
+.ohmygolf .g-dest-season-label { flex-shrink: 0; }
+.ohmygolf .g-dest-season b { color: var(--g-forest); font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
+.ohmygolf .g-tee-warn { display: block; text-align: center; font-size: 12px; margin-top: 8px; color: var(--g-danger); text-decoration: none; }
+.ohmygolf .g-tee-warn:hover { text-decoration: underline; }
+.ohmygolf button.g-btn:disabled, .ohmygolf .g-btn[disabled] { opacity: .45; cursor: not-allowed; }
 
 /* Package grid */
 .ohmygolf .g-pkg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
@@ -329,10 +336,21 @@
 .ohmygolf .g-timeline-head:hover { background: var(--g-cream); }
 .ohmygolf .g-timeline-daynum { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: var(--g-forest); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; line-height: 1.1; }
 .ohmygolf .g-timeline-daynum b { font-size: 16px; }
-.ohmygolf .g-timeline-title { font-weight: 600; flex: 1; }
-.ohmygolf .g-timeline-body { padding: 4px 18px 18px 78px; }
-.ohmygolf .g-timeline-item { display: flex; gap: 12px; padding: 7px 0; font-size: 14px; }
-.ohmygolf .g-timeline-time { flex: 0 0 52px; font-weight: 700; color: var(--g-forest); }
+.ohmygolf .g-timeline-title { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.ohmygolf .g-timeline-t { font-weight: 700; font-size: 15px; }
+.ohmygolf .g-timeline-summary { font-weight: 400; font-size: 12.5px; color: var(--g-charcoal-60); line-height: 1.45; }
+.ohmygolf .g-timeline-meals { display: flex; gap: 4px; flex-shrink: 0; }
+.ohmygolf .g-meal-chip { font-size: 11px; padding: 3px 9px; border-radius: var(--g-radius-pill); background: var(--g-ivory); color: var(--g-charcoal-60); white-space: nowrap; }
+.ohmygolf .g-timeline-chevron { flex-shrink: 0; color: var(--g-charcoal-60); }
+.ohmygolf .g-timeline-day.is-open { border-color: var(--g-forest); }
+.ohmygolf .g-timeline-day.is-open .g-timeline-head { background: var(--g-cream); }
+.ohmygolf .g-timeline-body { padding: 4px 18px 18px 78px; position: relative; }
+.ohmygolf .g-timeline-body::before { content: ''; position: absolute; left: 40px; top: 0; bottom: 14px; width: 2px; background: var(--g-line); }
+.ohmygolf .g-timeline-item { display: flex; gap: 14px; padding: 7px 0; font-size: 14px; position: relative; }
+.ohmygolf .g-timeline-item::before { content: ''; position: absolute; left: -40px; top: 13px; width: 9px; height: 9px; border-radius: 50%; background: var(--g-white); border: 2px solid var(--g-forest); }
+.ohmygolf .g-timeline-time { flex: 0 0 52px; font-weight: 700; color: var(--g-forest); font-size: 13px; }
+.ohmygolf .g-timeline-text { flex: 1; }
+.ohmygolf .g-timeline-tag { display: inline-block; margin-left: 8px; font-size: 10.5px; padding: 2px 7px; border-radius: var(--g-radius-pill); background: #fdece0; color: var(--g-forest); font-weight: 600; vertical-align: 1px; }
 
 /* Course cards */
 .ohmygolf .g-course-card { display: grid; grid-template-columns: 180px 1fr; gap: 18px; border: 1px solid var(--g-line); border-radius: var(--g-radius); overflow: hidden; margin-bottom: 14px; }

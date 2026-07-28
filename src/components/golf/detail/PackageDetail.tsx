@@ -31,7 +31,7 @@ export default function PackageDetail({ id }: { id: string }) {
   const [optionId, setOptionId] = useState<string>(pkg?.options[0].id ?? '');
   const [golfers, setGolfers] = useState(2);
   const [nonGolfers, setNonGolfers] = useState(0);
-  const [openDay, setOpenDay] = useState<number>(1);
+  const [openDays, setOpenDays] = useState<number[]>([1]);
   const [teeByCourse, setTeeByCourse] = useState<Record<number, string>>({});
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [reviewTab, setReviewTab] = useState<'Hotel' | 'Course'>('Hotel');
@@ -52,7 +52,13 @@ export default function PackageDetail({ id }: { id: string }) {
   const total = option.pricePerPersonUSD * (golfers + nonGolfers * 0.6);
   const pct = discountPct(pkg);
 
+  // 티타임은 선택한 옵션의 라운드 수만큼 필요 (라운드별로 골프장 순환)
+  const roundsCount = option.rounds;
+  const teeSelected = Array.from({ length: roundsCount }).filter((_, i) => teeByCourse[i]).length;
+  const teeComplete = teeSelected >= roundsCount;
+
   const goCheckout = () => {
+    if (pkg.instantConfirmation && !teeComplete) return; // 티타임 미완료 시 예약 불가
     const p = new URLSearchParams({ pkg: pkg.id, option: option.id, golfers: String(golfers), nonGolfers: String(nonGolfers) });
     router.push(`/golf/checkout?${p.toString()}`);
   };
@@ -123,27 +129,59 @@ export default function PackageDetail({ id }: { id: string }) {
 
             {/* C. Itinerary */}
             <section>
-              <h2 className="g-detail-h">여행 일정</h2>
+              <div className="g-between" style={{ marginBottom: 12 }}>
+                <h2 className="g-detail-h" style={{ marginBottom: 0 }}>여행 일정</h2>
+                <button
+                  type="button"
+                  className="g-link-arrow"
+                  style={{ fontSize: 13 }}
+                  onClick={() => setOpenDays(openDays.length >= pkg.itinerary.length ? [] : pkg.itinerary.map((d) => d.day))}
+                >
+                  {openDays.length >= pkg.itinerary.length ? '전체 접기' : '전체 일정 펼치기'}
+                </button>
+              </div>
+              <p className="g-muted" style={{ fontSize: 13, marginBottom: 14 }}>
+                총 {pkg.nights}박 {pkg.nights + 1}일 · {pkg.rounds}라운드 · 전용 차량 이동 · 매일 조식 포함
+              </p>
               <div className="g-timeline">
-                {pkg.itinerary.map((d) => (
-                  <div key={d.day} className="g-timeline-day">
-                    <button type="button" className="g-timeline-head" onClick={() => setOpenDay(openDay === d.day ? -1 : d.day)} aria-expanded={openDay === d.day}>
-                      <span className="g-timeline-daynum">Day<b>{d.day}</b></span>
-                      <span className="g-timeline-title">{d.title}</span>
-                      <ChevronDown size={18} style={{ transform: openDay === d.day ? 'rotate(180deg)' : 'none', transition: 'transform .18s ease' }} />
-                    </button>
-                    {openDay === d.day && (
-                      <div className="g-timeline-body">
-                        {d.items.map((it, idx) => (
-                          <div key={idx} className="g-timeline-item">
-                            <span className="g-timeline-time">{it.time ?? ''}</span>
-                            <span>{it.text}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {pkg.itinerary.map((d) => {
+                  const isOpen = openDays.includes(d.day);
+                  return (
+                    <div key={d.day} className={`g-timeline-day${isOpen ? ' is-open' : ''}`}>
+                      <button
+                        type="button"
+                        className="g-timeline-head"
+                        onClick={() => setOpenDays((o) => (o.includes(d.day) ? o.filter((x) => x !== d.day) : [...o, d.day]))}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="g-timeline-daynum">Day<b>{d.day}</b></span>
+                        <span className="g-timeline-title">
+                          <span className="g-timeline-t">{d.title}</span>
+                          {d.summary && <span className="g-timeline-summary">{d.summary}</span>}
+                        </span>
+                        {d.meals && d.meals.length > 0 && (
+                          <span className="g-timeline-meals">
+                            {d.meals.map((m) => <span key={m} className="g-meal-chip">{m}</span>)}
+                          </span>
+                        )}
+                        <ChevronDown className="g-timeline-chevron" size={18} style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform .18s ease' }} />
+                      </button>
+                      {isOpen && (
+                        <div className="g-timeline-body">
+                          {d.items.map((it, idx) => (
+                            <div key={idx} className="g-timeline-item">
+                              <span className="g-timeline-time">{it.time ?? ''}</span>
+                              <span className="g-timeline-text">
+                                {it.text}
+                                {it.tag && <span className="g-timeline-tag">{it.tag}</span>}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </section>
 
@@ -173,30 +211,38 @@ export default function PackageDetail({ id }: { id: string }) {
             </section>
 
             {/* F. Tee time selection */}
-            <section>
-              <h2 className="g-detail-h">티타임 선택</h2>
-              {pkg.golfCourses.map((c, ci) => (
-                <div key={c.name} style={{ marginBottom: 22 }}>
-                  <div className="g-between" style={{ justifyContent: 'flex-start', gap: 10, marginBottom: 12 }}>
-                    <b>{c.name}</b>
-                    <span className="g-muted" style={{ fontSize: 13 }}>{ci + 1}라운드</span>
+            <section id="tee" style={{ scrollMarginTop: 90 }}>
+              <div className="g-between" style={{ marginBottom: 4 }}>
+                <h2 className="g-detail-h" style={{ marginBottom: 0 }}>티타임 선택</h2>
+                <span className={`g-badge ${teeComplete ? 'g-badge-instant' : 'g-badge-quote'}`}>{teeSelected}/{roundsCount} 라운드 선택</span>
+              </div>
+              <p className="g-muted" style={{ fontSize: 13, margin: '2px 0 16px' }}>선택한 옵션은 {roundsCount}라운드예요. 라운드별로 티타임을 모두 선택해야 예약할 수 있어요.</p>
+              {Array.from({ length: roundsCount }).map((_, ri) => {
+                const c = pkg.golfCourses[ri % pkg.golfCourses.length];
+                return (
+                  <div key={ri} style={{ marginBottom: 22 }}>
+                    <div className="g-between" style={{ justifyContent: 'flex-start', gap: 10, marginBottom: 12 }}>
+                      <b>{c.name}</b>
+                      <span className="g-muted" style={{ fontSize: 13 }}>{ri + 1}라운드</span>
+                      {teeByCourse[ri] && <span className="g-inc" style={{ fontSize: 12 }}><Check size={13} /> {teeByCourse[ri]}</span>}
+                    </div>
+                    <div className="g-tee-grid">
+                      {pkg.teeTimes.map((t) => (
+                        <button
+                          key={t.time}
+                          type="button"
+                          className={`g-tee-btn${teeByCourse[ri] === t.time ? ' is-active' : ''}`}
+                          disabled={t.soldOut}
+                          onClick={() => setTeeByCourse((s) => ({ ...s, [ri]: t.time }))}
+                        >
+                          {t.bestValue && !t.soldOut && <span className="g-tee-best">추천</span>}
+                          {t.time}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="g-tee-grid">
-                    {pkg.teeTimes.map((t) => (
-                      <button
-                        key={t.time}
-                        type="button"
-                        className={`g-tee-btn${teeByCourse[ci] === t.time ? ' is-active' : ''}`}
-                        disabled={t.soldOut}
-                        onClick={() => setTeeByCourse((s) => ({ ...s, [ci]: t.time }))}
-                      >
-                        {t.bestValue && !t.soldOut && <span className="g-tee-best">추천</span>}
-                        {t.time}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </section>
 
             {/* G. Terms */}
@@ -285,7 +331,7 @@ export default function PackageDetail({ id }: { id: string }) {
                   </span>
                 </div>
                 <div className="g-booking-row"><span>{t('detail.nightsRounds')}</span><b>{option.nights} · {option.rounds}</b></div>
-                <div className="g-booking-row"><span>{t('detail.teeTime')}</span><b>{t('detail.teeSelected', { a: Object.keys(teeByCourse).length, b: pkg.golfCourses.length })}</b></div>
+                <div className="g-booking-row"><span>{t('detail.teeTime')}</span><b style={{ color: teeComplete ? 'var(--g-forest)' : 'var(--g-charcoal)' }}>{t('detail.teeSelected', { a: teeSelected, b: roundsCount })}</b></div>
               </div>
 
               <div className="g-booking-total">
@@ -293,9 +339,12 @@ export default function PackageDetail({ id }: { id: string }) {
                 <b>{fx(total)}</b>
               </div>
 
-              <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} onClick={goCheckout}>
+              <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} disabled={pkg.instantConfirmation && !teeComplete} onClick={goCheckout}>
                 {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}
               </button>
+              {pkg.instantConfirmation && !teeComplete && (
+                <a href="#tee" className="g-tee-warn">{t('detail.teeNeeded', { a: teeSelected, b: roundsCount })}</a>
+              )}
               <Link href="/golf/build" className="g-btn g-btn-outline g-btn-block" style={{ marginTop: 10 }}>
                 {t('detail.requestQuote')}
               </Link>
@@ -311,8 +360,8 @@ export default function PackageDetail({ id }: { id: string }) {
           <b className="g-price-now" style={{ fontSize: 20 }}>{fx(option.pricePerPersonUSD)}</b>{' '}
           <span className="g-price-unit">{t('detail.perPerson')}</span>
         </div>
-        <button type="button" className="g-btn g-btn-primary" onClick={goCheckout}>
-          {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}
+        <button type="button" className="g-btn g-btn-primary" disabled={pkg.instantConfirmation && !teeComplete} onClick={goCheckout}>
+          {pkg.instantConfirmation ? (teeComplete ? t('detail.checkAvail') : t('detail.teeSelected', { a: teeSelected, b: roundsCount })) : t('detail.requestQuote')}
         </button>
       </div>
 

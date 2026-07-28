@@ -48,7 +48,9 @@ export interface GolfReview {
 export interface ItineraryDay {
   day: number;
   title: string;
-  items: { time?: string; text: string }[];
+  summary?: string;
+  meals?: string[]; // 조식/중식/석식
+  items: { time?: string; text: string; tag?: string }[];
 }
 
 export interface GolfPackage {

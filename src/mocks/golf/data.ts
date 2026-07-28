@@ -62,28 +62,61 @@ function makeReviews(seed: number, hotel: string, course: string): GolfReview[] 
   ];
 }
 
-function itinerary(nights: number, courses: GolfCourse[]): ItineraryDay[] {
-  const days: ItineraryDay[] = [
-    { day: 1, title: '도착 & 체크인', items: [{ text: '전용 공항 픽업' }, { text: '호텔 체크인 & 웰컴 드링크' }, { time: '19:00', text: '리조트 레스토랑 디너 (선택)' }] },
-  ];
+function itinerary(nights: number, courses: GolfCourse[], destination: string): ItineraryDay[] {
+  const days: ItineraryDay[] = [];
+
+  // Day 1 — 도착
+  days.push({
+    day: 1,
+    title: '도착 · 체크인 · 휴식',
+    summary: `${destination} 도착 후 전용 차량으로 리조트 이동, 웰컴 & 여유로운 첫날 저녁.`,
+    meals: ['석식'],
+    items: [
+      { time: '오후', text: `${destination} 국제공항 도착`, tag: '이동' },
+      { text: '전용 차량 공항 픽업 · 리조트로 이동' },
+      { text: '호텔 체크인 · 웰컴 드링크 · 골프 일정/티타임 안내', tag: '체크인' },
+      { text: '객실 휴식 · 수영장·스파 등 리조트 시설 자유 이용' },
+      { time: '19:00', text: '리조트 레스토랑 웰컴 디너', tag: '식사' },
+    ],
+  });
+
+  // 라운드 데이
   for (let d = 2; d <= nights; d++) {
     const c = courses[(d - 2) % courses.length];
     days.push({
       day: d,
-      title: `골프 라운드 — ${c.name}`,
+      title: `${c.name} 18홀 라운드`,
+      summary: `${c.name}에서 18홀 · 그린피·카트·캐디·왕복 이동 포함. 라운드 후 자유 시간.`,
+      meals: ['조식', '중식'],
       items: [
-        { time: '07:00', text: '호텔 조식' },
-        { time: '08:20', text: `${c.name} 왕복 이동` },
-        { time: '09:00', text: '18홀 · 카트·캐디 포함' },
-        { text: '호텔 복귀 · 자유 시간' },
+        { time: '06:00', text: '호텔 조식 (얼리 티타임 시 조식 박스 제공)', tag: '식사' },
+        { time: '06:40', text: `${c.name} 클럽하우스로 전용 차량 이동 (약 ${c.transferMin}분)`, tag: '이동' },
+        { time: '07:10', text: '클럽하우스 도착 · 체크인 · 연습 그린/드라이빙 레인지' },
+        { time: '07:40', text: '1번 홀 티오프 — 전반 9홀', tag: '라운드' },
+        { time: '10:00', text: '그늘집(하프하우스) 휴식 · 스낵' },
+        { time: '10:20', text: '후반 9홀 라운드' },
+        { time: '12:40', text: '클럽하우스 중식 & 샤워', tag: '식사' },
+        { time: '14:00', text: '호텔 복귀 · 스파/마사지 또는 자유 시간' },
+        { text: '석식 자유 (리조트 다이닝 또는 로컬 맛집 추천)' },
       ],
     });
   }
+
+  // 마지막 날 — 출발
   days.push({
     day: nights + 1,
-    title: '체크아웃 & 출발',
-    items: [{ time: '08:00', text: '호텔 조식' }, { text: '체크아웃' }, { text: '공항 이동' }],
+    title: '체크아웃 · 출발',
+    summary: '조식 후 체크아웃, 전용 차량으로 공항 이동해 출국.',
+    meals: ['조식'],
+    items: [
+      { time: '07:30', text: '호텔 조식', tag: '식사' },
+      { text: '기념품 쇼핑 · 마지막 자유 시간' },
+      { time: '11:00', text: '체크아웃', tag: '체크아웃' },
+      { text: '전용 차량 공항 이동', tag: '이동' },
+      { time: '오후', text: `${destination} 국제공항 도착 · 출국` },
+    ],
   });
+
   return days;
 }
 
@@ -308,7 +341,93 @@ function buildCourses(s: Seed): GolfCourse[] {
   }));
 }
 
-export const PACKAGES: GolfPackage[] = SEEDS.map((s, idx) => {
+/* ------------------------------------------------------------------ *
+ * 목적지별 조합 자동 확장 — 필터(박수·라운드·성급·평점·식사·편의·특가·카테고리)
+ * 대부분 조합이 결과를 내도록 목적지마다 5개 변형 패키지를 생성한다.
+ * 기본 12개(SEEDS)는 앞에 유지 → 홈 추천/마이트립 인덱스 안정.
+ * ------------------------------------------------------------------ */
+type SeedFlags = Seed['flags'];
+interface VariantSpec {
+  key: string;
+  hotel: (city: string, base: Seed) => string;
+  rating: number; // 0 = 기본 성급 유지
+  room: string; // '' = 기본 유지
+  nights: number;
+  rounds: number;
+  saleMult: number;
+  discount: number; // 정가 = 판매가 × (1 + discount)
+  scoreDelta: number;
+  minScore?: number;
+  reviewMult: number;
+  tags: string[];
+  flags: SeedFlags;
+}
+
+const VARIANTS: VariantSpec[] = [
+  {
+    key: 'weekend', hotel: (c) => `${c} Fairway Hotel`, rating: 4, room: '디럭스 트윈',
+    nights: 2, rounds: 2, saleMult: 0.72, discount: 0.22, scoreDelta: -0.5, reviewMult: 0.7,
+    tags: ['weekend', 'last-minute', 'women'],
+    flags: { breakfast: true, cartIncluded: true, freeCancellation: true, instantConfirmation: true, beginnerFriendly: true, lastMinute: true },
+  },
+  {
+    key: 'std3r', hotel: (_c, b) => b.hotel, rating: 0, room: '',
+    nights: 3, rounds: 3, saleMult: 1.12, discount: 0.15, scoreDelta: 0, reviewMult: 1.05,
+    tags: ['stay-play', 'group'],
+    flags: { breakfast: true, cartIncluded: true, caddieIncluded: true, airportTransfer: true, freeCancellation: true, instantConfirmation: true, groupFriendly: true },
+  },
+  {
+    key: 'extended', hotel: (_c, b) => b.hotel, rating: 0, room: '',
+    nights: 4, rounds: 3, saleMult: 1.42, discount: 0.18, scoreDelta: 0.1, reviewMult: 0.85,
+    tags: ['group', 'stay-play'],
+    flags: { breakfast: true, cartIncluded: true, caddieIncluded: true, airportTransfer: true, freeCancellation: true, instantConfirmation: true, groupFriendly: true },
+  },
+  {
+    key: 'grand', hotel: (c) => `${c} Grand Golf Resort`, rating: 5, room: '프리미어 스위트',
+    nights: 5, rounds: 3, saleMult: 1.68, discount: 0.2, scoreDelta: 0.3, minScore: 9.0, reviewMult: 0.6,
+    tags: ['luxury', 'all-inclusive', 'group'],
+    flags: { allInclusive: true, breakfast: true, cartIncluded: true, caddieIncluded: true, airportTransfer: true, freeCancellation: true, instantConfirmation: true, groupFriendly: true, bestSeller: true },
+  },
+  {
+    key: 'ai', hotel: (c) => `${c} Bay All-Inclusive`, rating: 4, room: '올인클루시브 룸',
+    nights: 4, rounds: 2, saleMult: 1.24, discount: 0.16, scoreDelta: -0.2, reviewMult: 0.8,
+    tags: ['all-inclusive', 'family'],
+    flags: { allInclusive: true, breakfast: true, cartIncluded: true, caddieIncluded: true, airportTransfer: true, freeCancellation: true, instantConfirmation: true, beginnerFriendly: true },
+  },
+];
+
+const round1 = (n: number) => Math.round(n * 10) / 10;
+const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
+const round10 = (n: number) => Math.round(n / 10) * 10;
+
+function expandSeeds(base: Seed[]): Seed[] {
+  const out: Seed[] = [];
+  for (const s of base) {
+    for (const v of VARIANTS) {
+      const sale = round10(s.sale * v.saleMult);
+      out.push({
+        ...s,
+        id: `${s.id}-${v.key}`,
+        hotel: v.hotel(s.destination, s),
+        hotelRating: v.rating || s.hotelRating,
+        roomType: v.room || s.roomType,
+        nights: v.nights,
+        rounds: v.rounds,
+        reviewScore: Math.max(v.minScore ?? 0, clamp(round1(s.reviewScore + v.scoreDelta), 7.8, 9.7)),
+        reviewCount: Math.max(60, Math.round(s.reviewCount * v.reviewMult)),
+        original: round10(sale * (1 + v.discount)),
+        sale,
+        tags: v.tags,
+        flags: v.flags,
+      });
+    }
+  }
+  return out;
+}
+
+const ALL_SEEDS: Seed[] = [...SEEDS, ...expandSeeds(SEEDS)];
+
+export const PACKAGES: GolfPackage[] = ALL_SEEDS.map((s, idx) => {
   const courses = buildCourses(s);
   const flags = s.flags;
   const inclusions = [
@@ -371,7 +490,7 @@ export const PACKAGES: GolfPackage[] = SEEDS.map((s, idx) => {
     freeCancellation: Boolean(flags.freeCancellation),
     images: [s.id, `${s.id}-2`, `${s.id}-3`, `${s.id}-4`, `${s.id}-5`],
     options: options(s.sale, s.nights, s.rounds),
-    itinerary: itinerary(s.nights, courses),
+    itinerary: itinerary(s.nights, courses, s.destination),
     hotelFacilities: s.facilities.map(faci),
     reviews: makeReviews(idx, s.hotel, courses[0].name),
     bestSeller: flags.bestSeller,

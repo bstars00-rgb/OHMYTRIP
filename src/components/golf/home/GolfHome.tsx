@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Zap, BadgeDollarSign, Headset, ArrowRight, MapPin, Star } from 'lucide-react';
+import { ShieldCheck, Zap, BadgeDollarSign, Headset, ArrowRight, MapPin, Star, CalendarDays } from 'lucide-react';
 import SearchBox from '@/components/golf/SearchBox';
 import PackageCard from '@/components/golf/PackageCard';
 import { CATEGORIES, DESTINATIONS, PACKAGES } from '@/mocks/golf/data';
@@ -88,13 +88,14 @@ export default function GolfHome() {
                   <b>{fx(d.avgPackageUSD)}</b>
                 </div>
                 <div>
-                  <span className="g-muted">{t('home.season')}</span>
-                  <b>{d.season}</b>
-                </div>
-                <div>
                   <span className="g-muted">{t('home.courseCount')}</span>
                   <b>{d.courseCount}개</b>
                 </div>
+              </div>
+              <div className="g-dest-season" title={`${t('home.season')} ${d.season}`}>
+                <CalendarDays size={14} />
+                <span className="g-dest-season-label">{t('home.season')}</span>
+                <b>{d.season}</b>
               </div>
             </Link>
           ))}
