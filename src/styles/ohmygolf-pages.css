@@ -279,7 +279,8 @@
 .ohmygolf .g-viewtoggle button { padding: 8px 14px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
 .ohmygolf .g-viewtoggle button.is-active { background: var(--g-forest); color: #fff; }
 .ohmygolf .g-select { height: 40px; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); padding: 0 14px; font-family: inherit; font-size: 14px; background: var(--g-white); color: var(--g-charcoal); }
-.ohmygolf .g-results-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.ohmygolf .g-results-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.ohmygolf .g-results-list > div { min-width: 0; }
 .ohmygolf .g-results-list.is-map { grid-template-columns: 1fr; }
 .ohmygolf .g-map-panel { position: relative; border-radius: var(--g-radius); overflow: hidden; border: 1px solid var(--g-line); min-height: 420px; background: linear-gradient(160deg, #dbe7dd, #eef4ec); }
 .ohmygolf .g-map-pin { position: absolute; transform: translate(-50%, -100%); display: flex; flex-direction: column; align-items: center; }
