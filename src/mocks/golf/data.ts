@@ -70,6 +70,8 @@ function itinerary(nights: number, courses: GolfCourse[], destination: string): 
     day: 1,
     title: '도착 · 체크인 · 휴식',
     summary: `${destination} 도착 후 전용 차량으로 리조트 이동, 웰컴 & 여유로운 첫날 저녁.`,
+    description: `${destination}에 도착하면 전용 차량이 공항에서 리조트까지 모십니다. 체크인 후 웰컴 드링크와 함께 골프 일정·티타임을 안내받고, 수영장과 스파 등 리조트 시설을 즐기며 첫날을 여유롭게 보냅니다. 시차와 이동의 피로를 풀고 본격적인 라운드를 준비하는 날입니다.`,
+    highlight: '저녁은 리조트 다이닝에서 가볍게 — 다음 날 이른 티타임을 위해 일찍 휴식하세요.',
     meals: ['석식'],
     items: [
       { time: '오후', text: `${destination} 국제공항 도착`, tag: '이동' },
@@ -87,6 +89,8 @@ function itinerary(nights: number, courses: GolfCourse[], destination: string): 
       day: d,
       title: `${c.name} 18홀 라운드`,
       summary: `${c.name}에서 18홀 · 그린피·카트·캐디·왕복 이동 포함. 라운드 후 자유 시간.`,
+      description: `이른 조식 후 ${c.name} 클럽하우스로 이동합니다. 연습 그린과 드라이빙 레인지에서 몸을 풀고, 호텔에서 약 ${c.transferMin}분 거리의 코스에서 18홀 라운드를 즐깁니다. 전반 9홀 후 그늘집에서 잠시 쉬어가고, 라운드를 마치면 클럽하우스 중식과 샤워로 개운하게 마무리한 뒤 호텔로 복귀해 자유롭게 저녁을 보냅니다.`,
+      highlight: '그린피·카트·캐디·왕복 이동이 모두 포함되어 현장에서 추가로 결제할 비용이 없습니다.',
       meals: ['조식', '중식'],
       items: [
         { time: '06:00', text: '호텔 조식 (얼리 티타임 시 조식 박스 제공)', tag: '식사' },
@@ -107,6 +111,8 @@ function itinerary(nights: number, courses: GolfCourse[], destination: string): 
     day: nights + 1,
     title: '체크아웃 · 출발',
     summary: '조식 후 체크아웃, 전용 차량으로 공항 이동해 출국.',
+    description: `조식 후 마지막 자유 시간을 보내고 체크아웃합니다. 기념품 쇼핑이나 리조트에서의 여유를 즐긴 뒤, 전용 차량으로 공항까지 편안하게 이동해 ${destination}에서의 골프 여행을 마무리합니다.`,
+    highlight: '늦은 항공편이라면 레이트 체크아웃 또는 짐 보관 후 마지막 라운드·관광도 준비해 드립니다.',
     meals: ['조식'],
     items: [
       { time: '07:30', text: '호텔 조식', tag: '식사' },

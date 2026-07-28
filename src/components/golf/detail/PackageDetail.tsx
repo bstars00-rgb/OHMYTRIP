@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   ChevronRight, MapPin, Share2, Check, X, Car, Flag, Clock,
-  Waves, Utensils, Dumbbell, Sparkles, ChevronDown, AlertTriangle, Wind, UserX, Baby,
+  Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
 } from 'lucide-react';
 import { getPackage, discountPct } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
 import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
+import ItinerarySection from '@/components/golf/detail/ItinerarySection';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { StarRating, WishlistButton, Modal, EmptyState } from '@/components/golf/common/ui';
@@ -31,7 +32,6 @@ export default function PackageDetail({ id }: { id: string }) {
   const [optionId, setOptionId] = useState<string>(pkg?.options[0].id ?? '');
   const [golfers, setGolfers] = useState(2);
   const [nonGolfers, setNonGolfers] = useState(0);
-  const [openDays, setOpenDays] = useState<number[]>([1]);
   const [teeByCourse, setTeeByCourse] = useState<Record<number, string>>({});
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [reviewTab, setReviewTab] = useState<'Hotel' | 'Course'>('Hotel');
@@ -127,62 +127,10 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
             </section>
 
-            {/* C. Itinerary */}
+            {/* C. Itinerary — 사진이 들어간 상세형 일정 */}
             <section>
-              <div className="g-between" style={{ marginBottom: 12 }}>
-                <h2 className="g-detail-h" style={{ marginBottom: 0 }}>여행 일정</h2>
-                <button
-                  type="button"
-                  className="g-link-arrow"
-                  style={{ fontSize: 13 }}
-                  onClick={() => setOpenDays(openDays.length >= pkg.itinerary.length ? [] : pkg.itinerary.map((d) => d.day))}
-                >
-                  {openDays.length >= pkg.itinerary.length ? '전체 접기' : '전체 일정 펼치기'}
-                </button>
-              </div>
-              <p className="g-muted" style={{ fontSize: 13, marginBottom: 14 }}>
-                총 {pkg.nights}박 {pkg.nights + 1}일 · {pkg.rounds}라운드 · 전용 차량 이동 · 매일 조식 포함
-              </p>
-              <div className="g-timeline">
-                {pkg.itinerary.map((d) => {
-                  const isOpen = openDays.includes(d.day);
-                  return (
-                    <div key={d.day} className={`g-timeline-day${isOpen ? ' is-open' : ''}`}>
-                      <button
-                        type="button"
-                        className="g-timeline-head"
-                        onClick={() => setOpenDays((o) => (o.includes(d.day) ? o.filter((x) => x !== d.day) : [...o, d.day]))}
-                        aria-expanded={isOpen}
-                      >
-                        <span className="g-timeline-daynum">Day<b>{d.day}</b></span>
-                        <span className="g-timeline-title">
-                          <span className="g-timeline-t">{d.title}</span>
-                          {d.summary && <span className="g-timeline-summary">{d.summary}</span>}
-                        </span>
-                        {d.meals && d.meals.length > 0 && (
-                          <span className="g-timeline-meals">
-                            {d.meals.map((m) => <span key={m} className="g-meal-chip">{m}</span>)}
-                          </span>
-                        )}
-                        <ChevronDown className="g-timeline-chevron" size={18} style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform .18s ease' }} />
-                      </button>
-                      {isOpen && (
-                        <div className="g-timeline-body">
-                          {d.items.map((it, idx) => (
-                            <div key={idx} className="g-timeline-item">
-                              <span className="g-timeline-time">{it.time ?? ''}</span>
-                              <span className="g-timeline-text">
-                                {it.text}
-                                {it.tag && <span className="g-timeline-tag">{it.tag}</span>}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+              <h2 className="g-detail-h">여행 일정</h2>
+              <ItinerarySection pkg={pkg} />
             </section>
 
             {/* D. Hotel info */}

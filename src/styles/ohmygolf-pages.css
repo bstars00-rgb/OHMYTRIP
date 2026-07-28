@@ -337,21 +337,33 @@
 .ohmygolf .g-timeline-head:hover { background: var(--g-cream); }
 .ohmygolf .g-timeline-daynum { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: var(--g-forest); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 10px; line-height: 1.1; }
 .ohmygolf .g-timeline-daynum b { font-size: 16px; }
-.ohmygolf .g-timeline-title { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
-.ohmygolf .g-timeline-t { font-weight: 700; font-size: 15px; }
-.ohmygolf .g-timeline-summary { font-weight: 400; font-size: 12.5px; color: var(--g-charcoal-60); line-height: 1.45; }
-.ohmygolf .g-timeline-meals { display: flex; gap: 4px; flex-shrink: 0; }
-.ohmygolf .g-meal-chip { font-size: 11px; padding: 3px 9px; border-radius: var(--g-radius-pill); background: var(--g-ivory); color: var(--g-charcoal-60); white-space: nowrap; }
-.ohmygolf .g-timeline-chevron { flex-shrink: 0; color: var(--g-charcoal-60); }
-.ohmygolf .g-timeline-day.is-open { border-color: var(--g-forest); }
-.ohmygolf .g-timeline-day.is-open .g-timeline-head { background: var(--g-cream); }
-.ohmygolf .g-timeline-body { padding: 4px 18px 18px 78px; position: relative; }
-.ohmygolf .g-timeline-body::before { content: ''; position: absolute; left: 40px; top: 0; bottom: 14px; width: 2px; background: var(--g-line); }
-.ohmygolf .g-timeline-item { display: flex; gap: 14px; padding: 7px 0; font-size: 14px; position: relative; }
-.ohmygolf .g-timeline-item::before { content: ''; position: absolute; left: -40px; top: 13px; width: 9px; height: 9px; border-radius: 50%; background: var(--g-white); border: 2px solid var(--g-forest); }
-.ohmygolf .g-timeline-time { flex: 0 0 52px; font-weight: 700; color: var(--g-forest); font-size: 13px; }
-.ohmygolf .g-timeline-text { flex: 1; }
+.ohmygolf .g-timeline-title { font-weight: 600; flex: 1; }
+.ohmygolf .g-meal-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 9px; border-radius: var(--g-radius-pill); background: var(--g-ivory); color: var(--g-charcoal-60); white-space: nowrap; }
 .ohmygolf .g-timeline-tag { display: inline-block; margin-left: 8px; font-size: 10.5px; padding: 2px 7px; border-radius: var(--g-radius-pill); background: #fdece0; color: var(--g-forest); font-weight: 600; vertical-align: 1px; }
+
+/* ===== 상세형 여행 일정 (사진 포함) ===== */
+.ohmygolf .g-itin { display: flex; flex-direction: column; gap: 18px; }
+.ohmygolf .g-itin-lead { font-size: 13.5px; color: var(--g-charcoal-60); margin-bottom: 2px; }
+.ohmygolf .g-itin-lead b { color: var(--g-forest); }
+.ohmygolf .g-itin-day { display: grid; grid-template-columns: 300px 1fr; border: 1px solid var(--g-line); border-radius: var(--g-radius); overflow: hidden; background: var(--g-white); }
+.ohmygolf .g-itin-photo { position: relative; min-height: 220px; }
+.ohmygolf .g-itin-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ohmygolf .g-itin-daybadge { position: absolute; left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 5px; background: var(--g-forest); color: #fff; font-weight: 700; font-size: 13px; padding: 6px 12px; border-radius: var(--g-radius-pill); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+.ohmygolf .g-itin-content { padding: 20px 22px 22px; }
+.ohmygolf .g-itin-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.ohmygolf .g-itin-head h3 { font-family: var(--g-serif); font-size: 20px; }
+.ohmygolf .g-itin-meals { display: flex; gap: 6px; }
+.ohmygolf .g-itin-desc { font-size: 14px; line-height: 1.7; color: var(--g-charcoal); margin: 10px 0 14px; }
+.ohmygolf .g-itin-schedule { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--g-line-soft); padding-top: 12px; }
+.ohmygolf .g-itin-step { display: flex; gap: 14px; padding: 6px 0; font-size: 14px; }
+.ohmygolf .g-itin-time { flex: 0 0 54px; font-weight: 700; color: var(--g-forest); font-size: 13px; }
+.ohmygolf .g-itin-text { flex: 1; }
+.ohmygolf .g-itin-tip { display: flex; align-items: flex-start; gap: 8px; margin-top: 14px; padding: 11px 14px; background: var(--g-ivory); border-radius: var(--g-radius-sm); font-size: 13px; color: var(--g-charcoal); line-height: 1.5; }
+.ohmygolf .g-itin-tip svg { color: var(--g-forest); flex-shrink: 0; margin-top: 1px; }
+@media (max-width: 720px) {
+  .ohmygolf .g-itin-day { grid-template-columns: 1fr; }
+  .ohmygolf .g-itin-photo { height: 180px; min-height: 0; }
+}
 
 /* Course cards */
 .ohmygolf .g-course-card { display: grid; grid-template-columns: 180px 1fr; gap: 18px; border: 1px solid var(--g-line); border-radius: var(--g-radius); overflow: hidden; margin-bottom: 14px; }

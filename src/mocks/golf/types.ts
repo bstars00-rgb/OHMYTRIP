@@ -49,6 +49,8 @@ export interface ItineraryDay {
   day: number;
   title: string;
   summary?: string;
+  description?: string; // 상세 서술 (상세페이지형)
+  highlight?: string; // 하이라이트/팁 콜아웃
   meals?: string[]; // 조식/중식/석식
   items: { time?: string; text: string; tag?: string }[];
 }
