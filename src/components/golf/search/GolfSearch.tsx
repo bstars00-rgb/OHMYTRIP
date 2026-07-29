@@ -35,11 +35,22 @@ export default function GolfSearch() {
 
   const destLabel = filters.destination ?? (category ? t(`cat.${category.key}`) : t('search.allDest'));
 
+  const num = (v: string | null) => (v ? Number(v) : undefined);
+  const initialSearch = {
+    destination: params.get('destination') ?? undefined,
+    checkIn: params.get('checkIn') ?? undefined,
+    checkOut: params.get('checkOut') ?? undefined,
+    golfers: num(params.get('golfers')),
+    nonGolfers: num(params.get('nonGolfers')),
+    rooms: num(params.get('rooms')),
+    rounds: num(params.get('rounds')),
+  };
+
   return (
     <>
       <div className="g-searchbar-sticky">
         <div className="g-container">
-          <SearchBox variant="compact" />
+          <SearchBox variant="compact" initial={initialSearch} key={params.toString()} />
         </div>
       </div>
 

@@ -52,16 +52,32 @@ function Counter({ label, hint, value, min, max, onChange }: { label: string; hi
 
 type Layer = 'dest' | 'date' | 'party' | null;
 
-export default function SearchBox({ variant = 'hero' }: { variant?: 'hero' | 'compact' }) {
+export interface InitialSearch {
+  destination?: string;
+  checkIn?: string;
+  checkOut?: string;
+  golfers?: number;
+  nonGolfers?: number;
+  rooms?: number;
+  rounds?: number;
+}
+
+export default function SearchBox({ variant = 'hero', initial }: { variant?: 'hero' | 'compact'; initial?: InitialSearch }) {
   const router = useRouter();
   const { t, language } = usePrefs();
   const rootRef = useRef<HTMLFormElement>(null);
+  const initCity = initial?.destination ? findGeoCity(initial.destination) : undefined;
   const [open, setOpen] = useState<Layer>(null);
-  const [dest, setDest] = useState('');
-  const [selCity, setSelCity] = useState<GeoCity | null>(null);
-  const [checkIn, setCheckIn] = useState('');
-  const [checkOut, setCheckOut] = useState('');
-  const [party, setParty] = useState<Party>(DEFAULT_PARTY);
+  const [dest, setDest] = useState(initCity ? '' : (initial?.destination ?? ''));
+  const [selCity, setSelCity] = useState<GeoCity | null>(initCity ?? null);
+  const [checkIn, setCheckIn] = useState(initial?.checkIn ?? '');
+  const [checkOut, setCheckOut] = useState(initial?.checkOut ?? '');
+  const [party, setParty] = useState<Party>({
+    golfers: initial?.golfers ?? DEFAULT_PARTY.golfers,
+    nonGolfers: initial?.nonGolfers ?? DEFAULT_PARTY.nonGolfers,
+    rooms: initial?.rooms ?? DEFAULT_PARTY.rooms,
+    rounds: initial?.rounds ?? DEFAULT_PARTY.rounds,
+  });
   const [recent, setRecent] = useState<GeoCity[]>([]);
 
   useEffect(() => {
