@@ -114,8 +114,18 @@ export default function PackageDetail({ id }: { id: string }) {
 
         <div className="g-detail-layout">
           <div className="g-detail-main">
+            <nav className="g-detail-nav" aria-label="섹션 바로가기">
+              <a href="#inclusions">포함 사항</a>
+              <a href="#hotel">호텔 정보</a>
+              <a href="#courses">골프장 정보</a>
+              <a href="#tee">티타임</a>
+              <a href="#itinerary">여행 일정</a>
+              <a href="#terms">예약 조건</a>
+              <a href="#reviews">후기</a>
+            </nav>
+
             {/* B. Inclusions */}
-            <section>
+            <section id="inclusions" className="g-detail-sec">
               <h2 className="g-detail-h">포함 사항</h2>
               <div className="g-incl-grid">
                 {pkg.inclusions.map((i) => (
@@ -127,14 +137,8 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
             </section>
 
-            {/* C. Itinerary — 사진이 들어간 상세형 일정 */}
-            <section>
-              <h2 className="g-detail-h">여행 일정</h2>
-              <ItinerarySection pkg={pkg} />
-            </section>
-
             {/* D. Hotel info */}
-            <section>
+            <section id="hotel" className="g-detail-sec">
               <h2 className="g-detail-h">호텔 정보</h2>
               <div className="g-incl-grid" style={{ marginBottom: 18 }}>
                 <div className="g-incl-item"><Clock size={16} className="g-muted" /> 체크인 15:00 · 체크아웃 11:00</div>
@@ -153,13 +157,13 @@ export default function PackageDetail({ id }: { id: string }) {
             </section>
 
             {/* E. Courses — 패키지 내부 인라인 상세 */}
-            <section>
+            <section id="courses" className="g-detail-sec">
               <h2 className="g-detail-h">골프장 정보</h2>
               <CourseInfoSection courses={pkg.golfCourses} pkgId={pkg.id} />
             </section>
 
-            {/* F. Tee time selection */}
-            <section id="tee" style={{ scrollMarginTop: 90 }}>
+            {/* F. Tee time selection — 여행 일정 위 */}
+            <section id="tee" className="g-detail-sec">
               <div className="g-between" style={{ marginBottom: 4 }}>
                 <h2 className="g-detail-h" style={{ marginBottom: 0 }}>티타임 선택</h2>
                 <span className={`g-badge ${teeComplete ? 'g-badge-instant' : 'g-badge-quote'}`}>{teeSelected}/{roundsCount} 라운드 선택</span>
@@ -193,8 +197,14 @@ export default function PackageDetail({ id }: { id: string }) {
               })}
             </section>
 
+            {/* C. Itinerary — 사진이 들어간 상세형 일정 (티타임 아래) */}
+            <section id="itinerary" className="g-detail-sec">
+              <h2 className="g-detail-h">여행 일정</h2>
+              <ItinerarySection pkg={pkg} />
+            </section>
+
             {/* G. Terms */}
-            <section>
+            <section id="terms" className="g-detail-sec">
               <h2 className="g-detail-h">예약 조건</h2>
               <div className="g-incl-grid">
                 <div className="g-incl-item"><AlertTriangle size={16} className="g-muted" /> {pkg.cancellationPolicy}</div>
@@ -208,7 +218,7 @@ export default function PackageDetail({ id }: { id: string }) {
             </section>
 
             {/* H. Reviews */}
-            <section>
+            <section id="reviews" className="g-detail-sec">
               <h2 className="g-detail-h">고객 · 골프장 후기</h2>
               <div className="g-rev-breakdown">
                 {Object.entries(pkg.reviewBreakdown).map(([k, v]) => (
