@@ -587,3 +587,44 @@
   .ohmygolf .g-team-grid { grid-template-columns: repeat(2, 1fr); }
   .ohmygolf .g-course-acc-head > img { width: 68px; height: 52px; }
 }
+
+/* ============ 골프 여행 이야기 (블로그) ============ */
+.ohmygolf .g-story-article { max-width: 760px; margin: 0 auto; }
+.ohmygolf .g-story-head { text-align: center; margin-bottom: 22px; }
+.ohmygolf .g-story-title { font-family: var(--g-serif); font-size: 36px; line-height: 1.2; margin: 14px 0 12px; }
+.ohmygolf .g-story-excerpt { font-size: 17px; color: var(--g-charcoal-60); line-height: 1.6; }
+.ohmygolf .g-story-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; margin-top: 16px; font-size: 13.5px; color: var(--g-charcoal-60); }
+.ohmygolf .g-story-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.ohmygolf .g-story-hero { border-radius: var(--g-radius-lg); overflow: hidden; margin: 8px 0 28px; aspect-ratio: 16 / 8; }
+.ohmygolf .g-story-hero img { width: 100%; height: 100%; object-fit: cover; }
+.ohmygolf .g-story-body { font-size: 16px; line-height: 1.85; color: var(--g-charcoal); }
+.ohmygolf .g-story-section { margin-bottom: 26px; }
+.ohmygolf .g-story-section h2 { font-family: var(--g-serif); font-size: 24px; margin: 12px 0 12px; }
+.ohmygolf .g-story-section p { margin-bottom: 14px; }
+.ohmygolf .g-story-figure { margin: 18px 0; }
+.ohmygolf .g-story-figure img { width: 100%; border-radius: var(--g-radius); display: block; }
+.ohmygolf .g-story-figure figcaption { text-align: center; font-size: 13px; color: var(--g-charcoal-40); margin-top: 8px; }
+.ohmygolf .g-story-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--g-line); }
+.ohmygolf .g-story-related { margin-top: 46px; padding-top: 34px; border-top: 1px solid var(--g-line); }
+.ohmygolf .g-story-more { margin-top: 46px; }
+
+/* 목록 */
+.ohmygolf .g-story-featured { display: grid; grid-template-columns: 1.3fr 1fr; overflow: hidden; margin: 24px 0 30px; }
+.ohmygolf .g-story-featured-media { aspect-ratio: 16 / 10; }
+.ohmygolf .g-story-featured-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ohmygolf .g-story-featured-body { padding: 30px 32px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; justify-content: center; }
+.ohmygolf .g-story-featured-body h2 { font-family: var(--g-serif); font-size: 28px; line-height: 1.25; }
+.ohmygolf .g-story-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.ohmygolf .g-story-card { display: block; }
+.ohmygolf .g-story-card-media { position: relative; aspect-ratio: 1.5; }
+.ohmygolf .g-story-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ohmygolf .g-story-card-cat { position: absolute; left: 12px; top: 12px; background: rgba(0,0,0,0.55); color: #fff; font-size: 12px; padding: 4px 10px; border-radius: var(--g-radius-pill); }
+.ohmygolf .g-story-card-body { padding: 16px 18px 18px; }
+.ohmygolf .g-story-card-body h3 { font-size: 18px; font-family: var(--g-serif); margin-bottom: 6px; line-height: 1.3; }
+
+@media (max-width: 760px) {
+  .ohmygolf .g-story-title { font-size: 27px; }
+  .ohmygolf .g-story-hero { aspect-ratio: 16 / 10; }
+  .ohmygolf .g-story-featured { grid-template-columns: 1fr; }
+  .ohmygolf .g-story-grid { grid-template-columns: 1fr; }
+}

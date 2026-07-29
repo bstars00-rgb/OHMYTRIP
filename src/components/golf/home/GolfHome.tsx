@@ -6,6 +6,7 @@ import { ShieldCheck, Zap, BadgeDollarSign, Headset, ArrowRight, MapPin, Star, C
 import SearchBox from '@/components/golf/SearchBox';
 import PackageCard from '@/components/golf/PackageCard';
 import { CATEGORIES, DESTINATIONS, PACKAGES } from '@/mocks/golf/data';
+import { STORIES } from '@/mocks/golf/stories';
 import { golfImg, golfHeroImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import CompareTray from '@/components/golf/CompareTray';
@@ -15,13 +16,6 @@ const WHY = [
   { icon: Zap, t: 'home.why2t', x: 'home.why2x' },
   { icon: BadgeDollarSign, t: 'home.why3t', x: 'home.why3x' },
   { icon: Headset, t: 'home.why4t', x: 'home.why4x' },
-];
-
-const EDITORIAL = [
-  { title: '베트남 베스트 골프 리조트', tag: '여행지 가이드', seed: 'ed-vietnam' },
-  { title: '서울 출발 주말 골프 여행', tag: '짧은 일탈', seed: 'ed-seoul' },
-  { title: '초보자 친화적인 골프 여행지', tag: '입문자 추천', seed: 'ed-beginner' },
-  { title: '일본 럭셔리 골프 리조트', tag: '프리미엄 스테이', seed: 'ed-japan' },
 ];
 
 const REVIEWS = [
@@ -157,23 +151,26 @@ export default function GolfHome() {
         </div>
       </section>
 
-      {/* G. Editorial */}
+      {/* G. Editorial — 골프 여행 이야기 (블로그) */}
       <section className="g-section g-container">
         <div className="g-section-head">
           <div>
             <p className="g-eyebrow">{t('home.edEyebrow')}</p>
             <h2 className="g-section-title">{t('home.edTitle')}</h2>
           </div>
+          <Link href="/golf/story" className="g-link-arrow">
+            이야기 전체 보기 <ArrowRight size={16} />
+          </Link>
         </div>
         <div className="g-editorial-grid">
-          {EDITORIAL.map((e) => (
-            <Link key={e.seed} href="/golf/search" className="g-card g-card-hover g-editorial-card">
+          {STORIES.map((s) => (
+            <Link key={s.slug} href={`/golf/story/${s.slug}`} className="g-card g-card-hover g-editorial-card">
               <div className="g-editorial-media">
-                <img src={golfImg(e.seed, 'course')} alt={e.title} loading="lazy" decoding="async" width={800} height={600} />
+                <img src={golfImg(s.heroSeed, 'course')} alt={s.title} loading="lazy" decoding="async" width={800} height={600} />
               </div>
               <div className="g-editorial-body">
-                <span className="g-eyebrow">{e.tag}</span>
-                <h3>{e.title}</h3>
+                <span className="g-eyebrow">{s.category}</span>
+                <h3>{s.title}</h3>
                 <span className="g-link-arrow">{t('home.more')} <ArrowRight size={14} /></span>
               </div>
             </Link>
