@@ -28,6 +28,19 @@ export default function GolfHome() {
   const router = useRouter();
   const { fx, t } = usePrefs();
   const best = PACKAGES.slice(0, 8);
+  // 인기 골프텔 랭킹 (GORA 人気コース) — 평점·후기수 기준, 호텔 중복 제거 상위 6
+  const ranking = (() => {
+    const sorted = [...PACKAGES].sort((a, b) => b.reviewScore - a.reviewScore || b.reviewCount - a.reviewCount);
+    const seen = new Set<string>();
+    const out: typeof PACKAGES = [];
+    for (const p of sorted) {
+      if (seen.has(p.hotel)) continue;
+      seen.add(p.hotel);
+      out.push(p);
+      if (out.length === 6) break;
+    }
+    return out;
+  })();
 
   return (
     <>
@@ -113,6 +126,36 @@ export default function GolfHome() {
               <PackageCard key={p.id} pkg={p} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* D-2. 인기 골프텔 랭킹 (GORA 人気コース 벤치마크) */}
+      <section className="g-section g-container">
+        <div className="g-section-head">
+          <div>
+            <p className="g-eyebrow">실시간 인기</p>
+            <h2 className="g-section-title">인기 골프텔 랭킹</h2>
+          </div>
+          <Link href="/golf/search?sort=rating" className="g-link-arrow">
+            랭킹 전체 보기 <ArrowRight size={16} />
+          </Link>
+        </div>
+        <div className="g-rank-grid">
+          {ranking.map((p, i) => (
+            <Link key={p.id} href={`/golf/package/${p.id}`} className="g-card g-card-hover g-rank-card">
+              <span className={`g-rank-num${i < 3 ? ' is-top' : ''}`}>{i + 1}</span>
+              <img src={golfImg(p.id, 'resort')} alt={p.hotel} loading="lazy" decoding="async" width={160} height={120} />
+              <div className="g-rank-info">
+                <h3>{p.hotel}</h3>
+                <p className="g-rank-loc"><MapPin size={13} /> {p.destination}, {p.country}</p>
+                <div className="g-rank-meta">
+                  <span className="g-rank-score"><Star size={12} fill="currentColor" strokeWidth={0} /> {p.reviewScore.toFixed(1)}</span>
+                  <span className="g-muted">후기 {p.reviewCount.toLocaleString()}</span>
+                  <b className="g-rank-price">{fx(p.salePriceUSD)}<span className="g-price-unit"> /1인</span></b>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

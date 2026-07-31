@@ -3,8 +3,8 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Check, CreditCard, Apple, Wallet, Landmark, ShieldCheck, ArrowLeft } from 'lucide-react';
-import { getPackage } from '@/mocks/golf/data';
+import { Check, CreditCard, Apple, Wallet, Landmark, ShieldCheck, ArrowLeft, Gift } from 'lucide-react';
+import { getPackage, golfPoints, MOCK_POINT_BALANCE, POINT_RATE_KRW } from '@/mocks/golf/data';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { golfImg } from '@/features/golf/images';
 import { EmptyState } from '@/components/golf/common/ui';
@@ -26,6 +26,7 @@ export default function GolfCheckout() {
   const nonGolfers = Number(params.get('nonGolfers') ?? 0);
   const [step, setStep] = useState(1);
   const [pay, setPay] = useState('card');
+  const [usePoints, setUsePoints] = useState(false);
   const [traveler, setTraveler] = useState({ name: '', email: '', phone: '', country: '' });
 
   const option = useMemo(() => pkg?.options.find((o) => o.id === optionId) ?? pkg?.options[0], [pkg, optionId]);
@@ -40,11 +41,15 @@ export default function GolfCheckout() {
 
   const subtotal = option.pricePerPersonUSD * (golfers + nonGolfers * 0.6);
   const taxes = Math.round(subtotal * 0.1);
-  const total = subtotal + taxes;
+  const gross = subtotal + taxes;
+  // 포인트 사용(mock): 보유 포인트를 통화가치(1P≈1원)로 환산해 차감
+  const pointDiscount = usePoints ? Math.min(Math.round(MOCK_POINT_BALANCE / POINT_RATE_KRW), Math.round(gross)) : 0;
+  const total = gross - pointDiscount;
+  const earn = golfPoints(total);
   const canPay = traveler.name.trim() && traveler.email.trim();
 
   const confirm = () => {
-    const p = new URLSearchParams({ pkg: pkg.id, total: String(Math.round(total)) });
+    const p = new URLSearchParams({ pkg: pkg.id, total: String(Math.round(total)), earn: String(earn) });
     router.push(`/golf/booking-complete?${p.toString()}`);
   };
 
@@ -133,6 +138,11 @@ export default function GolfCheckout() {
                   <div className="g-field"><label className="g-label">CVC</label><input className="g-input" placeholder="123" /></div>
                 </div>
               )}
+              <label className="g-point-use">
+                <input type="checkbox" checked={usePoints} onChange={(e) => setUsePoints(e.target.checked)} />
+                <Gift size={16} />
+                <span>보유 <b>{MOCK_POINT_BALANCE.toLocaleString()}P</b> 사용 <span className="g-muted">(−{fx(Math.round(MOCK_POINT_BALANCE / POINT_RATE_KRW))})</span></span>
+              </label>
               <div className="g-no-hidden" style={{ marginTop: 16 }}><ShieldCheck size={15} /> 안전 결제 · 체크인 시 추가 비용 없음.</div>
               <div className="g-wizard-foot">
                 <button type="button" className="g-btn g-btn-ghost" onClick={() => setStep(2)}><ArrowLeft size={16} /> 이전</button>
@@ -154,8 +164,12 @@ export default function GolfCheckout() {
               <div className="g-booking-row"><span>1인당</span><b>{fx(option.pricePerPersonUSD)}</b></div>
               <div className="g-booking-row"><span>소계</span><b>{fx(subtotal)}</b></div>
               <div className="g-booking-row"><span>세금·수수료</span><b>{fx(taxes)}</b></div>
+              {pointDiscount > 0 && (
+                <div className="g-booking-row"><span>포인트 사용</span><b style={{ color: 'var(--g-forest)' }}>−{fx(pointDiscount)}</b></div>
+              )}
             </div>
             <div className="g-booking-total"><span>총액</span><b>{fx(total)}</b></div>
+            <div className="g-booking-point"><Gift size={14} /> 예약 시 <b>{earn.toLocaleString()}P</b> 적립</div>
             <p className="g-muted" style={{ fontSize: 12, marginTop: 10 }}>{pkg.cancellationPolicy}</p>
           </div>
         </aside>

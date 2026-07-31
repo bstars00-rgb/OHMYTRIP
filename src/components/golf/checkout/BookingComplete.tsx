@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Check, FileText, Flag, CalendarClock, MessageCircle } from 'lucide-react';
-import { getPackage } from '@/mocks/golf/data';
+import { Check, FileText, Flag, CalendarClock, MessageCircle, QrCode } from 'lucide-react';
+import { getPackage, golfPoints } from '@/mocks/golf/data';
 import { usePrefs } from '@/features/golf/GolfProviders';
 
 export default function BookingComplete() {
@@ -11,6 +11,7 @@ export default function BookingComplete() {
   const { fx } = usePrefs();
   const pkg = getPackage(params.get('pkg') ?? '');
   const total = Number(params.get('total') ?? 0);
+  const earn = Number(params.get('earn') ?? golfPoints(total));
   const ref = `OMG-${(params.get('pkg') ?? 'GOLF').slice(0, 4).toUpperCase()}-${String(1000 + (total % 9000))}`;
 
   return (
@@ -40,7 +41,13 @@ export default function BookingComplete() {
         ))}
       </div>
 
-      {total > 0 && <p style={{ marginBottom: 22 }}>결제 총액: <b>{fx(total)}</b></p>}
+      {total > 0 && (
+        <p style={{ marginBottom: 14 }}>결제 총액: <b>{fx(total)}</b> · <span className="g-point-earn">{earn.toLocaleString()}P 적립</span></p>
+      )}
+
+      <div className="g-checkin-note">
+        <QrCode size={18} /> <span>골프장 도착 시 <b>체크인</b>하면 추가 포인트가 적립됩니다.</span>
+      </div>
 
       <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
         <Link href="/golf/my-trips" className="g-btn g-btn-primary g-btn-lg">마이 트립 보기</Link>

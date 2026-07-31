@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { MapPin, Coffee, Car, Plane, Flag, CheckCircle2, Timer, Zap } from 'lucide-react';
 import type { GolfPackage } from '@/mocks/golf/types';
-import { discountPct } from '@/mocks/golf/data';
+import { discountPct, golfPoints } from '@/mocks/golf/data';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { StarRating, ReviewScore, WishlistButton, CompareButton } from '@/components/golf/common/ui';
@@ -97,6 +97,7 @@ export default function PackageCard({ pkg }: { pkg: GolfPackage }) {
               </span>{' '}
               <span className="g-price-unit">/ 1인</span>
             </div>
+            <span className="g-point-earn">적립 {golfPoints(pkg.salePriceUSD).toLocaleString()}P</span>
           </div>
           <div className="g-pkgcard-actions">
             <CompareButton id={pkg.id} />

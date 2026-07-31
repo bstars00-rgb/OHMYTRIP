@@ -628,3 +628,38 @@
   .ohmygolf .g-story-featured { grid-template-columns: 1fr; }
   .ohmygolf .g-story-grid { grid-template-columns: 1fr; }
 }
+
+/* ============ GORA 벤치마크 UX 확장 ============ */
+/* 오마이 골프 포인트 */
+.ohmygolf .g-point-earn { display: inline-flex; align-items: center; gap: 4px; margin-top: 5px; font-size: 11.5px; font-weight: 700; color: var(--g-forest); background: #fff3ea; padding: 3px 9px; border-radius: var(--g-radius-pill); }
+.ohmygolf .g-booking-point { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; font-size: 13px; color: var(--g-charcoal-60); }
+.ohmygolf .g-booking-point b { color: var(--g-forest); }
+.ohmygolf .g-booking-point svg { color: var(--g-forest); }
+.ohmygolf .g-point-use { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 14px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); font-size: 14px; cursor: pointer; }
+.ohmygolf .g-point-use:hover { border-color: var(--g-forest); }
+.ohmygolf .g-point-use svg { color: var(--g-forest); flex-shrink: 0; }
+.ohmygolf .g-point-use b { color: var(--g-forest); }
+.ohmygolf .g-checkin-note { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; padding: 10px 16px; background: var(--g-ivory); border-radius: var(--g-radius-pill); font-size: 13px; color: var(--g-charcoal); }
+.ohmygolf .g-checkin-note svg { color: var(--g-forest); }
+.ohmygolf .g-checkin-note b { color: var(--g-forest); }
+
+/* 티타임 시간대 그룹 */
+.ohmygolf .g-tee-band { margin-bottom: 14px; }
+.ohmygolf .g-tee-band-label { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--g-charcoal-60); margin-bottom: 8px; }
+.ohmygolf .g-tee-band-label svg { color: var(--g-forest); }
+
+/* 인기 골프텔 랭킹 */
+.ohmygolf .g-rank-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.ohmygolf .g-rank-card { display: flex; align-items: center; gap: 14px; padding: 12px; position: relative; }
+.ohmygolf .g-rank-card > img { width: 104px; height: 78px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+.ohmygolf .g-rank-num { position: absolute; left: 6px; top: 6px; width: 26px; height: 26px; border-radius: 8px; background: var(--g-charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; z-index: 1; }
+.ohmygolf .g-rank-num.is-top { background: var(--g-forest); }
+.ohmygolf .g-rank-info { flex: 1; min-width: 0; }
+.ohmygolf .g-rank-info h3 { font-size: 16px; font-family: var(--g-serif); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ohmygolf .g-rank-loc { font-size: 12.5px; color: var(--g-charcoal-60); display: flex; align-items: center; gap: 4px; margin-bottom: 7px; }
+.ohmygolf .g-rank-meta { display: flex; align-items: center; gap: 10px; font-size: 12.5px; flex-wrap: wrap; }
+.ohmygolf .g-rank-score { display: inline-flex; align-items: center; gap: 3px; color: var(--g-forest); font-weight: 700; }
+.ohmygolf .g-rank-price { margin-left: auto; color: var(--g-charcoal); font-size: 15px; }
+@media (max-width: 720px) {
+  .ohmygolf .g-rank-grid { grid-template-columns: 1fr; }
+}

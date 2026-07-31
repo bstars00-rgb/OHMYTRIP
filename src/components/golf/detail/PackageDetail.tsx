@@ -6,8 +6,9 @@ import { useRouter } from 'next/navigation';
 import {
   ChevronRight, MapPin, Share2, Check, X, Car, Flag, Clock,
   Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
+  Gift, Sunrise, Sun, Sunset,
 } from 'lucide-react';
-import { getPackage, discountPct } from '@/mocks/golf/data';
+import { getPackage, discountPct, golfPoints } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
 import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
@@ -23,6 +24,14 @@ function facIcon(f: string) {
   if (k.includes('fitness') || k.includes('gym')) return Dumbbell;
   return Check;
 }
+
+/** 티타임 시간대 그룹 (GORA 早朝/朝/昼 패턴) */
+const TEE_BANDS = [
+  { key: 'dawn', label: '새벽', icon: Sunrise, test: (h: number) => h < 7 },
+  { key: 'morning', label: '오전', icon: Sun, test: (h: number) => h >= 7 && h < 12 },
+  { key: 'afternoon', label: '오후', icon: Sunset, test: (h: number) => h >= 12 },
+] as const;
+const teeHour = (t: string) => parseInt(t.split(':')[0], 10);
 
 
 export default function PackageDetail({ id }: { id: string }) {
@@ -178,20 +187,29 @@ export default function PackageDetail({ id }: { id: string }) {
                       <span className="g-muted" style={{ fontSize: 13 }}>{ri + 1}라운드</span>
                       {teeByCourse[ri] && <span className="g-inc" style={{ fontSize: 12 }}><Check size={13} /> {teeByCourse[ri]}</span>}
                     </div>
-                    <div className="g-tee-grid">
-                      {pkg.teeTimes.map((t) => (
-                        <button
-                          key={t.time}
-                          type="button"
-                          className={`g-tee-btn${teeByCourse[ri] === t.time ? ' is-active' : ''}`}
-                          disabled={t.soldOut}
-                          onClick={() => setTeeByCourse((s) => ({ ...s, [ri]: t.time }))}
-                        >
-                          {t.bestValue && !t.soldOut && <span className="g-tee-best">추천</span>}
-                          {t.time}
-                        </button>
-                      ))}
-                    </div>
+                    {TEE_BANDS.map((band) => {
+                      const slots = pkg.teeTimes.filter((t) => band.test(teeHour(t.time)));
+                      if (!slots.length) return null;
+                      return (
+                        <div key={band.key} className="g-tee-band">
+                          <div className="g-tee-band-label"><band.icon size={14} /> {band.label}</div>
+                          <div className="g-tee-grid">
+                            {slots.map((t) => (
+                              <button
+                                key={t.time}
+                                type="button"
+                                className={`g-tee-btn${teeByCourse[ri] === t.time ? ' is-active' : ''}`}
+                                disabled={t.soldOut}
+                                onClick={() => setTeeByCourse((s) => ({ ...s, [ri]: t.time }))}
+                              >
+                                {t.bestValue && !t.soldOut && <span className="g-tee-best">추천</span>}
+                                {t.time}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 );
               })}
@@ -296,6 +314,7 @@ export default function PackageDetail({ id }: { id: string }) {
                 <span>{t('detail.total')}</span>
                 <b>{fx(total)}</b>
               </div>
+              <div className="g-booking-point"><Gift size={14} /> 예약 시 <b>{golfPoints(total).toLocaleString()}P</b> 적립</div>
 
               <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} disabled={pkg.instantConfirmation && !teeComplete} onClick={goCheckout}>
                 {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}

@@ -511,3 +511,11 @@ export function getPackage(id: string): GolfPackage | undefined {
 export function discountPct(p: GolfPackage): number {
   return Math.round(((p.originalPriceUSD - p.salePriceUSD) / p.originalPriceUSD) * 100);
 }
+
+/** 오마이 골프 포인트(라쿠텐 포인트 등가) — 결제액의 2% 적립. 1P ≈ 1원 기준 */
+export const POINT_RATE_KRW = 1350; // 1 USD ≈ 1,350 P
+export function golfPoints(usd: number): number {
+  return Math.round(usd * POINT_RATE_KRW * 0.02);
+}
+/** 데모용 보유 포인트(mock) */
+export const MOCK_POINT_BALANCE = 30000;
