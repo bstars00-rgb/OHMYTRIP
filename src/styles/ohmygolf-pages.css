@@ -306,6 +306,7 @@
 .ohmygolf .g-gallery-more { position: relative; }
 .ohmygolf .g-gallery-more span { position: absolute; inset: 0; background: rgba(31,61,43,0.55); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 .ohmygolf .g-detail-layout { display: grid; grid-template-columns: 1fr 360px; gap: 34px; align-items: start; }
+.ohmygolf .g-detail-main { min-width: 0; } /* overflow-x 자식(홀 스트립/날짜 스트립)이 열을 넓히지 않도록 */
 /* aside가 본문 높이만큼 늘어나야 sticky 예약카드가 스크롤을 끝까지 따라옴 */
 .ohmygolf .g-detail-layout > aside { align-self: stretch; }
 .ohmygolf .g-detail-main > section { padding: 26px 0; border-top: 1px solid var(--g-line); }
@@ -663,3 +664,44 @@
 @media (max-width: 720px) {
   .ohmygolf .g-rank-grid { grid-template-columns: 1fr; }
 }
+
+/* ============ GORA 4항목 프로토타입 ============ */
+/* 실시간 티타임 재고 */
+.ohmygolf .g-tee-live { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; color: var(--g-forest); }
+.ohmygolf .g-tee-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--g-forest); animation: g-pulse 1.6s infinite; }
+@keyframes g-pulse { 0% { box-shadow: 0 0 0 0 rgba(239,127,41,.5); } 70% { box-shadow: 0 0 0 6px rgba(239,127,41,0); } 100% { box-shadow: 0 0 0 0 rgba(239,127,41,0); } }
+.ohmygolf .g-tee-datestrip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 18px; }
+.ohmygolf .g-tee-date { flex: 0 0 auto; padding: 9px 14px; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); font-size: 13px; font-weight: 600; white-space: nowrap; background: var(--g-white); }
+.ohmygolf .g-tee-date:hover { border-color: var(--g-forest); }
+.ohmygolf .g-tee-date.is-active { background: var(--g-forest); color: #fff; border-color: var(--g-forest); }
+.ohmygolf .g-tee-date.is-weekend:not(.is-active) { color: #e8654e; }
+.ohmygolf .g-tee-btn { flex-direction: column; gap: 1px; height: auto; min-height: 52px; padding: 6px 10px; }
+.ohmygolf .g-tee-time { font-size: 15px; }
+.ohmygolf .g-tee-remain { font-size: 10px; font-weight: 600; color: var(--g-charcoal-40); text-decoration: none; }
+.ohmygolf .g-tee-btn.is-active .g-tee-remain { color: rgba(255,255,255,.85); }
+.ohmygolf .g-tee-btn:disabled { text-decoration: none; }
+.ohmygolf .g-tee-btn.is-soldout .g-tee-time { text-decoration: line-through; }
+.ohmygolf .g-tee-btn.is-soldout .g-tee-remain { color: var(--g-danger); }
+
+/* 홀별 사진 */
+.ohmygolf .g-hole-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; }
+.ohmygolf .g-hole-card { flex: 0 0 168px; }
+.ohmygolf .g-hole-media { position: relative; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; }
+.ohmygolf .g-hole-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ohmygolf .g-hole-no { position: absolute; left: 8px; top: 8px; background: rgba(0,0,0,.6); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+.ohmygolf .g-hole-cap { font-size: 12.5px; margin-top: 6px; color: var(--g-charcoal-60); }
+.ohmygolf .g-hole-cap b { color: var(--g-charcoal); }
+
+/* AI 취향 추천 */
+.ohmygolf .g-reco-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.ohmygolf .g-reco-grid { grid-template-columns: repeat(3, 1fr); margin-top: 20px; }
+@media (max-width: 860px) { .ohmygolf .g-reco-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .ohmygolf .g-reco-grid { grid-template-columns: 1fr; } }
+
+/* 시그니처 컬렉션 배너 */
+.ohmygolf .g-signature-banner { background: linear-gradient(120deg, #241c14, #3a2a18 55%, #4a3218); border-radius: var(--g-radius-lg); padding: 40px 36px; color: #fff; position: relative; overflow: hidden; }
+.ohmygolf .g-signature-banner::after { content: ''; position: absolute; right: -40px; top: -40px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(239,127,41,.35), transparent 70%); }
+.ohmygolf .g-signature-copy { position: relative; max-width: 640px; }
+.ohmygolf .g-signature-title { font-size: 30px; margin: 6px 0 10px; }
+.ohmygolf .g-signature-sub { color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.6; }
+@media (max-width: 640px) { .ohmygolf .g-signature-title { font-size: 24px; } .ohmygolf .g-signature-banner { padding: 28px 22px; } }

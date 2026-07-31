@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import {
   ChevronDown, Flag, Ruler, PenTool, Trophy, Gauge, CalendarClock, Layers, Sparkles,
-  Car, Bus, Clock, Utensils, Users, Shirt, Check, Navigation,
+  Car, Bus, Clock, Utensils, Users, Shirt, Check, Navigation, Camera,
 } from 'lucide-react';
 import type { GolfCourse, ScorecardHole } from '@/mocks/golf/types';
 import { getCourseDetail, courseSlug } from '@/mocks/golf/courses';
@@ -122,6 +122,20 @@ export default function CourseInfoSection({ courses, pkgId }: { courses: GolfCou
                     <b>파 {d.par} · {d.yardage.toLocaleString()} yd · 슬로프 {d.slopeRating}</b>
                   </div>
                 </details>
+
+                {/* 홀별 사진 (GORA 벤치마크) */}
+                <h4 className="g-course-subh" style={{ marginTop: 20 }}><Camera size={16} /> 홀별 코스 <span className="g-muted" style={{ fontWeight: 400, fontSize: 12 }}>18홀 · 좌우로 넘겨 보세요</span></h4>
+                <div className="g-hole-strip">
+                  {d.scorecard.map((hole) => (
+                    <div key={hole.hole} className="g-hole-card">
+                      <div className="g-hole-media">
+                        <img src={golfImg(`${d.slug}-hole-${hole.hole}`, hole.hole % 2 ? 'green' : 'course')} alt={`${hole.hole}번 홀`} loading="lazy" decoding="async" width={200} height={140} />
+                        <span className="g-hole-no">{hole.hole}H</span>
+                      </div>
+                      <div className="g-hole-cap"><b>파 {hole.par}</b> · {hole.yards}yd</div>
+                    </div>
+                  ))}
+                </div>
 
                 <div className="g-course-usage">
                   <div>

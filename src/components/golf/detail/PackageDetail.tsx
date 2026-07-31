@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -14,6 +14,7 @@ import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
+import { teeAvailability, makeTeeDates, type TeeDate } from '@/features/golf/teetime';
 import { StarRating, WishlistButton, Modal, EmptyState } from '@/components/golf/common/ui';
 
 function facIcon(f: string) {
@@ -42,6 +43,16 @@ export default function PackageDetail({ id }: { id: string }) {
   const [golfers, setGolfers] = useState(2);
   const [nonGolfers, setNonGolfers] = useState(0);
   const [teeByCourse, setTeeByCourse] = useState<Record<number, string>>({});
+  const [teeDate, setTeeDate] = useState('');
+  const [teeDates, setTeeDates] = useState<TeeDate[]>([]);
+
+  useEffect(() => {
+    // 날짜는 클라이언트에서만 생성(정적 export 하이드레이션 안전)
+    const days = makeTeeDates(14);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 클라이언트 전용 초기화(하이드레이션 안전)
+    setTeeDates(days);
+    setTeeDate(days[0].iso);
+  }, []);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [reviewTab, setReviewTab] = useState<'Hotel' | 'Course'>('Hotel');
 
@@ -177,7 +188,26 @@ export default function PackageDetail({ id }: { id: string }) {
                 <h2 className="g-detail-h" style={{ marginBottom: 0 }}>티타임 선택</h2>
                 <span className={`g-badge ${teeComplete ? 'g-badge-instant' : 'g-badge-quote'}`}>{teeSelected}/{roundsCount} 라운드 선택</span>
               </div>
-              <p className="g-muted" style={{ fontSize: 13, margin: '2px 0 16px' }}>선택한 옵션은 {roundsCount}라운드예요. 라운드별로 티타임을 모두 선택해야 예약할 수 있어요.</p>
+              <p className="g-muted" style={{ fontSize: 13, margin: '2px 0 14px' }}>
+                <span className="g-tee-live"><span className="g-tee-live-dot" /> 실시간 재고</span> 날짜를 선택하면 잔여 티타임이 갱신돼요. 라운드별로 모두 선택해야 예약할 수 있어요.
+              </p>
+
+              {/* 실시간 날짜 선택 */}
+              {teeDates.length > 0 && (
+                <div className="g-tee-datestrip">
+                  {teeDates.map((d) => (
+                    <button
+                      key={d.iso}
+                      type="button"
+                      className={`g-tee-date${teeDate === d.iso ? ' is-active' : ''}${d.isWeekend ? ' is-weekend' : ''}`}
+                      onClick={() => { setTeeDate(d.iso); setTeeByCourse({}); }}
+                    >
+                      {d.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {Array.from({ length: roundsCount }).map((_, ri) => {
                 const c = pkg.golfCourses[ri % pkg.golfCourses.length];
                 return (
@@ -194,18 +224,22 @@ export default function PackageDetail({ id }: { id: string }) {
                         <div key={band.key} className="g-tee-band">
                           <div className="g-tee-band-label"><band.icon size={14} /> {band.label}</div>
                           <div className="g-tee-grid">
-                            {slots.map((t) => (
-                              <button
-                                key={t.time}
-                                type="button"
-                                className={`g-tee-btn${teeByCourse[ri] === t.time ? ' is-active' : ''}`}
-                                disabled={t.soldOut}
-                                onClick={() => setTeeByCourse((s) => ({ ...s, [ri]: t.time }))}
-                              >
-                                {t.bestValue && !t.soldOut && <span className="g-tee-best">추천</span>}
-                                {t.time}
-                              </button>
-                            ))}
+                            {slots.map((t) => {
+                              const av = teeAvailability(c.name, teeDate, t.time, t.soldOut);
+                              return (
+                                <button
+                                  key={t.time}
+                                  type="button"
+                                  className={`g-tee-btn${teeByCourse[ri] === t.time ? ' is-active' : ''}${av.soldOut ? ' is-soldout' : ''}`}
+                                  disabled={av.soldOut}
+                                  onClick={() => setTeeByCourse((s) => ({ ...s, [ri]: t.time }))}
+                                >
+                                  {t.bestValue && !av.soldOut && <span className="g-tee-best">추천</span>}
+                                  <span className="g-tee-time">{t.time}</span>
+                                  <span className="g-tee-remain">{av.soldOut ? '마감' : `잔여 ${av.remaining}팀`}</span>
+                                </button>
+                              );
+                            })}
                           </div>
                         </div>
                       );

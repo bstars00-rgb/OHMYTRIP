@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ShieldCheck, Zap, BadgeDollarSign, Headset, ArrowRight, MapPin, Star, CalendarDays } from 'lucide-react';
 import SearchBox from '@/components/golf/SearchBox';
 import PackageCard from '@/components/golf/PackageCard';
+import GolfRecommender from '@/components/golf/home/GolfRecommender';
 import { CATEGORIES, DESTINATIONS, PACKAGES } from '@/mocks/golf/data';
 import { STORIES } from '@/mocks/golf/stories';
 import { golfImg, golfHeroImg } from '@/features/golf/images';
@@ -38,6 +39,18 @@ export default function GolfHome() {
       seen.add(p.hotel);
       out.push(p);
       if (out.length === 6) break;
+    }
+    return out;
+  })();
+  // 시그니처 컬렉션 (럭셔리 큐레이션, 호텔 중복 제거 상위 4)
+  const signature = (() => {
+    const seen = new Set<string>();
+    const out: typeof PACKAGES = [];
+    for (const p of PACKAGES) {
+      if (!p.tags.includes('luxury') || seen.has(p.hotel)) continue;
+      seen.add(p.hotel);
+      out.push(p);
+      if (out.length === 4) break;
     }
     return out;
   })();
@@ -129,6 +142,9 @@ export default function GolfHome() {
         </div>
       </section>
 
+      {/* D-1. AI 취향 추천 (리뷰 기반) */}
+      <GolfRecommender />
+
       {/* D-2. 인기 골프텔 랭킹 (GORA 人気コース 벤치마크) */}
       <section className="g-section g-container">
         <div className="g-section-head">
@@ -156,6 +172,20 @@ export default function GolfHome() {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* D-3. 시그니처 컬렉션 (브랜드 컬렉션 — GORA 리조트 제휴 벤치마크, 자사 브랜드) */}
+      <section className="g-section g-container">
+        <div className="g-signature-banner">
+          <div className="g-signature-copy">
+            <p className="g-eyebrow" style={{ color: '#ffd8b8' }}>SIGNATURE COLLECTION</p>
+            <h2 className="g-display g-signature-title">오마이트립 골프텔 시그니처</h2>
+            <p className="g-signature-sub">엄선한 프리미엄 골프 리조트만 모은 시그니처 컬렉션. 최상급 코스와 스테이를 한 번의 여행으로.</p>
+          </div>
+        </div>
+        <div className="g-pkg-grid" style={{ marginTop: 20 }}>
+          {signature.map((p) => <PackageCard key={p.id} pkg={p} />)}
         </div>
       </section>
 
