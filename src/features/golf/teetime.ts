@@ -30,6 +30,26 @@ export interface TeeDate {
   iso: string;
   label: string; // 8/1(금)
   isWeekend: boolean;
+  dow: number; // 0=일 … 6=토
+}
+export const WEEKDAY_KO = ['일', '월', '화', '수', '목', '금', '토'];
+
+/** ISO 날짜에 days 더하기 */
+export function addDaysISO(iso: string, days: number): string {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  dt.setDate(dt.getDate() + days);
+  return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+}
+
+/** ISO → "8/1(금)" */
+export function formatTeeDate(iso: string): string {
+  if (!iso) return '';
+  const WD = ['일', '월', '화', '수', '목', '금', '토'];
+  const [y, m, d] = iso.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  return `${m}/${d}(${WD[dt.getDay()]})`;
 }
 
 /** 오늘부터 count일간의 선택 가능 날짜 (클라이언트에서만 호출 — new Date 사용) */
@@ -42,7 +62,7 @@ export function makeTeeDates(count = 14): TeeDate[] {
     const d = new Date(base);
     d.setDate(base.getDate() + i);
     const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    out.push({ iso, label: `${d.getMonth() + 1}/${d.getDate()}(${WD[d.getDay()]})`, isWeekend: d.getDay() === 0 || d.getDay() === 6 });
+    out.push({ iso, label: `${d.getMonth() + 1}/${d.getDate()}(${WD[d.getDay()]})`, isWeekend: d.getDay() === 0 || d.getDay() === 6, dow: d.getDay() });
   }
   return out;
 }

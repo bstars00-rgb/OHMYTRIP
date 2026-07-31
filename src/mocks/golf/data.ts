@@ -519,3 +519,61 @@ export function golfPoints(usd: number): number {
 }
 /** 데모용 보유 포인트(mock) */
 export const MOCK_POINT_BALANCE = 30000;
+
+/* ---------- 한국 골프여행 벤치마크: 조인/단독·할증·포함배지·태그·출발요일 ---------- */
+
+/** 단독팀 할증률 (조인팀 대비) */
+export const SOLO_TEAM_SURCHARGE = 0.15;
+/** 소인원 할증 (기준 4인) — 2인 ×1.2, 3인 ×1.1 */
+export function smallGroupMult(golfers: number): number {
+  if (golfers <= 2) return 1.2;
+  if (golfers === 3) return 1.1;
+  return 1;
+}
+/** 1인당 실질 단가 (소인원 + 단독팀 할증 반영) */
+export function effectivePerPerson(base: number, golfers: number, soloTeam: boolean): number {
+  return Math.round(base * smallGroupMult(golfers) * (soloTeam ? 1 + SOLO_TEAM_SURCHARGE : 1));
+}
+
+/** 요금 포함/현지결제 배지 */
+export interface FeeBadge {
+  label: string;
+  included: boolean;
+}
+export function feeBadges(p: GolfPackage): FeeBadge[] {
+  return [
+    { label: '그린피', included: true },
+    { label: '카트', included: p.cartIncluded },
+    { label: '캐디', included: p.caddieIncluded },
+    { label: '공항 픽업', included: p.airportTransfer },
+  ];
+}
+
+/** 골프여행 특화 태그 (N색M홀·온천·석식포함 등) */
+export interface GolfTag {
+  label: string;
+  tone: 'best' | 'soft' | 'deal';
+}
+export function golfTags(p: GolfPackage): GolfTag[] {
+  const tags: GolfTag[] = [];
+  const colors = Math.min(p.rounds, p.golfCourses.length);
+  tags.push({ label: `${colors}색${p.rounds * 18}홀`, tone: 'soft' });
+  if (p.bestSeller) tags.push({ label: '베스트셀러', tone: 'best' });
+  if (p.lastMinute) tags.push({ label: '얼리버드', tone: 'deal' });
+  if (p.hotelFacilities.some((f) => f.includes('온천'))) tags.push({ label: '온천호텔', tone: 'soft' });
+  if (p.allInclusive) tags.push({ label: '석식포함', tone: 'soft' });
+  return tags.slice(0, 4);
+}
+
+/** 출발 가능 요일 (전세기·배차 사정 mock) — 0=일 … 6=토 */
+export function departureDays(p: GolfPackage): number[] {
+  const SETS = [
+    [1, 4, 5, 0], // 월·목·금·일
+    [2, 4, 6],    // 화·목·토
+    [1, 3, 5],    // 월·수·금
+    [0, 2, 4, 6], // 일·화·목·토
+    [4, 5, 6, 0], // 목·금·토·일
+  ];
+  const h = p.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  return SETS[h % SETS.length];
+}

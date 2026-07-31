@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Check, CreditCard, Apple, Wallet, Landmark, ShieldCheck, ArrowLeft, Gift } from 'lucide-react';
-import { getPackage, golfPoints, MOCK_POINT_BALANCE, POINT_RATE_KRW } from '@/mocks/golf/data';
+import { getPackage, golfPoints, MOCK_POINT_BALANCE, POINT_RATE_KRW, effectivePerPerson } from '@/mocks/golf/data';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { golfImg } from '@/features/golf/images';
 import { EmptyState } from '@/components/golf/common/ui';
@@ -24,6 +24,7 @@ export default function GolfCheckout() {
   const optionId = params.get('option');
   const golfers = Number(params.get('golfers') ?? 2);
   const nonGolfers = Number(params.get('nonGolfers') ?? 0);
+  const soloTeam = params.get('solo') === '1';
   const [step, setStep] = useState(1);
   const [pay, setPay] = useState('card');
   const [usePoints, setUsePoints] = useState(false);
@@ -39,7 +40,8 @@ export default function GolfCheckout() {
     );
   }
 
-  const subtotal = option.pricePerPersonUSD * (golfers + nonGolfers * 0.6);
+  const effPerPerson = effectivePerPerson(option.pricePerPersonUSD, golfers, soloTeam);
+  const subtotal = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers;
   const taxes = Math.round(subtotal * 0.1);
   const gross = subtotal + taxes;
   // 포인트 사용(mock): 보유 포인트를 통화가치(1P≈1원)로 환산해 차감
@@ -161,7 +163,8 @@ export default function GolfCheckout() {
               <div className="g-booking-row"><span>패키지</span><b>{option.label}</b></div>
               <div className="g-booking-row"><span>객실</span><b>{pkg.roomType}</b></div>
               <div className="g-booking-row"><span>골퍼 · 비골퍼</span><b>{golfers} · {nonGolfers}</b></div>
-              <div className="g-booking-row"><span>1인당</span><b>{fx(option.pricePerPersonUSD)}</b></div>
+              <div className="g-booking-row"><span>예약 유형</span><b>{soloTeam ? '단독팀' : '조인팀'}</b></div>
+              <div className="g-booking-row"><span>1인당</span><b>{fx(effPerPerson)}</b></div>
               <div className="g-booking-row"><span>소계</span><b>{fx(subtotal)}</b></div>
               <div className="g-booking-row"><span>세금·수수료</span><b>{fx(taxes)}</b></div>
               {pointDiscount > 0 && (

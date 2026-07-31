@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { MapPin, Coffee, Car, Plane, Flag, CheckCircle2, Timer, Zap } from 'lucide-react';
+import { MapPin, Coffee, Flag, CheckCircle2, Timer, Zap } from 'lucide-react';
 import type { GolfPackage } from '@/mocks/golf/types';
-import { discountPct, golfPoints } from '@/mocks/golf/data';
+import { discountPct, golfPoints, golfTags, feeBadges } from '@/mocks/golf/data';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { StarRating, ReviewScore, WishlistButton, CompareButton } from '@/components/golf/common/ui';
@@ -47,26 +47,30 @@ export default function PackageCard({ pkg }: { pkg: GolfPackage }) {
           {courses}
         </p>
 
+        <div className="g-gtag-row">
+          {golfTags(pkg).map((t) => (
+            <span key={t.label} className={`g-gtag g-gtag-${t.tone}`}>{t.label}</span>
+          ))}
+        </div>
+
         <ul className="g-pkgcard-incl">
           {pkg.breakfast && (
             <li>
               <Coffee size={13} /> 조식
             </li>
           )}
-          {pkg.cartIncluded && (
-            <li>
-              <Car size={13} /> 카트
-            </li>
-          )}
-          {pkg.airportTransfer && (
-            <li>
-              <Plane size={13} /> 픽업
-            </li>
-          )}
           <li>
             <Timer size={13} /> 골프장 {pkg.transferTimeMin}분
           </li>
         </ul>
+
+        <div className="g-fee-badges">
+          {feeBadges(pkg).map((f) => (
+            <span key={f.label} className={`g-fee-badge ${f.included ? 'is-inc' : 'is-local'}`}>
+              {f.label} {f.included ? '포함' : '현지'}
+            </span>
+          ))}
+        </div>
 
         <div className="g-pkgcard-status">
           {pkg.freeCancellation && (

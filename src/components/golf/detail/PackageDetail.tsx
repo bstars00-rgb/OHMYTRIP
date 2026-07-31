@@ -8,13 +8,13 @@ import {
   Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
   Gift, Sunrise, Sun, Sunset,
 } from 'lucide-react';
-import { getPackage, discountPct, golfPoints } from '@/mocks/golf/data';
+import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
 import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
-import { teeAvailability, makeTeeDates, type TeeDate } from '@/features/golf/teetime';
+import { teeAvailability, makeTeeDates, addDaysISO, formatTeeDate, WEEKDAY_KO, type TeeDate } from '@/features/golf/teetime';
 import { StarRating, WishlistButton, Modal, EmptyState } from '@/components/golf/common/ui';
 
 function facIcon(f: string) {
@@ -42,6 +42,7 @@ export default function PackageDetail({ id }: { id: string }) {
   const [optionId, setOptionId] = useState<string>(pkg?.options[0].id ?? '');
   const [golfers, setGolfers] = useState(2);
   const [nonGolfers, setNonGolfers] = useState(0);
+  const [soloTeam, setSoloTeam] = useState(false);
   const [teeByCourse, setTeeByCourse] = useState<Record<number, string>>({});
   const [teeDate, setTeeDate] = useState('');
   const [teeDates, setTeeDates] = useState<TeeDate[]>([]);
@@ -49,9 +50,12 @@ export default function PackageDetail({ id }: { id: string }) {
   useEffect(() => {
     // 날짜는 클라이언트에서만 생성(정적 export 하이드레이션 안전)
     const days = makeTeeDates(14);
+    const ok = pkg ? departureDays(pkg) : null;
+    const first = ok ? (days.find((d) => ok.includes(d.dow)) ?? days[0]) : days[0];
     // eslint-disable-next-line react-hooks/set-state-in-effect -- 클라이언트 전용 초기화(하이드레이션 안전)
     setTeeDates(days);
-    setTeeDate(days[0].iso);
+    setTeeDate(first.iso);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- pkg는 인스턴스 내 고정
   }, []);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [reviewTab, setReviewTab] = useState<'Hotel' | 'Course'>('Hotel');
@@ -69,7 +73,10 @@ export default function PackageDetail({ id }: { id: string }) {
     );
   }
 
-  const total = option.pricePerPersonUSD * (golfers + nonGolfers * 0.6);
+  // 조인/단독팀 + 소인원(기준 4인) 할증 반영 1인가
+  const effPerPerson = effectivePerPerson(option.pricePerPersonUSD, golfers, soloTeam);
+  const surcharged = effPerPerson > option.pricePerPersonUSD;
+  const total = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers;
   const pct = discountPct(pkg);
 
   // 티타임은 선택한 옵션의 라운드 수만큼 필요 (라운드별로 골프장 순환)
@@ -79,7 +86,7 @@ export default function PackageDetail({ id }: { id: string }) {
 
   const goCheckout = () => {
     if (pkg.instantConfirmation && !teeComplete) return; // 티타임 미완료 시 예약 불가
-    const p = new URLSearchParams({ pkg: pkg.id, option: option.id, golfers: String(golfers), nonGolfers: String(nonGolfers) });
+    const p = new URLSearchParams({ pkg: pkg.id, option: option.id, golfers: String(golfers), nonGolfers: String(nonGolfers), solo: soloTeam ? '1' : '0' });
     router.push(`/golf/checkout?${p.toString()}`);
   };
 
@@ -189,33 +196,46 @@ export default function PackageDetail({ id }: { id: string }) {
                 <span className={`g-badge ${teeComplete ? 'g-badge-instant' : 'g-badge-quote'}`}>{teeSelected}/{roundsCount} 라운드 선택</span>
               </div>
               <p className="g-muted" style={{ fontSize: 13, margin: '2px 0 14px' }}>
-                <span className="g-tee-live"><span className="g-tee-live-dot" /> 실시간 재고</span> 날짜를 선택하면 잔여 티타임이 갱신돼요. 라운드별로 모두 선택해야 예약할 수 있어요.
+                <span className="g-tee-live"><span className="g-tee-live-dot" /> 실시간 재고</span> <b>골프 시작일(1라운드)</b>을 고르면 라운드별 일자가 자동 배정돼요. 각 라운드의 티타임을 모두 선택해야 예약할 수 있어요.
               </p>
 
-              {/* 실시간 날짜 선택 */}
+              {/* 골프 시작일 선택 (출발 가능 요일만 활성) */}
               {teeDates.length > 0 && (
-                <div className="g-tee-datestrip">
-                  {teeDates.map((d) => (
-                    <button
-                      key={d.iso}
-                      type="button"
-                      className={`g-tee-date${teeDate === d.iso ? ' is-active' : ''}${d.isWeekend ? ' is-weekend' : ''}`}
-                      onClick={() => { setTeeDate(d.iso); setTeeByCourse({}); }}
-                    >
-                      {d.label}
-                    </button>
-                  ))}
-                </div>
+                <>
+                  <div className="g-tee-datelabel">
+                    골프 시작일 <span className="g-muted" style={{ fontWeight: 400 }}>· 출발 가능 {departureDays(pkg).map((n) => WEEKDAY_KO[n]).join('·')}요일</span>
+                  </div>
+                  <div className="g-tee-datestrip">
+                    {teeDates.map((d) => {
+                      const allowed = departureDays(pkg).includes(d.dow);
+                      return (
+                        <button
+                          key={d.iso}
+                          type="button"
+                          disabled={!allowed}
+                          className={`g-tee-date${teeDate === d.iso ? ' is-active' : ''}${d.isWeekend ? ' is-weekend' : ''}${!allowed ? ' is-blocked' : ''}`}
+                          onClick={() => { setTeeDate(d.iso); setTeeByCourse({}); }}
+                        >
+                          {d.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
               )}
 
               {Array.from({ length: roundsCount }).map((_, ri) => {
                 const c = pkg.golfCourses[ri % pkg.golfCourses.length];
+                const roundDate = addDaysISO(teeDate, ri);
                 return (
-                  <div key={ri} style={{ marginBottom: 22 }}>
-                    <div className="g-between" style={{ justifyContent: 'flex-start', gap: 10, marginBottom: 12 }}>
-                      <b>{c.name}</b>
-                      <span className="g-muted" style={{ fontSize: 13 }}>{ri + 1}라운드</span>
-                      {teeByCourse[ri] && <span className="g-inc" style={{ fontSize: 12 }}><Check size={13} /> {teeByCourse[ri]}</span>}
+                  <div key={ri} className="g-tee-round">
+                    <div className="g-tee-round-head">
+                      <span className="g-tee-round-day">{ri + 1}<small>라운드</small></span>
+                      <div className="g-tee-round-info">
+                        <b className="g-tee-round-date">{roundDate ? formatTeeDate(roundDate) : '날짜 미정'}</b>
+                        <span className="g-muted">{c.name}</span>
+                      </div>
+                      {teeByCourse[ri] && <span className="g-inc g-tee-round-picked"><Check size={13} /> {teeByCourse[ri]}</span>}
                     </div>
                     {TEE_BANDS.map((band) => {
                       const slots = pkg.teeTimes.filter((t) => band.test(teeHour(t.time)));
@@ -225,7 +245,7 @@ export default function PackageDetail({ id }: { id: string }) {
                           <div className="g-tee-band-label"><band.icon size={14} /> {band.label}</div>
                           <div className="g-tee-grid">
                             {slots.map((t) => {
-                              const av = teeAvailability(c.name, teeDate, t.time, t.soldOut);
+                              const av = teeAvailability(c.name, roundDate, t.time, t.soldOut);
                               return (
                                 <button
                                   key={t.time}
@@ -307,12 +327,20 @@ export default function PackageDetail({ id }: { id: string }) {
           {/* A. Booking summary (sticky) */}
           <aside>
             <div className="g-booking-card">
+              <div className="g-fee-badges" style={{ marginBottom: 12 }}>
+                {feeBadges(pkg).map((f) => (
+                  <span key={f.label} className={`g-fee-badge ${f.included ? 'is-inc' : 'is-local'}`}>{f.label} {f.included ? '포함' : '현지'}</span>
+                ))}
+              </div>
+
               <div className="g-booking-price">
-                <span className="g-price-now">{fx(option.pricePerPersonUSD)}</span>
+                <span className="g-price-now">{fx(effPerPerson)}</span>
                 <span className="g-price-unit">{t('detail.perPerson')}</span>
                 {pct > 0 && <span className="g-discount" style={{ marginLeft: 'auto' }}>−{pct}%</span>}
               </div>
-              <p className="g-muted" style={{ fontSize: 13 }}><s>{fx(option.originalPerPersonUSD)}</s> · 세금·수수료 포함</p>
+              <p className="g-muted" style={{ fontSize: 13 }}>
+                {surcharged ? <><s>{fx(option.pricePerPersonUSD)}</s> · 소인원/단독 할증 적용</> : <><s>{fx(option.originalPerPersonUSD)}</s> · 세금·수수료 포함</>}
+              </p>
 
               <div style={{ marginTop: 16 }}>
                 <label className="g-label">{t('detail.pkgOption')}</label>
@@ -321,6 +349,18 @@ export default function PackageDetail({ id }: { id: string }) {
                     <option key={o.id} value={o.id}>{t('search.option', { x: String.fromCharCode(65 + i) })} — {o.label}</option>
                   ))}
                 </select>
+              </div>
+
+              <div style={{ marginTop: 14 }}>
+                <label className="g-label">예약 유형</label>
+                <div className="g-teamtype">
+                  <button type="button" className={!soloTeam ? 'is-active' : ''} onClick={() => setSoloTeam(false)}>
+                    <b>조인팀</b><span>다른 팀과 함께</span>
+                  </button>
+                  <button type="button" className={soloTeam ? 'is-active' : ''} onClick={() => setSoloTeam(true)}>
+                    <b>단독팀</b><span>우리끼리 +{Math.round(SOLO_TEAM_SURCHARGE * 100)}%</span>
+                  </button>
+                </div>
               </div>
 
               <div className="g-booking-rows">
@@ -343,6 +383,10 @@ export default function PackageDetail({ id }: { id: string }) {
                 <div className="g-booking-row"><span>{t('detail.nightsRounds')}</span><b>{option.nights} · {option.rounds}</b></div>
                 <div className="g-booking-row"><span>{t('detail.teeTime')}</span><b style={{ color: teeComplete ? 'var(--g-forest)' : 'var(--g-charcoal)' }}>{t('detail.teeSelected', { a: teeSelected, b: roundsCount })}</b></div>
               </div>
+
+              {golfers < 4 && (
+                <div className="g-surcharge-note">기준 4인 · {golfers}인 소인원 할증 ×{smallGroupMult(golfers)}</div>
+              )}
 
               <div className="g-booking-total">
                 <span>{t('detail.total')}</span>

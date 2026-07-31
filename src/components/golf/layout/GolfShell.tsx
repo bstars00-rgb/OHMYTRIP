@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import GolfHeader from '@/components/golf/layout/GolfHeader';
 import GolfFooter from '@/components/golf/layout/GolfFooter';
+import GolfConsultFab from '@/components/golf/layout/GolfConsultFab';
 import { GolfProviders } from '@/features/golf/GolfProviders';
 
 /**
@@ -28,6 +29,7 @@ export default function GolfShell({ children }: { children: React.ReactNode }) {
         <GolfHeader />
         <main>{children}</main>
         <GolfFooter />
+        <GolfConsultFab />
       </div>
     </GolfProviders>
   );

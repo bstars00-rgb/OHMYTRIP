@@ -1,7 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { Camera, Users, Play } from 'lucide-react';
+import { Camera, Users, Play, ShieldCheck, BadgeCheck, Plane } from 'lucide-react';
+
+const TRUST = [
+  { icon: BadgeCheck, label: '관광사업자 등록', value: '제2026-서울강남-0000호' },
+  { icon: ShieldCheck, label: '통신판매업 신고', value: '2026-서울강남-00000' },
+  { icon: Plane, label: 'IATA 인증 여행사', value: 'IATA 00-0 0000 0' },
+  { icon: ShieldCheck, label: '무료 해외여행자보험', value: '1인당 최대 3억원' },
+];
 
 const COLS = [
   { title: '골프텔 예약', links: ['골프 패키지', '여행지', '골프장', '특가', '맞춤 견적'] },
@@ -36,6 +43,17 @@ export default function GolfFooter() {
                   </li>
                 ))}
               </ul>
+            </div>
+          ))}
+        </div>
+        <div className="g-footer-trust">
+          {TRUST.map((tr) => (
+            <div key={tr.label} className="g-trust-badge">
+              <tr.icon size={18} />
+              <div>
+                <b>{tr.label}</b>
+                <span>{tr.value}</span>
+              </div>
             </div>
           ))}
         </div>
