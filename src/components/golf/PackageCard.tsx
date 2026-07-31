@@ -8,14 +8,15 @@ import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
 import { StarRating, ReviewScore, WishlistButton, CompareButton } from '@/components/golf/common/ui';
 
-export default function PackageCard({ pkg }: { pkg: GolfPackage }) {
+export default function PackageCard({ pkg, dateQuery }: { pkg: GolfPackage; dateQuery?: string }) {
   const { fx } = usePrefs();
   const pct = discountPct(pkg);
   const courses = pkg.golfCourses.map((c) => c.name).join(' · ');
+  const href = `/golf/package/${pkg.id}${dateQuery ? `?${dateQuery}` : ''}`;
 
   return (
     <article className="g-card g-card-hover g-pkgcard">
-      <Link href={`/golf/package/${pkg.id}`} className="g-pkgcard-media" aria-label={pkg.hotel}>
+      <Link href={href} className="g-pkgcard-media" aria-label={pkg.hotel}>
         <img src={golfImg(pkg.id, 'resort')} alt={`${pkg.hotel}, ${pkg.destination}`} loading="lazy" decoding="async" width={800} height={600} />
         <div className="g-pkgcard-badges">
           {pkg.bestSeller && <span className="g-badge g-badge-best">베스트</span>}
@@ -34,7 +35,7 @@ export default function PackageCard({ pkg }: { pkg: GolfPackage }) {
         </div>
 
         <h3 className="g-pkgcard-title">
-          <Link href={`/golf/package/${pkg.id}`}>{pkg.hotel}</Link>
+          <Link href={href}>{pkg.hotel}</Link>
         </h3>
         <p className="g-pkgcard-loc">
           <MapPin size={14} /> {pkg.destination}, {pkg.country}
@@ -105,7 +106,7 @@ export default function PackageCard({ pkg }: { pkg: GolfPackage }) {
           </div>
           <div className="g-pkgcard-actions">
             <CompareButton id={pkg.id} />
-            <Link href={`/golf/package/${pkg.id}`} className="g-btn g-btn-primary g-btn-sm">
+            <Link href={href} className="g-btn g-btn-primary g-btn-sm">
               패키지 보기
             </Link>
           </div>

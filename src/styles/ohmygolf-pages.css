@@ -705,3 +705,68 @@
 .ohmygolf .g-signature-title { font-size: 30px; margin: 6px 0 10px; }
 .ohmygolf .g-signature-sub { color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.6; }
 @media (max-width: 640px) { .ohmygolf .g-signature-title { font-size: 24px; } .ohmygolf .g-signature-banner { padding: 28px 22px; } }
+
+/* 티타임 라운드별 일자 */
+.ohmygolf .g-tee-datelabel { font-size: 12px; font-weight: 700; color: var(--g-charcoal-60); margin-bottom: 8px; }
+.ohmygolf .g-tee-round { margin-bottom: 24px; }
+.ohmygolf .g-tee-round-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.ohmygolf .g-tee-round-day { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; background: var(--g-forest); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; line-height: 1; }
+.ohmygolf .g-tee-round-day small { font-size: 8px; font-weight: 600; margin-top: 2px; }
+.ohmygolf .g-tee-round-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ohmygolf .g-tee-round-date { font-size: 16px; }
+.ohmygolf .g-tee-round-info .g-muted { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ohmygolf .g-tee-round-picked { margin-left: auto; flex-shrink: 0; font-size: 12px; }
+
+/* ============ 한국 골프여행사 Top5 프로토타입 ============ */
+/* 골프 특화 태그 */
+.ohmygolf .g-gtag-row { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 2px; }
+.ohmygolf .g-gtag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: var(--g-radius-pill); }
+.ohmygolf .g-gtag-soft { background: var(--g-ivory); color: var(--g-charcoal-60); }
+.ohmygolf .g-gtag-best { background: var(--g-forest); color: #fff; }
+.ohmygolf .g-gtag-deal { background: #fff3ea; color: var(--g-forest); }
+
+/* 포함/현지결제 배지 */
+.ohmygolf .g-fee-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.ohmygolf .g-fee-badge { font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 6px; }
+.ohmygolf .g-fee-badge.is-inc { background: #e6f4ec; color: var(--g-success); }
+.ohmygolf .g-fee-badge.is-local { background: #fff3ea; color: var(--g-forest); }
+
+/* 조인/단독팀 */
+.ohmygolf .g-teamtype { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+.ohmygolf .g-teamtype button { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 10px 12px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); text-align: left; background: var(--g-white); }
+.ohmygolf .g-teamtype button b { font-size: 14px; }
+.ohmygolf .g-teamtype button span { font-size: 11px; color: var(--g-charcoal-40); }
+.ohmygolf .g-teamtype button.is-active { border-color: var(--g-forest); background: #fff8f2; }
+.ohmygolf .g-teamtype button.is-active b { color: var(--g-forest); }
+.ohmygolf .g-surcharge-note { font-size: 12px; color: var(--g-forest); background: #fff3ea; padding: 8px 12px; border-radius: var(--g-radius-sm); margin-bottom: 10px; }
+
+/* 출발 불가 요일 */
+.ohmygolf .g-tee-date.is-blocked { opacity: .3; text-decoration: line-through; cursor: not-allowed; }
+
+/* 상담 FAB */
+.ohmygolf .g-fab { position: fixed; right: 20px; bottom: 20px; z-index: 800; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.ohmygolf .g-fab-btn { display: flex; align-items: center; gap: 7px; height: 54px; padding: 0 20px; border-radius: var(--g-radius-pill); background: var(--g-forest); color: #fff; font-weight: 700; box-shadow: 0 8px 24px rgba(239,127,41,.4); }
+.ohmygolf .g-fab-label { font-size: 14px; }
+.ohmygolf .g-fab.is-open .g-fab-btn { width: 54px; padding: 0; justify-content: center; }
+.ohmygolf .g-fab-menu { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.ohmygolf .g-fab-item { display: flex; align-items: center; gap: 8px; background: var(--g-white); border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); padding: 10px 16px; font-size: 13px; font-weight: 600; box-shadow: var(--g-shadow-md); white-space: nowrap; }
+.ohmygolf .g-fab-item b { color: var(--g-forest); }
+.ohmygolf .g-fab-item:hover { border-color: var(--g-forest); }
+.ohmygolf .g-fab-kakao { background: #fee500; border-color: #fee500; color: #3c1e1e; }
+.ohmygolf .g-fab-kakao svg { color: #3c1e1e; }
+@media (max-width: 720px) { .ohmygolf .g-fab { bottom: 80px; } }
+
+/* 신뢰 배지 (푸터) */
+.ohmygolf .g-footer-trust { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); }
+.ohmygolf .g-trust-badge { display: flex; gap: 10px; align-items: center; }
+.ohmygolf .g-trust-badge svg { color: var(--g-forest); flex-shrink: 0; }
+.ohmygolf .g-trust-badge b { display: block; font-size: 12.5px; color: #fff; }
+.ohmygolf .g-trust-badge span { display: block; font-size: 11.5px; color: rgba(255,255,255,.6); }
+@media (max-width: 720px) { .ohmygolf .g-footer-trust { grid-template-columns: 1fr 1fr; } }
+
+/* 골프 시작일 바 + 인라인 캘린더 */
+.ohmygolf .g-tee-startbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid var(--g-line); border-radius: var(--g-radius); margin-bottom: 16px; }
+.ohmygolf .g-tee-startbar .g-tee-datelabel { margin-bottom: 0; }
+.ohmygolf .g-tee-startdate { font-size: 18px; margin-top: 3px; display: block; }
+.ohmygolf .g-tee-calwrap { margin: -4px 0 18px; }
+.ohmygolf .g-tee-calwrap .g-cal { position: static; box-shadow: none; width: 100%; max-width: 660px; }

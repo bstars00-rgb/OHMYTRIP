@@ -17,10 +17,14 @@ interface Props {
   checkOut: string | null;
   onApply: (checkIn: string, checkOut: string) => void;
   onReset: () => void;
+  /** 단일 날짜 선택(골프 시작일 등) */
+  single?: boolean;
+  /** 선택 가능 요일 (0=일..6=토) — 미지정 시 전부 허용 */
+  allowDow?: (dow: number) => boolean;
 }
 
-function MonthGrid({ month, today, ci, co, onPick, weekdays }: {
-  month: Date; today: Date; ci: Date | null; co: Date | null; onPick: (d: Date) => void; weekdays: string[];
+function MonthGrid({ month, today, ci, co, onPick, weekdays, allowDow }: {
+  month: Date; today: Date; ci: Date | null; co: Date | null; onPick: (d: Date) => void; weekdays: string[]; allowDow?: (dow: number) => boolean;
 }) {
   const days = eachDayOfInterval({ start: startOfMonth(month), end: endOfMonth(month) });
   const lead = startOfMonth(month).getDay();
@@ -57,10 +61,10 @@ function MonthGrid({ month, today, ci, co, onPick, weekdays }: {
             <tr key={wi}>
               {wk.map((d, di) => {
                 if (!d) return <td key={di} className="is-empty" />;
-                const past = isBefore(d, today);
+                const blocked = isBefore(d, today) || (allowDow ? !allowDow(d.getDay()) : false);
                 return (
                   <td key={di} className={tdCls(d)}>
-                    <button type="button" disabled={past} className={`${dayCls(d)}${past ? ' is-past' : ''}`} onClick={() => !past && onPick(d)}>
+                    <button type="button" disabled={blocked} className={`${dayCls(d)}${blocked ? ' is-past' : ''}`} onClick={() => !blocked && onPick(d)}>
                       {d.getDate()}
                     </button>
                   </td>
@@ -75,7 +79,7 @@ function MonthGrid({ month, today, ci, co, onPick, weekdays }: {
 }
 
 /** OHMYTRIP 데스크톱 달력 미러링: 상단 범위 텍스트 + 일정 초기화, 2개월 나란히, 이전/다음달 */
-export default function GolfRangeCalendar({ checkIn, checkOut, onApply, onReset }: Props) {
+export default function GolfRangeCalendar({ checkIn, checkOut, onApply, onReset, single, allowDow }: Props) {
   const { t, language } = usePrefs();
   const today = startOfDay(new Date());
   const base = startOfMonth(today);
@@ -90,6 +94,7 @@ export default function GolfRangeCalendar({ checkIn, checkOut, onApply, onReset 
   const rangeText = ci ? `${fmt(ci)}${co ? ` - ${fmt(co)}` : ''}` : t('cal.pickPrompt');
 
   const pick = (d: Date) => {
+    if (single) { setCi(d); setCo(null); onApply(toIsoDate(d), toIsoDate(d)); return; }
     if (!ci || (ci && co)) { setCi(d); setCo(null); return; }
     if (isAfter(d, ci)) { setCo(d); onApply(toIsoDate(ci), toIsoDate(d)); }
     else { setCi(d); setCo(null); }
@@ -111,8 +116,8 @@ export default function GolfRangeCalendar({ checkIn, checkOut, onApply, onReset 
         <button type="button" className="g-cal-nav g-cal-next" aria-label="다음달" disabled={view >= WINDOW - 2} onClick={() => setView((v) => Math.min(WINDOW - 2, v + 1))}>
           <ChevronRight size={18} />
         </button>
-        <MonthGrid month={months[view]} today={today} ci={ci} co={co} onPick={pick} weekdays={weekdays} />
-        <MonthGrid month={months[view + 1]} today={today} ci={ci} co={co} onPick={pick} weekdays={weekdays} />
+        <MonthGrid month={months[view]} today={today} ci={ci} co={co} onPick={pick} weekdays={weekdays} allowDow={allowDow} />
+        <MonthGrid month={months[view + 1]} today={today} ci={ci} co={co} onPick={pick} weekdays={weekdays} allowDow={allowDow} />
       </div>
     </div>
   );

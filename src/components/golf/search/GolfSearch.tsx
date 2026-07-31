@@ -35,6 +35,16 @@ export default function GolfSearch() {
 
   const destLabel = filters.destination ?? (category ? t(`cat.${category.key}`) : t('search.allDest'));
 
+  // 검색 날짜를 상세 링크로 전달 (골프 시작일 재선택 방지)
+  const dateQuery = (() => {
+    const q = new URLSearchParams();
+    const ci = params.get('checkIn');
+    const co = params.get('checkOut');
+    if (ci) q.set('checkIn', ci);
+    if (co) q.set('checkOut', co);
+    return q.toString();
+  })();
+
   const num = (v: string | null) => (v ? Number(v) : undefined);
   const initialSearch = {
     destination: params.get('destination') ?? undefined,
@@ -122,7 +132,7 @@ export default function GolfSearch() {
               <div className="g-results-list">
                 {results.map((p) => (
                   <div key={p.id}>
-                    <PackageCard pkg={p} />
+                    <PackageCard pkg={p} dateQuery={dateQuery} />
                     <details className="g-card" style={{ marginTop: 8, padding: '0 16px' }}>
                       <summary style={{ padding: '12px 0', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>
                         {t('search.optionsCompare', { n: p.options.length })}

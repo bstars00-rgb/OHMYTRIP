@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import {
   ChevronRight, MapPin, Share2, Check, X, Car, Flag, Clock,
   Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
-  Gift, Sunrise, Sun, Sunset,
+  Gift, Sunrise, Sun, Sunset, CalendarDays,
 } from 'lucide-react';
 import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
@@ -14,7 +14,9 @@ import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
 import { golfImg } from '@/features/golf/images';
 import { usePrefs } from '@/features/golf/GolfProviders';
-import { teeAvailability, makeTeeDates, addDaysISO, formatTeeDate, WEEKDAY_KO, type TeeDate } from '@/features/golf/teetime';
+import { teeAvailability, makeTeeDates, addDaysISO, formatTeeDate, WEEKDAY_KO } from '@/features/golf/teetime';
+import { formatConditionDate } from '@/utils/date';
+import GolfRangeCalendar from '@/components/golf/search/GolfRangeCalendar';
 import { StarRating, WishlistButton, Modal, EmptyState } from '@/components/golf/common/ui';
 
 function facIcon(f: string) {
@@ -45,16 +47,17 @@ export default function PackageDetail({ id }: { id: string }) {
   const [soloTeam, setSoloTeam] = useState(false);
   const [teeByCourse, setTeeByCourse] = useState<Record<number, string>>({});
   const [teeDate, setTeeDate] = useState('');
-  const [teeDates, setTeeDates] = useState<TeeDate[]>([]);
+  const [teeCalOpen, setTeeCalOpen] = useState(false);
 
   useEffect(() => {
-    // 날짜는 클라이언트에서만 생성(정적 export 하이드레이션 안전)
+    // 검색에서 선택한 날짜(checkIn)를 골프 시작일로 사용. 없으면 가까운 출발가능일.
     const days = makeTeeDates(14);
     const ok = pkg ? departureDays(pkg) : null;
-    const first = ok ? (days.find((d) => ok.includes(d.dow)) ?? days[0]) : days[0];
+    const ci = new URLSearchParams(window.location.search).get('checkIn');
+    const validCi = ci && /^\d{4}-\d{2}-\d{2}$/.test(ci) ? ci : null;
+    const fallback = ok ? (days.find((d) => ok.includes(d.dow))?.iso ?? days[0].iso) : days[0].iso;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- 클라이언트 전용 초기화(하이드레이션 안전)
-    setTeeDates(days);
-    setTeeDate(first.iso);
+    setTeeDate(validCi ?? fallback);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- pkg는 인스턴스 내 고정
   }, []);
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -196,32 +199,30 @@ export default function PackageDetail({ id }: { id: string }) {
                 <span className={`g-badge ${teeComplete ? 'g-badge-instant' : 'g-badge-quote'}`}>{teeSelected}/{roundsCount} 라운드 선택</span>
               </div>
               <p className="g-muted" style={{ fontSize: 13, margin: '2px 0 14px' }}>
-                <span className="g-tee-live"><span className="g-tee-live-dot" /> 실시간 재고</span> <b>골프 시작일(1라운드)</b>을 고르면 라운드별 일자가 자동 배정돼요. 각 라운드의 티타임을 모두 선택해야 예약할 수 있어요.
+                <span className="g-tee-live"><span className="g-tee-live-dot" /> 실시간 재고</span> 검색에서 고른 <b>골프 시작일</b> 기준으로 라운드별 일자가 자동 배정돼요. 날짜를 바꾸려면 <b>날짜 변경</b>을 누르세요.
               </p>
 
-              {/* 골프 시작일 선택 (출발 가능 요일만 활성) */}
-              {teeDates.length > 0 && (
-                <>
-                  <div className="g-tee-datelabel">
-                    골프 시작일 <span className="g-muted" style={{ fontWeight: 400 }}>· 출발 가능 {departureDays(pkg).map((n) => WEEKDAY_KO[n]).join('·')}요일</span>
-                  </div>
-                  <div className="g-tee-datestrip">
-                    {teeDates.map((d) => {
-                      const allowed = departureDays(pkg).includes(d.dow);
-                      return (
-                        <button
-                          key={d.iso}
-                          type="button"
-                          disabled={!allowed}
-                          className={`g-tee-date${teeDate === d.iso ? ' is-active' : ''}${d.isWeekend ? ' is-weekend' : ''}${!allowed ? ' is-blocked' : ''}`}
-                          onClick={() => { setTeeDate(d.iso); setTeeByCourse({}); }}
-                        >
-                          {d.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </>
+              {/* 골프 시작일 — 검색 날짜 사용, 캘린더로 변경 */}
+              <div className="g-tee-startbar">
+                <div className="g-tee-startinfo">
+                  <div className="g-tee-datelabel">골프 시작일 <span className="g-muted" style={{ fontWeight: 400 }}>· 출발 가능 {departureDays(pkg).map((n) => WEEKDAY_KO[n]).join('·')}요일</span></div>
+                  <b className="g-tee-startdate">{teeDate ? formatConditionDate(teeDate) : '날짜 선택'}</b>
+                </div>
+                <button type="button" className="g-btn g-btn-outline g-btn-sm" onClick={() => setTeeCalOpen((o) => !o)}>
+                  <CalendarDays size={15} /> 날짜 변경
+                </button>
+              </div>
+              {teeCalOpen && (
+                <div className="g-tee-calwrap">
+                  <GolfRangeCalendar
+                    single
+                    checkIn={teeDate || null}
+                    checkOut={null}
+                    allowDow={(dow) => departureDays(pkg).includes(dow)}
+                    onApply={(ci) => { setTeeDate(ci); setTeeByCourse({}); setTeeCalOpen(false); }}
+                    onReset={() => {}}
+                  />
+                </div>
               )}
 
               {Array.from({ length: roundsCount }).map((_, ri) => {
