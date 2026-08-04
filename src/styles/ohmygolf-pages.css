@@ -770,3 +770,66 @@
 .ohmygolf .g-tee-startdate { font-size: 18px; margin-top: 3px; display: block; }
 .ohmygolf .g-tee-calwrap { margin: -4px 0 18px; }
 .ohmygolf .g-tee-calwrap .g-cal { position: static; box-shadow: none; width: 100%; max-width: 660px; }
+
+/* ============ 여성 골퍼 조사 반영 ============ */
+/* 여성친화 시설 필터 */
+.ohmygolf .g-wellness-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ohmygolf .g-wellness-chip { font-size: 12px; padding: 6px 11px; border: 1px solid var(--g-line); border-radius: var(--g-radius-pill); background: var(--g-white); color: var(--g-charcoal-60); }
+.ohmygolf .g-wellness-chip:hover { border-color: var(--g-forest); }
+.ohmygolf .g-wellness-chip.is-active { background: var(--g-forest); color: #fff; border-color: var(--g-forest); }
+
+/* 인원 프리셋 */
+.ohmygolf .g-party-presets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+.ohmygolf .g-party-preset { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 9px 12px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); background: var(--g-white); text-align: left; }
+.ohmygolf .g-party-preset b { font-size: 13.5px; }
+.ohmygolf .g-party-preset span { font-size: 11px; color: var(--g-charcoal-40); }
+.ohmygolf .g-party-preset.is-active { border-color: var(--g-forest); background: #fff8f2; }
+.ohmygolf .g-party-preset.is-active b { color: var(--g-forest); }
+
+/* 스테이 애드온 */
+.ohmygolf .g-addons { margin: 14px 0 4px; }
+.ohmygolf .g-addon { display: flex; align-items: center; gap: 10px; padding: 9px 4px; border-bottom: 1px solid var(--g-line-soft); cursor: pointer; }
+.ohmygolf .g-addon input { width: 17px; height: 17px; accent-color: var(--g-forest); flex-shrink: 0; }
+.ohmygolf .g-addon-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.ohmygolf .g-addon-info b { font-size: 13.5px; }
+.ohmygolf .g-addon-info .g-muted { font-size: 11.5px; }
+.ohmygolf .g-addon-price { color: var(--g-forest); font-size: 13.5px; flex-shrink: 0; }
+
+/* 여성 안심 케어 */
+.ohmygolf .g-care-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.ohmygolf .g-care-item { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); font-size: 14px; }
+.ohmygolf .g-care-item svg { color: var(--g-success); flex-shrink: 0; }
+.ohmygolf .g-care-item.is-off { color: var(--g-charcoal-40); }
+.ohmygolf .g-care-item.is-off svg { color: var(--g-charcoal-40); }
+
+/* 시즌 배너 */
+.ohmygolf .g-season-banner { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: linear-gradient(100deg, #fff3ea, #ffe9d6); border: 1px solid #ffdcc0; border-radius: var(--g-radius); }
+.ohmygolf .g-season-emoji { font-size: 26px; }
+.ohmygolf .g-season-copy { flex: 1; display: flex; flex-direction: column; }
+.ohmygolf .g-season-copy b { font-size: 15px; }
+.ohmygolf .g-season-copy span { font-size: 13px; color: var(--g-charcoal-60); }
+@media (max-width: 560px) { .ohmygolf .g-season-banner { flex-wrap: wrap; } }
+
+/* ============ 상품 소개 + 애드온 리치 카드 ============ */
+.ohmygolf .g-detail-intro { padding: 22px 0 6px; }
+.ohmygolf .g-detail-intro p { font-size: 15px; line-height: 1.8; color: var(--g-charcoal); }
+
+.ohmygolf .g-addon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ohmygolf .g-addon-card { display: flex; gap: 14px; padding: 16px; border: 1px solid var(--g-line); border-radius: var(--g-radius); background: var(--g-white); }
+.ohmygolf .g-addon-card.is-active { border-color: var(--g-forest); background: #fff8f2; }
+.ohmygolf .g-addon-ic { flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; background: var(--g-ivory); color: var(--g-forest); display: flex; align-items: center; justify-content: center; }
+.ohmygolf .g-addon-card.is-active .g-addon-ic { background: var(--g-forest); color: #fff; }
+.ohmygolf .g-addon-body { flex: 1; min-width: 0; }
+.ohmygolf .g-addon-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.ohmygolf .g-addon-head b { font-size: 15px; }
+.ohmygolf .g-addon-cardprice { color: var(--g-forest); font-weight: 700; font-size: 15px; white-space: nowrap; }
+.ohmygolf .g-addon-cardprice small { font-weight: 400; color: var(--g-charcoal-40); font-size: 11px; }
+.ohmygolf .g-addon-desc { font-size: 13px; line-height: 1.6; color: var(--g-charcoal-60); margin: 6px 0 12px; }
+
+.ohmygolf .g-addon-summary, .ohmygolf .g-addon-cta { display: block; text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); font-size: 13px; font-weight: 600; text-decoration: none; }
+.ohmygolf .g-addon-summary { border-color: var(--g-forest); background: #fff8f2; color: var(--g-forest); }
+.ohmygolf .g-addon-summary b { color: var(--g-forest); }
+.ohmygolf .g-addon-cta { border-style: dashed; color: var(--g-charcoal-60); }
+.ohmygolf .g-addon-cta:hover { border-color: var(--g-forest); color: var(--g-forest); }
+
+@media (max-width: 720px) { .ohmygolf .g-addon-grid { grid-template-columns: 1fr; } }

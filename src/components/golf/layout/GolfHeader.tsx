@@ -13,10 +13,9 @@ import {
 } from '@/features/golf/GolfProviders';
 import { asset } from '@/features/golf/images';
 
+// 골프텔은 오마이트립 안의 단일 카테고리 — 상단 메뉴는 핵심만 유지
 const NAV = [
   { key: 'nav.packages', href: '/golf/search' },
-  { key: 'nav.destinations', href: '/golf#destinations' },
-  { key: 'nav.courses', href: '/golf#packages' },
   { key: 'nav.deals', href: '/golf/search?deals=1' },
   { key: 'nav.custom', href: '/golf/build' },
 ];

@@ -8,7 +8,7 @@ import {
   Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
   Gift, Sunrise, Sun, Sunset, CalendarDays,
 } from 'lucide-react';
-import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE, PARTY_PRESETS, STAY_ADDONS, safetyCare } from '@/mocks/golf/data';
+import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE, PARTY_PRESETS, STAY_ADDONS, safetyCare, packageIntro } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
 import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
@@ -35,6 +35,8 @@ const TEE_BANDS = [
   { key: 'afternoon', label: '오후', icon: Sunset, test: (h: number) => h >= 12 },
 ] as const;
 const teeHour = (t: string) => parseInt(t.split(':')[0], 10);
+
+const ADDON_ICON = { spa: Sparkles, massage: Waves, food: Utensils, pickup: Car } as const;
 
 
 export default function PackageDetail({ id }: { id: string }) {
@@ -144,6 +146,12 @@ export default function PackageDetail({ id }: { id: string }) {
           </button>
         </div>
 
+        {/* 상품 소개 */}
+        <section className="g-detail-intro">
+          <h2 className="g-detail-h" style={{ marginBottom: 8 }}>상품 소개</h2>
+          <p>{packageIntro(pkg)}</p>
+        </section>
+
         <div className="g-detail-layout">
           <div className="g-detail-main">
             <nav className="g-detail-nav" aria-label="섹션 바로가기">
@@ -154,6 +162,7 @@ export default function PackageDetail({ id }: { id: string }) {
               <a href="#itinerary">여행 일정</a>
               <a href="#terms">예약 조건</a>
               <a href="#care">안심 케어</a>
+              <a href="#addons">애드온</a>
               <a href="#reviews">후기</a>
             </nav>
 
@@ -306,6 +315,37 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
             </section>
 
+            {/* G-3. 라운드 외 힐링 애드온 */}
+            <section id="addons" className="g-detail-sec">
+              <h2 className="g-detail-h">라운드 외 힐링 <span className="g-muted" style={{ fontSize: 14, fontWeight: 400 }}>· 선택 애드온</span></h2>
+              <p className="g-muted" style={{ fontSize: 13, marginBottom: 16 }}>라운드만큼 중요한 라운드 후 시간. 원하는 애드온을 담으면 예약 요약과 총액에 자동 반영돼요.</p>
+              <div className="g-addon-grid">
+                {STAY_ADDONS.map((a) => {
+                  const Icon = ADDON_ICON[a.icon];
+                  const on = addons.includes(a.key);
+                  return (
+                    <div key={a.key} className={`g-addon-card${on ? ' is-active' : ''}`}>
+                      <span className="g-addon-ic"><Icon size={20} /></span>
+                      <div className="g-addon-body">
+                        <div className="g-addon-head">
+                          <b>{a.label}</b>
+                          <span className="g-addon-cardprice">+{fx(a.priceUSD)} <small>/{a.unit}</small></span>
+                        </div>
+                        <p className="g-addon-desc">{a.desc}</p>
+                        <button
+                          type="button"
+                          className={`g-btn g-btn-sm ${on ? 'g-btn-primary' : 'g-btn-outline'}`}
+                          onClick={() => setAddons((s) => (on ? s.filter((x) => x !== a.key) : [...s, a.key]))}
+                        >
+                          {on ? <><Check size={14} /> 선택됨</> : '＋ 담기'}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
             {/* H. Reviews */}
             <section id="reviews" className="g-detail-sec">
               <h2 className="g-detail-h">고객 · 골프장 후기</h2>
@@ -421,16 +461,11 @@ export default function PackageDetail({ id }: { id: string }) {
                 <div className="g-surcharge-note">기준 4인 · {golfers}인 소인원 할증 ×{smallGroupMult(golfers)}</div>
               )}
 
-              <div className="g-addons">
-                <div className="g-label" style={{ marginTop: 4 }}>스테이 애드온 <span className="g-muted" style={{ fontWeight: 400 }}>· 라운드 외 힐링</span></div>
-                {STAY_ADDONS.map((a) => (
-                  <label key={a.key} className={`g-addon${addons.includes(a.key) ? ' is-active' : ''}`}>
-                    <input type="checkbox" checked={addons.includes(a.key)} onChange={() => setAddons((s) => (s.includes(a.key) ? s.filter((x) => x !== a.key) : [...s, a.key]))} />
-                    <span className="g-addon-info"><b>{a.label}</b><span className="g-muted">{a.note}</span></span>
-                    <b className="g-addon-price">+{fx(a.priceUSD)}</b>
-                  </label>
-                ))}
-              </div>
+              {addons.length > 0 ? (
+                <a href="#addons" className="g-addon-summary">라운드 외 힐링 {addons.length}개 선택 <b>+{fx(addonsTotal)}</b></a>
+              ) : (
+                <a href="#addons" className="g-addon-cta">＋ 라운드 외 힐링 애드온 담기</a>
+              )}
 
               <div className="g-booking-total">
                 <span>{t('detail.total')}</span>

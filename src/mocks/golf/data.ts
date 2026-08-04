@@ -584,16 +584,46 @@ export const PARTY_PRESETS: PartyPreset[] = [
 /** 스테이 애드온 (라운드 외 활동 — 조사: 스파·미식·마사지 세트 소비) */
 export interface StayAddon {
   key: string;
+  icon: 'spa' | 'massage' | 'food' | 'pickup';
   label: string;
   priceUSD: number;
-  note: string;
+  unit: string; // 1인 / 팀 / 1회
+  note: string; // 짧은 요약
+  desc: string; // 상세 설명
 }
 export const STAY_ADDONS: StayAddon[] = [
-  { key: 'spa', label: '스파 바우처', priceUSD: 40, note: '라운드 후 60분 스파·온천' },
-  { key: 'massage', label: '전신 마사지', priceUSD: 30, note: '현지 인기 마사지 90분' },
-  { key: 'food', label: '야시장 미식 투어', priceUSD: 25, note: '로컬 가이드 동행' },
-  { key: 'pickup', label: '프라이빗 픽업 업그레이드', priceUSD: 20, note: '전용 차량 단독 이용' },
+  {
+    key: 'spa', icon: 'spa', label: '스파 & 온천 바우처', priceUSD: 40, unit: '1인',
+    note: '라운드 후 60분 스파·온천',
+    desc: '라운드로 지친 몸을 풀어주는 60분 프리미엄 스파 또는 온천 이용권. 리조트 내 스파에서 별도 예약 없이 바로 사용할 수 있어요.',
+  },
+  {
+    key: 'massage', icon: 'massage', label: '전신 아로마 마사지', priceUSD: 30, unit: '1인',
+    note: '현지 인기 마사지 90분',
+    desc: '현지에서 인기 있는 90분 전신 아로마 마사지. 한국어 안내가 가능한 제휴 매장으로 안전하게 연결해 드립니다.',
+  },
+  {
+    key: 'food', icon: 'food', label: '야시장 미식 투어', priceUSD: 25, unit: '1인',
+    note: '로컬 가이드 동행 3시간',
+    desc: '로컬 가이드와 함께하는 야시장 미식 투어. 현지 대표 먹거리와 인증샷 포토스팟을 약 3시간 코스로 즐깁니다.',
+  },
+  {
+    key: 'pickup', icon: 'pickup', label: '프라이빗 픽업 업그레이드', priceUSD: 20, unit: '팀',
+    note: '전용 차량 단독 이용',
+    desc: '공용 셔틀 대신 전용 차량 단독 이용으로 업그레이드. 일정에 맞춰 편안하고 안전하게 이동하세요. 여성·소수 여행에 특히 추천.',
+  },
 ];
+
+/** 상품 소개 문단 (자동 생성) */
+export function packageIntro(p: GolfPackage): string {
+  const courses = p.golfCourses.map((c) => c.name).join(' · ');
+  const facil = p.hotelFacilities.slice(0, 3).join('·');
+  return (
+    `${p.country} ${p.destination}의 ${p.hotelRating}성급 ${p.hotel}에서 즐기는 ${p.nights}박 ${p.rounds}라운드 골프 패키지입니다. ` +
+    `${courses}에서의 라운드와 ${facil} 등을 갖춘 리조트 스테이, 그린피·카트·이동까지 1인당 투명한 가격에 담았어요. ` +
+    `라운드 후엔 자연 속에서 온전히 힐링하고, ${p.airportTransfer ? '공항 전용 픽업과 ' : ''}한국어 지원으로 여성 골퍼도 안심하고 떠날 수 있는 여정입니다.`
+  );
+}
 
 /** 여성 안심 케어 (혼골·소수 여행 — 조사: 안전·픽업·조인이 핵심) */
 export function safetyCare(p: GolfPackage): { label: string; on: boolean }[] {
