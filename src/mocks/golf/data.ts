@@ -1,13 +1,13 @@
 import type { Category, Destination, GolfCourse, GolfPackage, GolfReview, ItineraryDay, PackageOption } from './types';
 
 export const CATEGORIES: Category[] = [
+  { key: 'women', label: "Women's Golf Trips" },
+  { key: 'luxury', label: 'Luxury Golf' },
+  { key: 'family', label: 'Family Golf' },
   { key: 'stay-play', label: 'Stay & Play' },
   { key: 'all-inclusive', label: 'All Inclusive' },
   { key: 'weekend', label: 'Weekend Golf' },
-  { key: 'luxury', label: 'Luxury Golf' },
   { key: 'group', label: 'Group Trips' },
-  { key: 'women', label: "Women's Golf Trips" },
-  { key: 'family', label: 'Family Golf' },
   { key: 'last-minute', label: 'Last Minute' },
 ];
 

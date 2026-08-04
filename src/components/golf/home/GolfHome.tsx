@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Zap, BadgeDollarSign, Headset, ArrowRight, MapPin, Star, CalendarDays } from 'lucide-react';
+import { Heart, Leaf, BadgeDollarSign, Headset, ArrowRight, MapPin, Star, CalendarDays } from 'lucide-react';
 import SearchBox from '@/components/golf/SearchBox';
 import PackageCard from '@/components/golf/PackageCard';
 import GolfRecommender from '@/components/golf/home/GolfRecommender';
@@ -13,22 +13,38 @@ import { usePrefs } from '@/features/golf/GolfProviders';
 import CompareTray from '@/components/golf/CompareTray';
 
 const WHY = [
-  { icon: ShieldCheck, t: 'home.why1t', x: 'home.why1x' },
-  { icon: Zap, t: 'home.why2t', x: 'home.why2x' },
+  { icon: Heart, t: 'home.why1t', x: 'home.why1x' },
+  { icon: Leaf, t: 'home.why2t', x: 'home.why2x' },
   { icon: BadgeDollarSign, t: 'home.why3t', x: 'home.why3x' },
   { icon: Headset, t: 'home.why4t', x: 'home.why4x' },
 ];
 
 const REVIEWS = [
-  { name: 'Daniel R.', country: 'United Kingdom', text: '4명이서 다낭 4박 패키지를 예약했어요. 이동부터 티타임까지 완벽했고 체크인 때 추가 요금이 하나도 없었습니다.', score: 9.4 },
-  { name: 'Yuna P.', country: 'South Korea', text: '제주 스테이앤플레이 패키지가 정말 편했어요. 라운드와 숙박이 한 번에 예약되고 가격도 투명했습니다.', score: 9.2 },
-  { name: 'Kenji T.', country: 'Japan', text: '비교 화면 덕분에 라운드 옵션을 쉽게 고를 수 있었어요. 컨시어지도 몇 분 만에 답변해줬습니다.', score: 9.0 },
+  { name: '김서연', country: '서울 · 38', text: '여자끼리 다낭 4박을 다녀왔어요. 라운드 후 스파까지 완벽했고, 픽업도 안전해서 정말 편하게 힐링했습니다.', score: 9.5 },
+  { name: '이지현', country: '분당 · 42', text: '숲에 둘러싸인 코스에서 온전히 쉬고 왔어요. 숙박·라운드·티타임이 한 번에 잡혀 신경 쓸 게 하나도 없었습니다.', score: 9.3 },
+  { name: '박민정', country: '부산 · 45', text: '40대에 시작한 골프인데 초보자 친화 코스라 부담이 없었어요. 자연 속에서 진짜 나를 위한 여행이었습니다.', score: 9.4 },
 ];
 
 export default function GolfHome() {
   const router = useRouter();
   const { fx, t } = usePrefs();
-  const best = PACKAGES.slice(0, 8);
+  // 여성·힐링 큐레이션 (여성 태그 우선 + 스파/온천/자연 시설), 호텔 중복 제거 상위 8
+  const best = (() => {
+    const isHealing = (p: (typeof PACKAGES)[number]) =>
+      p.tags.includes('women') || p.tags.includes('family') || p.hotelFacilities.some((f) => /스파|온천|비치|풀|스노클|요가|사우나|해변|라군/.test(f));
+    const sorted = [...PACKAGES].sort(
+      (a, b) => Number(b.tags.includes('women')) - Number(a.tags.includes('women')) || b.reviewScore - a.reviewScore,
+    );
+    const seen = new Set<string>();
+    const out: typeof PACKAGES = [];
+    for (const p of sorted) {
+      if (!isHealing(p) || seen.has(p.hotel)) continue;
+      seen.add(p.hotel);
+      out.push(p);
+      if (out.length === 8) break;
+    }
+    return out;
+  })();
   // 인기 골프텔 랭킹 (GORA 人気コース) — 평점·후기수 기준, 호텔 중복 제거 상위 6
   const ranking = (() => {
     const sorted = [...PACKAGES].sort((a, b) => b.reviewScore - a.reviewScore || b.reviewCount - a.reviewCount);

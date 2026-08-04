@@ -7,17 +7,17 @@ import type { GolfPackage } from '@/mocks/golf/types';
 import PackageCard from '@/components/golf/PackageCard';
 
 const PREFS: { key: string; label: string; test: (p: GolfPackage) => boolean }[] = [
+  { key: 'women', label: '여성 친화', test: (p) => p.tags.includes('women') },
+  { key: 'healing', label: '자연 · 힐링', test: (p) => p.hotelFacilities.some((f) => /스파|온천|비치|풀|사우나|요가|해변|라군|숲/.test(f)) },
   { key: 'beginner', label: '초보자 친화', test: (p) => p.beginnerFriendly },
   { key: 'luxury', label: '럭셔리', test: (p) => p.tags.includes('luxury') },
   { key: 'family', label: '가족', test: (p) => p.tags.includes('family') },
   { key: 'weekend', label: '주말 · 짧게', test: (p) => p.tags.includes('weekend') },
-  { key: 'all-inclusive', label: '올인클루시브', test: (p) => p.allInclusive },
-  { key: 'group', label: '단체', test: (p) => p.tags.includes('group') },
 ];
 
 /** 리뷰·조건 기반 취향 추천 (GORA AI 어시스턴트 벤치마크, 클라이언트 매칭) */
 export default function GolfRecommender() {
-  const [sel, setSel] = useState<string[]>(['beginner']);
+  const [sel, setSel] = useState<string[]>(['women', 'healing']);
   const toggle = (k: string) => setSel((s) => (s.includes(k) ? s.filter((x) => x !== k) : [...s, k]));
 
   const results: GolfPackage[] = (() => {
