@@ -6,6 +6,14 @@ import { usePrefs } from '@/features/golf/GolfProviders';
 
 const AMENITY_KEYS = ['allInclusive', 'airportTransfer', 'cartIncluded', 'caddieIncluded', 'freeCancellation', 'instantConfirmation', 'beginnerFriendly', 'groupFriendly'];
 
+const WELLNESS = [
+  { key: 'onsen', label: '온천' },
+  { key: 'spa', label: '스파·사우나' },
+  { key: 'pool', label: '수영장' },
+  { key: 'meals', label: '조·석식 포함' },
+  { key: 'walkable', label: '클럽하우스 근접' },
+];
+
 const toggle = (arr: (string | number)[] | undefined, v: string | number): (string | number)[] => {
   const a = arr ?? [];
   return a.includes(v) ? a.filter((x) => x !== v) : [...a, v];
@@ -19,6 +27,22 @@ export default function FilterControls({ filters, onChange }: { filters: GolfFil
 
   return (
     <>
+      <div className="g-filter-group">
+        <h4>여성친화 시설</h4>
+        <div className="g-wellness-chips">
+          {WELLNESS.map((w) => (
+            <button
+              key={w.key}
+              type="button"
+              className={`g-wellness-chip${(filters.wellness ?? []).includes(w.key) ? ' is-active' : ''}`}
+              onClick={() => onChange({ ...filters, wellness: toggle(filters.wellness, w.key) as string[] })}
+            >
+              {w.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="g-filter-group">
         <h4>{t('filter.price')}</h4>
         <input

@@ -96,6 +96,18 @@ export default function GolfHome() {
         </div>
       </section>
 
+      {/* B-2. 시즌 배너 */}
+      <section className="g-container" style={{ paddingTop: 4 }}>
+        <div className="g-season-banner">
+          <span className="g-season-emoji">🍁</span>
+          <div className="g-season-copy">
+            <b>지금은 오키나와 골든타임</b>
+            <span>10~11월 · 쾌적한 기후 + 합리적 가격으로 힐링 골프</span>
+          </div>
+          <Link href="/golf/search?destination=Okinawa" className="g-btn g-btn-outline g-btn-sm">오키나와 보기</Link>
+        </div>
+      </section>
+
       {/* C. Trending destinations */}
       <section id="destinations" className="g-section g-container">
         <div className="g-section-head">

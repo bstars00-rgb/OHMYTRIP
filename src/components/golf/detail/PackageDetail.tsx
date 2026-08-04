@@ -8,7 +8,7 @@ import {
   Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
   Gift, Sunrise, Sun, Sunset, CalendarDays,
 } from 'lucide-react';
-import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE } from '@/mocks/golf/data';
+import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE, PARTY_PRESETS, STAY_ADDONS, safetyCare } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
 import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
@@ -45,6 +45,7 @@ export default function PackageDetail({ id }: { id: string }) {
   const [golfers, setGolfers] = useState(2);
   const [nonGolfers, setNonGolfers] = useState(0);
   const [soloTeam, setSoloTeam] = useState(false);
+  const [addons, setAddons] = useState<string[]>([]);
   const [teeByCourse, setTeeByCourse] = useState<Record<number, string>>({});
   const [teeDate, setTeeDate] = useState('');
   const [teeCalOpen, setTeeCalOpen] = useState(false);
@@ -79,7 +80,8 @@ export default function PackageDetail({ id }: { id: string }) {
   // 조인/단독팀 + 소인원(기준 4인) 할증 반영 1인가
   const effPerPerson = effectivePerPerson(option.pricePerPersonUSD, golfers, soloTeam);
   const surcharged = effPerPerson > option.pricePerPersonUSD;
-  const total = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers;
+  const addonsTotal = STAY_ADDONS.filter((a) => addons.includes(a.key)).reduce((s, a) => s + a.priceUSD, 0);
+  const total = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers + addonsTotal;
   const pct = discountPct(pkg);
 
   // 티타임은 선택한 옵션의 라운드 수만큼 필요 (라운드별로 골프장 순환)
@@ -89,7 +91,7 @@ export default function PackageDetail({ id }: { id: string }) {
 
   const goCheckout = () => {
     if (pkg.instantConfirmation && !teeComplete) return; // 티타임 미완료 시 예약 불가
-    const p = new URLSearchParams({ pkg: pkg.id, option: option.id, golfers: String(golfers), nonGolfers: String(nonGolfers), solo: soloTeam ? '1' : '0' });
+    const p = new URLSearchParams({ pkg: pkg.id, option: option.id, golfers: String(golfers), nonGolfers: String(nonGolfers), solo: soloTeam ? '1' : '0', addons: String(addonsTotal) });
     router.push(`/golf/checkout?${p.toString()}`);
   };
 
@@ -151,6 +153,7 @@ export default function PackageDetail({ id }: { id: string }) {
               <a href="#tee">티타임</a>
               <a href="#itinerary">여행 일정</a>
               <a href="#terms">예약 조건</a>
+              <a href="#care">안심 케어</a>
               <a href="#reviews">후기</a>
             </nav>
 
@@ -290,6 +293,19 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
             </section>
 
+            {/* G-2. 여성 안심 케어 */}
+            <section id="care" className="g-detail-sec">
+              <h2 className="g-detail-h">여성 안심 케어</h2>
+              <p className="g-muted" style={{ fontSize: 13, marginBottom: 14 }}>혼자여도, 친구와도 안심하고 즐길 수 있도록 준비했어요.</p>
+              <div className="g-care-grid">
+                {safetyCare(pkg).map((c) => (
+                  <div key={c.label} className={`g-care-item${c.on ? '' : ' is-off'}`}>
+                    {c.on ? <Check size={16} /> : <X size={16} />} {c.label}
+                  </div>
+                ))}
+              </div>
+            </section>
+
             {/* H. Reviews */}
             <section id="reviews" className="g-detail-sec">
               <h2 className="g-detail-h">고객 · 골프장 후기</h2>
@@ -353,6 +369,22 @@ export default function PackageDetail({ id }: { id: string }) {
               </div>
 
               <div style={{ marginTop: 14 }}>
+                <label className="g-label">누구와 가시나요 <span className="g-muted" style={{ fontWeight: 400 }}>· 빠른 선택</span></label>
+                <div className="g-party-presets">
+                  {PARTY_PRESETS.map((ps) => (
+                    <button
+                      key={ps.key}
+                      type="button"
+                      className={`g-party-preset${golfers === ps.golfers && soloTeam === ps.solo ? ' is-active' : ''}`}
+                      onClick={() => { setGolfers(ps.golfers); setSoloTeam(ps.solo); }}
+                    >
+                      <b>{ps.label}</b><span>{ps.hint}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ marginTop: 14 }}>
                 <label className="g-label">예약 유형</label>
                 <div className="g-teamtype">
                   <button type="button" className={!soloTeam ? 'is-active' : ''} onClick={() => setSoloTeam(false)}>
@@ -388,6 +420,17 @@ export default function PackageDetail({ id }: { id: string }) {
               {golfers < 4 && (
                 <div className="g-surcharge-note">기준 4인 · {golfers}인 소인원 할증 ×{smallGroupMult(golfers)}</div>
               )}
+
+              <div className="g-addons">
+                <div className="g-label" style={{ marginTop: 4 }}>스테이 애드온 <span className="g-muted" style={{ fontWeight: 400 }}>· 라운드 외 힐링</span></div>
+                {STAY_ADDONS.map((a) => (
+                  <label key={a.key} className={`g-addon${addons.includes(a.key) ? ' is-active' : ''}`}>
+                    <input type="checkbox" checked={addons.includes(a.key)} onChange={() => setAddons((s) => (s.includes(a.key) ? s.filter((x) => x !== a.key) : [...s, a.key]))} />
+                    <span className="g-addon-info"><b>{a.label}</b><span className="g-muted">{a.note}</span></span>
+                    <b className="g-addon-price">+{fx(a.priceUSD)}</b>
+                  </label>
+                ))}
+              </div>
 
               <div className="g-booking-total">
                 <span>{t('detail.total')}</span>

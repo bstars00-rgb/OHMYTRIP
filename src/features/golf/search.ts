@@ -21,6 +21,7 @@ export interface GolfFilters {
   reviewMin?: number; // reviewScore min
   meals?: ('breakfast' | 'all-inclusive')[];
   amenities?: string[]; // 'airportTransfer','cartIncluded','caddieIncluded','freeCancellation','instantConfirmation','beginnerFriendly','groupFriendly'
+  wellness?: string[]; // 'onsen','spa','pool','meals','walkable' — 여성친화 시설
   maxDriveMin?: number;
   deals?: boolean;
 }
@@ -47,6 +48,15 @@ export function filterPackages(all: GolfPackage[], f: GolfFilters): GolfPackage[
         if (a === 'beginnerFriendly' && !p.beginnerFriendly) return false;
         if (a === 'groupFriendly' && !p.groupFriendly) return false;
         if (a === 'allInclusive' && !p.allInclusive) return false;
+      }
+    }
+    if (f.wellness && f.wellness.length) {
+      for (const w of f.wellness) {
+        if (w === 'onsen' && !p.hotelFacilities.some((x) => /온천/.test(x))) return false;
+        if (w === 'spa' && !p.hotelFacilities.some((x) => /스파|사우나/.test(x))) return false;
+        if (w === 'pool' && !p.hotelFacilities.some((x) => /풀|수영/.test(x))) return false;
+        if (w === 'meals' && !p.allInclusive) return false;
+        if (w === 'walkable' && p.transferTimeMin > 10) return false;
       }
     }
     if (f.maxDriveMin !== undefined && p.transferTimeMin > f.maxDriveMin) return false;
@@ -88,6 +98,7 @@ export function parseFilters(params: URLSearchParams): { filters: GolfFilters; s
       reviewMin: num(params.get('reviewMin')),
       meals: list(params.get('meals')) as GolfFilters['meals'],
       amenities: list(params.get('amenities')),
+      wellness: list(params.get('wellness')),
       maxDriveMin: num(params.get('maxDrive')),
       deals: params.get('deals') === '1',
     },

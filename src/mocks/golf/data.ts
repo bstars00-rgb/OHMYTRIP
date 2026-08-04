@@ -558,11 +558,52 @@ export function golfTags(p: GolfPackage): GolfTag[] {
   const tags: GolfTag[] = [];
   const colors = Math.min(p.rounds, p.golfCourses.length);
   tags.push({ label: `${colors}색${p.rounds * 18}홀`, tone: 'soft' });
+  if (p.hotelFacilities.some((f) => /온천|스파|사우나/.test(f))) tags.push({ label: '온천·스파', tone: 'soft' });
+  if (p.beginnerFriendly) tags.push({ label: '초보 추천', tone: 'soft' });
+  if (p.allInclusive) tags.push({ label: '석식포함', tone: 'soft' });
   if (p.bestSeller) tags.push({ label: '베스트셀러', tone: 'best' });
   if (p.lastMinute) tags.push({ label: '얼리버드', tone: 'deal' });
-  if (p.hotelFacilities.some((f) => f.includes('온천'))) tags.push({ label: '온천호텔', tone: 'soft' });
-  if (p.allInclusive) tags.push({ label: '석식포함', tone: 'soft' });
   return tags.slice(0, 4);
+}
+
+/** 인원 프리셋 (여성 골퍼 예약 단위 — 조사: 2~4인 여성끼리·부부 중심) */
+export interface PartyPreset {
+  key: string;
+  label: string;
+  golfers: number;
+  solo: boolean;
+  hint: string;
+}
+export const PARTY_PRESETS: PartyPreset[] = [
+  { key: 'couple', label: '부부 2인', golfers: 2, solo: true, hint: '단독팀·프라이빗' },
+  { key: 'friends', label: '친구 4인', golfers: 4, solo: true, hint: '한 팀 단독' },
+  { key: 'group', label: '모임 6인', golfers: 6, solo: true, hint: '동호회·단체' },
+  { key: 'solo', label: '혼골 1인', golfers: 1, solo: false, hint: '조인·안심 케어' },
+];
+
+/** 스테이 애드온 (라운드 외 활동 — 조사: 스파·미식·마사지 세트 소비) */
+export interface StayAddon {
+  key: string;
+  label: string;
+  priceUSD: number;
+  note: string;
+}
+export const STAY_ADDONS: StayAddon[] = [
+  { key: 'spa', label: '스파 바우처', priceUSD: 40, note: '라운드 후 60분 스파·온천' },
+  { key: 'massage', label: '전신 마사지', priceUSD: 30, note: '현지 인기 마사지 90분' },
+  { key: 'food', label: '야시장 미식 투어', priceUSD: 25, note: '로컬 가이드 동행' },
+  { key: 'pickup', label: '프라이빗 픽업 업그레이드', priceUSD: 20, note: '전용 차량 단독 이용' },
+];
+
+/** 여성 안심 케어 (혼골·소수 여행 — 조사: 안전·픽업·조인이 핵심) */
+export function safetyCare(p: GolfPackage): { label: string; on: boolean }[] {
+  return [
+    { label: '공항 전용 픽업', on: p.airportTransfer },
+    { label: '한국어 현지 지원', on: true },
+    { label: '여성 캐디 요청 가능', on: true },
+    { label: '조인팀 안전 매칭', on: true },
+    { label: '24시간 컨시어지', on: true },
+  ];
 }
 
 /** 출발 가능 요일 (전세기·배차 사정 mock) — 0=일 … 6=토 */

@@ -25,6 +25,7 @@ export default function GolfCheckout() {
   const golfers = Number(params.get('golfers') ?? 2);
   const nonGolfers = Number(params.get('nonGolfers') ?? 0);
   const soloTeam = params.get('solo') === '1';
+  const addonsTotal = Number(params.get('addons') ?? 0);
   const [step, setStep] = useState(1);
   const [pay, setPay] = useState('card');
   const [usePoints, setUsePoints] = useState(false);
@@ -41,7 +42,7 @@ export default function GolfCheckout() {
   }
 
   const effPerPerson = effectivePerPerson(option.pricePerPersonUSD, golfers, soloTeam);
-  const subtotal = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers;
+  const subtotal = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers + addonsTotal;
   const taxes = Math.round(subtotal * 0.1);
   const gross = subtotal + taxes;
   // 포인트 사용(mock): 보유 포인트를 통화가치(1P≈1원)로 환산해 차감
@@ -165,6 +166,7 @@ export default function GolfCheckout() {
               <div className="g-booking-row"><span>골퍼 · 비골퍼</span><b>{golfers} · {nonGolfers}</b></div>
               <div className="g-booking-row"><span>예약 유형</span><b>{soloTeam ? '단독팀' : '조인팀'}</b></div>
               <div className="g-booking-row"><span>1인당</span><b>{fx(effPerPerson)}</b></div>
+              {addonsTotal > 0 && <div className="g-booking-row"><span>스테이 애드온</span><b>{fx(addonsTotal)}</b></div>}
               <div className="g-booking-row"><span>소계</span><b>{fx(subtotal)}</b></div>
               <div className="g-booking-row"><span>세금·수수료</span><b>{fx(taxes)}</b></div>
               {pointDiscount > 0 && (
