@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { useRouter } from 'next/navigation';
 import HotelSearchPanel from '@/components/search/HotelSearchPanel';
 import FlightSearchPanel from '@/components/search/FlightSearchPanel';
@@ -36,29 +37,33 @@ export default function MainSearchPanel({ service }: { service: ServiceKey }) {
       <article id="main-search">
         <ul className="main-search-header">
           {SERVICES.map((s) => (
-            <li key={s.key}>
-              <button
-                type="button"
-                className={`btn-main-category${s.key === service ? ' active' : ''}`}
-                onClick={() => router.push(s.route)}
-              >
-                <span className={`icon-${s.key}`} />
-                <span className="name">{s.label}</span>
-              </button>
-            </li>
+            <Fragment key={s.key}>
+              <li>
+                <button
+                  type="button"
+                  className={`btn-main-category${s.key === service ? ' active' : ''}`}
+                  onClick={() => router.push(s.route)}
+                >
+                  <span className={`icon-${s.key}`} />
+                  <span className="name">{s.label}</span>
+                </button>
+              </li>
+              {/* 골프텔(OHMYGOLF) — 숙박 계열이라 호텔 바로 다음에 배치. 롤백 시 이 블록만 삭제 */}
+              {s.key === 'hotel' && (
+                <li>
+                  <button
+                    type="button"
+                    className="btn-main-category btn-golf-entry"
+                    onClick={() => router.push('/golf')}
+                  >
+                    <span className="icon-golf" />
+                    <span className="name">골프텔</span>
+                    <span className="golf-entry-badge">NEW</span>
+                  </button>
+                </li>
+              )}
+            </Fragment>
           ))}
-          {/* 실험적 진입점: 골프텔(OHMYGOLF 프로토타입). 롤백 시 이 li만 삭제 */}
-          <li>
-            <button
-              type="button"
-              className="btn-main-category btn-golf-entry"
-              onClick={() => router.push('/golf')}
-            >
-              <span className="icon-golf" />
-              <span className="name">골프텔</span>
-              <span className="golf-entry-badge">NEW</span>
-            </button>
-          </li>
         </ul>
         <div className="main-search-body">
           <Panel />
