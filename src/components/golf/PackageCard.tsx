@@ -96,10 +96,8 @@ export default function PackageCard({ pkg, dateQuery }: { pkg: GolfPackage; date
               <span className="g-price-strike">{fx(pkg.originalPriceUSD)}</span>
               {pct > 0 && <span className="g-discount"> −{pct}%</span>}
             </div>
-            <div>
-              <span className="g-price-now" style={{ fontSize: 22 }}>
-                {fx(pkg.salePriceUSD)}
-              </span>{' '}
+            <div className="g-price-line">
+              <span className="g-price-now">{fx(pkg.salePriceUSD)}</span>
               <span className="g-price-unit">/ 1인</span>
             </div>
             <span className="g-point-earn">적립 {golfPoints(pkg.salePriceUSD).toLocaleString()}P</span>

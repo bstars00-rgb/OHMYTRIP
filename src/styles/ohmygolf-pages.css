@@ -183,8 +183,12 @@
 .ohmygolf .g-pkgcard-incl svg { color: var(--g-forest-400); }
 .ohmygolf .g-pkgcard-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
 .ohmygolf .g-pkgcard-flag { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; }
-.ohmygolf .g-pkgcard-foot { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.ohmygolf .g-pkgcard-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.ohmygolf .g-pkgcard-foot { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
+.ohmygolf .g-pkgcard-price { min-width: 0; }
+.ohmygolf .g-price-line { display: flex; align-items: baseline; gap: 5px; white-space: nowrap; margin-top: 2px; }
+.ohmygolf .g-pkgcard-price .g-price-now { font-size: 22px; line-height: 1.1; }
+.ohmygolf .g-pkgcard-actions { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+.ohmygolf .g-pkgcard-actions .g-btn-sm { min-width: 120px; }
 .ohmygolf .g-compare-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: var(--g-charcoal-60); }
 .ohmygolf .g-compare-toggle:hover:not(:disabled) { color: var(--g-forest); }
 .ohmygolf .g-compare-toggle.is-active { color: var(--g-forest); }
