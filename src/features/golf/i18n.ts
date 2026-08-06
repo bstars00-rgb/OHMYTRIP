@@ -10,6 +10,7 @@ type Dict = Record<string, string>;
 
 const ko: Dict = {
   // --- 헤더 / 내비게이션 ---
+  'nav.backOmt': '오마이트립',
   'nav.packages': '골프 패키지',
   'nav.destinations': '여행지',
   'nav.courses': '골프장',
@@ -184,6 +185,7 @@ const ko: Dict = {
 };
 
 const en: Dict = {
+  'nav.backOmt': 'OhMyTrip',
   'nav.packages': 'Golf Packages',
   'nav.destinations': 'Destinations',
   'nav.courses': 'Courses',

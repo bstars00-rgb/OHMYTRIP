@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Globe, Heart, Menu, User, X, ChevronDown } from 'lucide-react';
+import { Globe, Heart, Menu, User, X, ChevronDown, ArrowLeft } from 'lucide-react';
 import {
   CURRENCIES,
   LANGUAGES,
@@ -46,6 +46,11 @@ export default function GolfHeader() {
   return (
     <header className={`g-header${compact ? ' is-compact' : ''}`}>
       <div className="g-container g-header-inner">
+        <Link href="/" className="g-back-omt" aria-label={`${t('nav.backOmt')} 메인으로`}>
+          <ArrowLeft size={15} />
+          <span className="g-hide-sm">{t('nav.backOmt')}</span>
+        </Link>
+        <span className="g-back-divider" aria-hidden="true" />
         <Link href="/golf" className="g-logo" aria-label="오마이트립 골프텔 home">
           <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
           <span className="g-logo-badge">{t('brand.badge')}</span>
@@ -156,6 +161,9 @@ export default function GolfHeader() {
             </button>
           </div>
           <nav>
+            <Link href="/" className="g-mobile-back" onClick={() => setMenuOpen(false)}>
+              <ArrowLeft size={16} /> {t('nav.backOmt')}
+            </Link>
             {NAV.map((n) => (
               <Link key={n.key} href={n.href} onClick={() => setMenuOpen(false)}>
                 {t(n.key)}
