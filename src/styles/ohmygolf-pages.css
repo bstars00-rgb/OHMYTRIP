@@ -11,10 +11,9 @@
 .ohmygolf .g-header-inner { min-width: 0; }
 .ohmygolf .g-header-actions { flex-shrink: 0; }
 .ohmygolf .g-logo b { font-weight: 700; color: var(--g-gold); }
-.ohmygolf .g-back-omt { display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; font-size: 13px; font-weight: 600; color: var(--g-charcoal-60); white-space: nowrap; transition: color .15s ease; }
-.ohmygolf .g-back-omt:hover { color: var(--g-forest); }
-.ohmygolf .g-back-omt svg { flex-shrink: 0; }
-.ohmygolf .g-back-divider { width: 1px; height: 18px; background: var(--g-line); flex-shrink: 0; }
+.ohmygolf .g-logo-omt { display: inline-flex; align-items: center; flex-shrink: 0; }
+.ohmygolf a.g-logo-badge { transition: filter .15s ease; }
+.ohmygolf a.g-logo-badge:hover { filter: brightness(1.08); }
 .ohmygolf .g-mobile-back { display: inline-flex; align-items: center; gap: 8px; color: var(--g-charcoal-60) !important; font-weight: 600; }
 .ohmygolf .g-mobile-back:hover { color: var(--g-forest) !important; }
 .ohmygolf .g-nav { display: flex; align-items: center; gap: 26px; margin-left: 8px; font-size: 15px; font-weight: 500; }

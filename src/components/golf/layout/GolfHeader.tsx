@@ -46,15 +46,12 @@ export default function GolfHeader() {
   return (
     <header className={`g-header${compact ? ' is-compact' : ''}`}>
       <div className="g-container g-header-inner">
-        <Link href="/" className="g-back-omt" aria-label={`${t('nav.backOmt')} 메인으로`}>
-          <ArrowLeft size={15} />
-          <span className="g-hide-sm">{t('nav.backOmt')}</span>
-        </Link>
-        <span className="g-back-divider" aria-hidden="true" />
-        <Link href="/golf" className="g-logo" aria-label="오마이트립 골프텔 home">
-          <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
-          <span className="g-logo-badge">{t('brand.badge')}</span>
-        </Link>
+        <div className="g-logo">
+          <Link href="/" className="g-logo-omt" aria-label={`${t('nav.backOmt')} 홈`}>
+            <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
+          </Link>
+          <Link href="/golf" className="g-logo-badge" aria-label="골프텔 홈">{t('brand.badge')}</Link>
+        </div>
 
         <nav className="g-nav" aria-label="Primary">
           {NAV.map((n) => (
