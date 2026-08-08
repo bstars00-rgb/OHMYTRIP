@@ -24,6 +24,7 @@ export default function GolfHeader() {
   const [compact, setCompact] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDrop, setOpenDrop] = useState<'lang' | 'curr' | null>(null);
+  const [logoBroken, setLogoBroken] = useState(false);
   const { currency, setCurrency, language, setLanguage, t } = usePrefs();
   const wishlist = useWishlist();
   const dropRef = useRef<HTMLDivElement>(null);
@@ -48,7 +49,16 @@ export default function GolfHeader() {
       <div className="g-container g-header-inner">
         <div className="g-logo">
           <Link href="/" className="g-logo-omt" aria-label={`${t('nav.backOmt')} 홈`}>
-            <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
+            {logoBroken ? (
+              <span className="g-logo-text">OHMYTRIP</span>
+            ) : (
+              <img
+                src={asset('/assets/images/common/ico-header-logo.png')}
+                alt="OHMYTRIP"
+                className="g-logo-img"
+                onError={() => setLogoBroken(true)}
+              />
+            )}
           </Link>
           <Link href="/golf" className="g-logo-badge" aria-label="골프텔 홈">{t('brand.badge')}</Link>
         </div>
@@ -150,7 +160,16 @@ export default function GolfHeader() {
         <div className="g-mobile-menu" role="dialog" aria-label="Menu">
           <div className="g-mobile-menu-head">
             <span className="g-logo">
-              <img src={asset('/assets/images/common/ico-header-logo.png')} alt="OHMYTRIP" className="g-logo-img" />
+              {logoBroken ? (
+                <span className="g-logo-text">OHMYTRIP</span>
+              ) : (
+                <img
+                  src={asset('/assets/images/common/ico-header-logo.png')}
+                  alt="OHMYTRIP"
+                  className="g-logo-img"
+                  onError={() => setLogoBroken(true)}
+                />
+              )}
               <span className="g-logo-badge">{t('brand.badge')}</span>
             </span>
             <button type="button" className="g-icon-btn" onClick={() => setMenuOpen(false)} aria-label={t('nav.close')}>

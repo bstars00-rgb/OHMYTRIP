@@ -12,6 +12,7 @@
 .ohmygolf .g-header-actions { flex-shrink: 0; }
 .ohmygolf .g-logo b { font-weight: 700; color: var(--g-gold); }
 .ohmygolf .g-logo-omt { display: inline-flex; align-items: center; flex-shrink: 0; }
+.ohmygolf .g-logo-text { font-family: var(--g-sans); font-size: 22px; font-weight: 800; letter-spacing: -0.03em; color: var(--g-forest); white-space: nowrap; }
 .ohmygolf a.g-logo-badge { transition: filter .15s ease; }
 .ohmygolf a.g-logo-badge:hover { filter: brightness(1.08); }
 .ohmygolf .g-mobile-back { display: inline-flex; align-items: center; gap: 8px; color: var(--g-charcoal-60) !important; font-weight: 600; }
