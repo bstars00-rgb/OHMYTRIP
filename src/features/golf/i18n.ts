@@ -207,9 +207,9 @@ const en: Dict = {
   'cat.family': 'Family Golf',
   'cat.last-minute': 'Last Minute',
 
-  'hero.eyebrow': 'Healing in nature · Golf trips for women',
+  'hero.eyebrow': 'Healing in nature · Premium overseas golf travel',
   'hero.title': 'Heal. Play. Escape.',
-  'hero.sub': 'Premium overseas golf hotels for women golfers in their 30s–40s — heal in nature, play your round, travel well.',
+  'hero.sub': 'Heal in nature, play your round, travel well — premium overseas golf hotels with your stay and rounds in one.',
 
   'sb.destLabel': 'Destination or golf resort',
   'sb.destPlaceholder': 'Where do you want to play?',
