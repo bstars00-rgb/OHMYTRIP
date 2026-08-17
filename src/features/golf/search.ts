@@ -106,6 +106,25 @@ export function parseFilters(params: URLSearchParams): { filters: GolfFilters; s
   };
 }
 
+/** GolfFilters + sort → URL 쿼리 문자열 (기존 params의 category·날짜·인원 등은 보존) */
+export function serializeFilters(base: URLSearchParams, f: GolfFilters, sort: SortKey): string {
+  const p = new URLSearchParams(base.toString());
+  const set = (k: string, v: string | undefined | null) => { if (v) p.set(k, v); else p.delete(k); };
+  set('destination', f.destination);
+  set('priceMax', f.priceMax !== undefined ? String(f.priceMax) : '');
+  set('nights', f.nights?.length ? f.nights.join(',') : '');
+  set('rounds', f.rounds?.length ? f.rounds.join(',') : '');
+  set('hotelRating', f.hotelRating?.length ? f.hotelRating.join(',') : '');
+  set('reviewMin', f.reviewMin !== undefined ? String(f.reviewMin) : '');
+  set('meals', f.meals?.length ? f.meals.join(',') : '');
+  set('amenities', f.amenities?.length ? f.amenities.join(',') : '');
+  set('wellness', f.wellness?.length ? f.wellness.join(',') : '');
+  set('maxDrive', f.maxDriveMin !== undefined ? String(f.maxDriveMin) : '');
+  set('deals', f.deals ? '1' : '');
+  set('sort', sort && sort !== 'recommended' ? sort : '');
+  return p.toString();
+}
+
 export function priceBounds(): { min: number; max: number } {
   const prices = PACKAGES.map((p) => p.salePriceUSD);
   return { min: Math.min(...prices), max: Math.max(...prices) };

@@ -160,7 +160,7 @@ export default function GolfCheckout() {
               <div className="g-booking-row"><span>소계</span><b>{fx(subtotal)}</b></div>
               <div className="g-booking-row"><span>세금·수수료</span><b>{fx(taxes)}</b></div>
             </div>
-            <div className="g-booking-total"><span>총액</span><b>{fx(total)}</b></div>
+            <div className="g-booking-total"><span>최종 결제액</span><b>{fx(total)}</b></div>
             <p className="g-muted" style={{ fontSize: 12, marginTop: 10 }}>{pkg.cancellationPolicy}</p>
           </div>
         </aside>

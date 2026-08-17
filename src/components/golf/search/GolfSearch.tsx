@@ -1,11 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { LayoutGrid, Map as MapIcon, SlidersHorizontal, ArrowDownWideNarrow } from 'lucide-react';
 import { PACKAGES, CATEGORIES } from '@/mocks/golf/data';
-import { filterPackages, parseFilters, sortPackages, SORT_OPTIONS, type GolfFilters, type SortKey } from '@/features/golf/search';
+import { filterPackages, parseFilters, serializeFilters, sortPackages, SORT_OPTIONS, type GolfFilters, type SortKey } from '@/features/golf/search';
 import PackageCard from '@/components/golf/PackageCard';
 import SearchBox from '@/components/golf/SearchBox';
 import FilterControls from '@/components/golf/search/FilterControls';
@@ -16,6 +16,7 @@ import { golfImg } from '@/features/golf/images';
 
 export default function GolfSearch() {
   const params = useSearchParams();
+  const router = useRouter();
   const { fx, t } = usePrefs();
   const parsed = useMemo(() => parseFilters(params), [params]);
   const categoryKey = params.get('category');
@@ -26,6 +27,12 @@ export default function GolfSearch() {
   const [view, setView] = useState<'list' | 'map'>('list');
   const [sheetOpen, setSheetOpen] = useState(false);
   const [activePin, setActivePin] = useState<string | null>(null);
+
+  // 필터·정렬 변경을 URL 쿼리에 동기화 (공유·새로고침 시 상태 유지). 스크롤 이동 없음.
+  useEffect(() => {
+    const qs = serializeFilters(params, filters, sort);
+    if (qs !== params.toString()) router.replace(`/golf/search/?${qs}`, { scroll: false });
+  }, [filters, sort, params, router]);
 
   const results = useMemo(() => {
     let base = PACKAGES;

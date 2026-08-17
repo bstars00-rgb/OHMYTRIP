@@ -335,8 +335,9 @@
 .ohmygolf .g-booking-rows { margin: 16px 0; }
 .ohmygolf .g-booking-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; font-size: 14px; border-bottom: 1px solid var(--g-line-soft); }
 .ohmygolf .g-booking-row:last-child { border-bottom: none; }
-.ohmygolf .g-booking-total { display: flex; align-items: baseline; justify-content: space-between; padding: 14px 0; border-top: 2px solid var(--g-charcoal); margin-top: 6px; }
+.ohmygolf .g-booking-total { display: flex; align-items: baseline; justify-content: space-between; padding: 14px 0 4px; border-top: 2px solid var(--g-charcoal); margin-top: 6px; }
 .ohmygolf .g-booking-total b { font-size: 24px; }
+.ohmygolf .g-booking-taxnote { font-size: 11.5px; color: var(--g-charcoal-40); margin: 0 0 4px; }
 .ohmygolf .g-stepper-inline { display: flex; align-items: center; gap: 10px; }
 .ohmygolf .g-stepper-inline button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--g-line); display: flex; align-items: center; justify-content: center; }
 .ohmygolf .g-no-hidden { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--g-success); margin-top: 12px; }

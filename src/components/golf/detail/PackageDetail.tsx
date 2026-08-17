@@ -82,7 +82,9 @@ export default function PackageDetail({ id }: { id: string }) {
   // 조인/단독팀 + 소인원(기준 4인) 할증 반영 1인가
   const effPerPerson = effectivePerPerson(option.pricePerPersonUSD, golfers, soloTeam);
   const surcharged = effPerPerson > option.pricePerPersonUSD;
-  const addonsTotal = STAY_ADDONS.filter((a) => addons.includes(a.key)).reduce((s, a) => s + a.priceUSD, 0);
+  // 애드온: '1인' 단위는 전체 인원(골퍼+비골퍼)만큼, '팀'/'1회' 단위는 1회 계산
+  const partySize = golfers + nonGolfers;
+  const addonsTotal = STAY_ADDONS.filter((a) => addons.includes(a.key)).reduce((s, a) => s + a.priceUSD * (a.unit === '1인' ? partySize : 1), 0);
   const total = effPerPerson * golfers + option.pricePerPersonUSD * 0.6 * nonGolfers + addonsTotal;
   const pct = discountPct(pkg);
 
@@ -147,7 +149,7 @@ export default function PackageDetail({ id }: { id: string }) {
         </div>
 
         {/* 상품 소개 */}
-        <section className="g-detail-intro">
+        <section id="intro" className="g-detail-intro">
           <h2 className="g-detail-h" style={{ marginBottom: 8 }}>상품 소개</h2>
           <p>{packageIntro(pkg)}</p>
         </section>
@@ -155,6 +157,7 @@ export default function PackageDetail({ id }: { id: string }) {
         <div className="g-detail-layout">
           <div className="g-detail-main">
             <nav className="g-detail-nav" aria-label="섹션 바로가기">
+              <a href="#intro">상품 소개</a>
               <a href="#inclusions">포함 사항</a>
               <a href="#hotel">호텔 정보</a>
               <a href="#courses">골프장 정보</a>
@@ -468,9 +471,10 @@ export default function PackageDetail({ id }: { id: string }) {
               )}
 
               <div className="g-booking-total">
-                <span>{t('detail.total')}</span>
+                <span>{t('detail.pkgTotal')}</span>
                 <b>{fx(total)}</b>
               </div>
+              <p className="g-booking-taxnote">{t('detail.taxNote')}</p>
 
               <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} disabled={pkg.instantConfirmation && !teeComplete} onClick={goCheckout}>
                 {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}
