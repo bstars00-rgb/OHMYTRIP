@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import {
   ChevronRight, MapPin, Share2, Check, X, Car, Flag, Clock,
   Waves, Utensils, Dumbbell, Sparkles, AlertTriangle, Wind, UserX, Baby,
-  Gift, Sunrise, Sun, Sunset, CalendarDays,
+  Sunrise, Sun, Sunset, CalendarDays,
 } from 'lucide-react';
-import { getPackage, discountPct, golfPoints, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE, PARTY_PRESETS, STAY_ADDONS, safetyCare, packageIntro } from '@/mocks/golf/data';
+import { getPackage, discountPct, effectivePerPerson, smallGroupMult, feeBadges, departureDays, SOLO_TEAM_SURCHARGE, PARTY_PRESETS, STAY_ADDONS, safetyCare, packageIntro } from '@/mocks/golf/data';
 import type { PackageOption } from '@/mocks/golf/types';
 import CourseInfoSection from '@/components/golf/detail/CourseInfoSection';
 import ItinerarySection from '@/components/golf/detail/ItinerarySection';
@@ -471,7 +471,6 @@ export default function PackageDetail({ id }: { id: string }) {
                 <span>{t('detail.total')}</span>
                 <b>{fx(total)}</b>
               </div>
-              <div className="g-booking-point"><Gift size={14} /> 예약 시 <b>{golfPoints(total).toLocaleString()}P</b> 적립</div>
 
               <button type="button" className="g-btn g-btn-primary g-btn-block g-btn-lg" style={{ marginTop: 8 }} disabled={pkg.instantConfirmation && !teeComplete} onClick={goCheckout}>
                 {pkg.instantConfirmation ? t('detail.checkAvail') : t('detail.requestQuote')}

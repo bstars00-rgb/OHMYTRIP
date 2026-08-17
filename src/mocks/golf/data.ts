@@ -512,7 +512,11 @@ export function discountPct(p: GolfPackage): number {
   return Math.round(((p.originalPriceUSD - p.salePriceUSD) / p.originalPriceUSD) * 100);
 }
 
-/** 오마이 골프 포인트(라쿠텐 포인트 등가) — 결제액의 2% 적립. 1P ≈ 1원 기준 */
+/**
+ * 오마이 골프 포인트(적립/사용) — 결제액의 2% 적립, 1P ≈ 1원 기준.
+ * ⚠️ 현재 UI에서 비활성(오마이호텔에 포인트 제도 미도입). 본사 포인트/마일리지
+ *    통합 시 UI 복원 예정. 계산 시드로만 보존(현재 미사용 export).
+ */
 export const POINT_RATE_KRW = 1350; // 1 USD ≈ 1,350 P
 export function golfPoints(usd: number): number {
   return Math.round(usd * POINT_RATE_KRW * 0.02);

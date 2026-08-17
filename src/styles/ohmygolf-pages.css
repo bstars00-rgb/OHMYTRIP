@@ -165,7 +165,7 @@
 .ohmygolf button.g-btn:disabled, .ohmygolf .g-btn[disabled] { opacity: .45; cursor: not-allowed; }
 
 /* Package grid */
-.ohmygolf .g-pkg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.ohmygolf .g-pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 
 /* Package card */
 .ohmygolf .g-pkgcard { display: flex; flex-direction: column; }
@@ -641,18 +641,7 @@
 }
 
 /* ============ GORA 벤치마크 UX 확장 ============ */
-/* 오마이 골프 포인트 */
-.ohmygolf .g-point-earn { display: inline-flex; align-items: center; gap: 4px; margin-top: 5px; font-size: 11.5px; font-weight: 700; color: var(--g-forest); background: #fff3ea; padding: 3px 9px; border-radius: var(--g-radius-pill); }
-.ohmygolf .g-booking-point { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; font-size: 13px; color: var(--g-charcoal-60); }
-.ohmygolf .g-booking-point b { color: var(--g-forest); }
-.ohmygolf .g-booking-point svg { color: var(--g-forest); }
-.ohmygolf .g-point-use { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 12px 14px; border: 1px solid var(--g-line); border-radius: var(--g-radius-sm); font-size: 14px; cursor: pointer; }
-.ohmygolf .g-point-use:hover { border-color: var(--g-forest); }
-.ohmygolf .g-point-use svg { color: var(--g-forest); flex-shrink: 0; }
-.ohmygolf .g-point-use b { color: var(--g-forest); }
-.ohmygolf .g-checkin-note { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; padding: 10px 16px; background: var(--g-ivory); border-radius: var(--g-radius-pill); font-size: 13px; color: var(--g-charcoal); }
-.ohmygolf .g-checkin-note svg { color: var(--g-forest); }
-.ohmygolf .g-checkin-note b { color: var(--g-forest); }
+/* 오마이 골프 포인트(적립) — 오마이호텔 포인트 미도입으로 비활성. 추후 통합 시 복원. */
 
 /* 티타임 시간대 그룹 */
 .ohmygolf .g-tee-band { margin-bottom: 14px; }

@@ -69,8 +69,8 @@ Category(카테고리 key) ──(tags)──> GolfPackage
 | `SOLO_TEAM_SURCHARGE` | **0.15** (단독팀 할증률) | 요금 정책 |
 | `smallGroupMult(golfers)` | 2인 **1.2** · 3인 **1.1** · 4인+ 1.0 (소인원 할증) | 요금 정책 |
 | `effectivePerPerson(base,golfers,soloTeam)` | `base × 소인원할증 × (단독팀?1.15:1)` → 유효 1인가 | 요금 엔진 |
-| `golfPoints(usd)` | `round(usd × 1350 × 0.02)` → 적립 포인트 | **포인트/마일리지 시스템** |
-| `POINT_BALANCE`(mock) | 데모용 보유 포인트 | 회원 포인트 잔액 |
+| `golfPoints(usd)` ⛔UI비활성 | `round(usd × 1350 × 0.02)` → 적립 포인트 · **현재 UI 미노출**(오마이호텔 포인트 미도입) | **포인트/마일리지 시스템**(추후 통합) |
+| `MOCK_POINT_BALANCE` ⛔UI비활성 | 데모용 보유 포인트 · 현재 미사용 | 회원 포인트 잔액(추후) |
 
 ### 3.2 인원 프리셋 — `PartyPreset` / `PARTY_PRESETS`
 `{ key, label, golfers, solo, hint }`
