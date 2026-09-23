@@ -14,6 +14,7 @@ import {
   FlightSearchPanel,
   RentalcarSearchPanel,
 } from '@/components/search/StaticServicePanels';
+import MVillageBanner from '@/components/home/MVillageBanner';
 import { RECENT_NOTICES } from '@/mocks/notices';
 
 /** 모바일 하단 와이드 배너 — 원본 m. 전용 이미지(단일 슬라이드) */
@@ -75,6 +76,8 @@ export default function MobileHomeMain({ service }: { service: ServiceKey }) {
           </div>
         </section>
         <section id="section-bottom-contents">
+          {/* M Village 브랜드관 진입 배너 — 롤백 시 이 한 줄 삭제 */}
+          <MVillageBanner />
           <section id="section-banner">
             <div className="banner-host large">
               <article id="banner-large">

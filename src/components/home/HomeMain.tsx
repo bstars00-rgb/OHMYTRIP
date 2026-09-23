@@ -8,6 +8,7 @@ import MainSearchPanel, { type ServiceKey } from '@/components/search/MainSearch
 import BannerCarousel from '@/components/banner/BannerCarousel';
 import SiteInfoSection from '@/components/home/SiteInfoSection';
 import SearchRecentStrip from '@/components/search/SearchRecentStrip';
+import MVillageBanner from '@/components/home/MVillageBanner';
 import AppDownloadSection from '@/components/home/AppDownloadSection';
 import MobileHomeMain from '@/components/mobile/MobileHomeMain';
 import { usePlatform } from '@/hooks/usePlatform';
@@ -46,6 +47,8 @@ export default function HomeMain({ service }: { service: ServiceKey }) {
             {service === 'hotel' && <SearchRecentStrip />}
           </section>
           <section id="bottom-contents">
+            {/* M Village 브랜드관 진입 배너 — 롤백 시 이 한 줄 삭제 */}
+            <MVillageBanner />
             <section id="section-banner" className="omt-main-section">
               <BannerCarousel id="banner-large" banners={LARGE_BANNERS} />
               <BannerCarousel id="banner-medium" className="marginLeft" banners={MEDIUM_BANNERS} />

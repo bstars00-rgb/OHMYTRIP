@@ -1,0 +1,123 @@
+/*
+ * M VILLAGE 브랜드관 — 디자인 시스템.
+ * 모든 규칙은 `.mvillage` 하위로 스코프하여 OHMYTRIP 클론 / OHMYGOLF 와 완전히 격리한다.
+ * 롤백: 이 파일 + mvillage-pages.css + app/mvillage + components/mvillage + mocks/mvillage
+ *        + features/mvillage + public/mvillage + 홈 배너 삽입(MVillageBanner) 삭제.
+ * 브랜드 팔레트/타이포 출처: M Village GSA GTM Deck v0.3 (2026.09).
+ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Nanum+Myeongjo:wght@400;700;800&display=swap');
+
+.mvillage {
+  /* 브랜드 팔레트 */
+  --mv-forest: #2f4a3a;      /* Primary — 포레스트 그린(워드마크/CTA) */
+  --mv-forest-700: #23382c;
+  --mv-forest-400: #4c6a58;
+  --mv-terracotta: #b96843;  /* Accent — 테라코타 */
+  --mv-terracotta-600: #a4552f;
+  --mv-gold: #b0894e;        /* Secondary — 골드/탠 */
+  --mv-sage: #8b9d7e;        /* Tertiary — 세이지 */
+  --mv-ivory: #f4f0e6;       /* Warm 배경 */
+  --mv-cream: #faf7ef;       /* 밝은 서페이스/카드 */
+  --mv-paper: #ffffff;
+  --mv-ink: #2b2b26;         /* 본문 텍스트 */
+  --mv-ink-70: #55554c;
+  --mv-ink-45: #8a8a7d;
+  --mv-line: #e5ddcd;
+  --mv-line-soft: #efe9dc;
+
+  --mv-radius-sm: 10px;
+  --mv-radius: 16px;
+  --mv-radius-lg: 24px;
+  --mv-radius-pill: 999px;
+
+  --mv-shadow-sm: 0 2px 10px rgba(47, 74, 58, 0.06);
+  --mv-shadow-md: 0 10px 30px rgba(47, 74, 58, 0.10);
+  --mv-shadow-lg: 0 24px 60px rgba(35, 56, 44, 0.18);
+
+  --mv-serif: 'Cormorant Garamond', 'Nanum Myeongjo', serif;      /* 라틴 디스플레이 */
+  --mv-serif-ko: 'Nanum Myeongjo', 'Cormorant Garamond', serif;   /* 한글 디스플레이 */
+  --mv-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+
+  --mv-header-h: 76px;
+  --mv-max: 1200px;
+
+  font-family: var(--mv-sans);
+  color: var(--mv-ink);
+  background: var(--mv-ivory);
+  letter-spacing: -0.2px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.mvillage *, .mvillage *::before, .mvillage *::after { box-sizing: border-box; }
+.mvillage h1, .mvillage h2, .mvillage h3, .mvillage h4, .mvillage p, .mvillage ul, .mvillage ol, .mvillage figure { margin: 0; padding: 0; }
+.mvillage ul { list-style: none; }
+.mvillage a { color: inherit; text-decoration: none; }
+.mvillage img { display: block; max-width: 100%; }
+.mvillage button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.mvillage .mv-container { max-width: var(--mv-max); margin: 0 auto; padding: 0 24px; }
+.mvillage .mv-section { padding: 84px 0; }
+.mvillage .mv-section.tight { padding: 56px 0; }
+
+/* 타이포 유틸 */
+.mvillage .mv-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--mv-terracotta); }
+.mvillage .mv-h2 { font-family: var(--mv-serif-ko); font-weight: 800; font-size: 40px; line-height: 1.18; letter-spacing: -0.5px; color: var(--mv-forest); }
+.mvillage .mv-h2 .accent { color: var(--mv-terracotta); }
+.mvillage .mv-lead { font-size: 17px; color: var(--mv-ink-70); line-height: 1.7; max-width: 680px; }
+.mvillage .mv-serif { font-family: var(--mv-serif); }
+.mvillage .mv-muted { color: var(--mv-ink-45); }
+
+/* 워드마크 */
+.mvillage .mv-logo { font-family: var(--mv-serif); font-size: 26px; font-weight: 500; letter-spacing: 4px; color: var(--mv-forest); text-transform: uppercase; white-space: nowrap; display: inline-flex; align-items: center; }
+.mvillage .mv-logo b { font-weight: 600; margin-right: 4px; }
+.mvillage .mv-logo-sub { display: block; font-family: var(--mv-sans); font-size: 8.5px; letter-spacing: 3px; color: var(--mv-ink-45); font-weight: 500; margin-top: 1px; }
+
+/* 버튼 */
+.mvillage .mv-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 50px; padding: 0 28px; border-radius: var(--mv-radius-pill); font-size: 15px; font-weight: 600; letter-spacing: -0.2px; transition: transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease; }
+.mvillage .mv-btn:hover { transform: translateY(-1px); }
+.mvillage .mv-btn-primary { background: var(--mv-forest); color: #fff; }
+.mvillage .mv-btn-primary:hover { background: var(--mv-forest-700); }
+.mvillage .mv-btn-accent { background: var(--mv-terracotta); color: #fff; }
+.mvillage .mv-btn-accent:hover { background: var(--mv-terracotta-600); }
+.mvillage .mv-btn-outline { background: transparent; color: var(--mv-forest); border: 1.5px solid var(--mv-forest); }
+.mvillage .mv-btn-outline:hover { background: var(--mv-forest); color: #fff; }
+.mvillage .mv-btn-light { background: rgba(255,255,255,.92); color: var(--mv-forest); }
+.mvillage .mv-btn-ghost-light { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.7); }
+.mvillage .mv-btn-ghost-light:hover { background: rgba(255,255,255,.14); }
+.mvillage .mv-btn-sm { height: 42px; padding: 0 20px; font-size: 14px; }
+
+/* 톤 데이터 속성 */
+.mvillage [data-tone="forest"] { --tone: var(--mv-forest); --tone-soft: #e6ede8; }
+.mvillage [data-tone="terracotta"] { --tone: var(--mv-terracotta); --tone-soft: #f3e4dc; }
+.mvillage [data-tone="gold"] { --tone: var(--mv-gold); --tone-soft: #efe6d3; }
+.mvillage [data-tone="sage"] { --tone: var(--mv-sage); --tone-soft: #e8ede2; }
+
+/* 헤더 */
+.mvillage .mv-header { position: sticky; top: 0; z-index: 900; background: rgba(244, 240, 230, 0.86); backdrop-filter: blur(12px); border-bottom: 1px solid var(--mv-line); }
+.mvillage .mv-header-inner { display: flex; align-items: center; gap: 24px; height: var(--mv-header-h); }
+.mvillage .mv-nav { display: flex; align-items: center; gap: 28px; margin-left: auto; font-size: 15px; font-weight: 500; }
+.mvillage .mv-nav a { color: var(--mv-ink-70); padding: 6px 0; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; }
+.mvillage .mv-nav a:hover { color: var(--mv-forest); border-color: var(--mv-forest); }
+.mvillage .mv-back-omt { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--mv-ink-45); white-space: nowrap; transition: color .15s; }
+.mvillage .mv-back-omt:hover { color: var(--mv-terracotta); }
+.mvillage .mv-header-divider { width: 1px; height: 20px; background: var(--mv-line); }
+
+/* 푸터 */
+.mvillage .mv-footer { background: var(--mv-forest-700); color: rgba(255,255,255,.82); padding: 56px 0 32px; }
+.mvillage .mv-footer .mv-logo { color: #fff; }
+.mvillage .mv-footer .mv-logo-sub { color: rgba(255,255,255,.6); }
+.mvillage .mv-footer-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,.14); }
+.mvillage .mv-footer-tag { font-family: var(--mv-serif); font-size: 22px; font-style: italic; color: rgba(255,255,255,.9); }
+.mvillage .mv-footer-cols { display: flex; gap: 56px; flex-wrap: wrap; }
+.mvillage .mv-footer-cols h4 { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 12px; }
+.mvillage .mv-footer-cols a, .mvillage .mv-footer-cols li { font-size: 14px; color: rgba(255,255,255,.82); line-height: 2; }
+.mvillage .mv-footer-bottom { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-top: 24px; font-size: 12.5px; color: rgba(255,255,255,.5); }
+
+@media (max-width: 768px) {
+  .mvillage .mv-section { padding: 56px 0; }
+  .mvillage .mv-h2 { font-size: 30px; }
+  .mvillage .mv-nav { display: none; }
+  .mvillage .mv-header-inner { gap: 12px; }
+}
