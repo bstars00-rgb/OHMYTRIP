@@ -43,7 +43,7 @@
 .mvillage .mv-collection-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .mvillage .mv-collection-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16,21,18,0) 30%, rgba(16,21,18,0.60) 62%, rgba(16,21,18,0.94) 100%); }
 .mvillage .mv-collection-card .mv-cc-body { position: relative; z-index: 2; padding: 26px; }
-.mvillage .mv-cc-ic { width: 52px; height: 52px; border-radius: 50%; background: var(--tone); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+.mvillage .mv-cc-ic { position: absolute; top: 22px; left: 22px; z-index: 2; width: 50px; height: 50px; border-radius: 50%; background: var(--tone); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
 .mvillage .mv-cc-name { font-family: var(--mv-serif); font-size: 26px; font-weight: 600; }
 .mvillage .mv-cc-nameko { font-size: 13px; color: rgba(255,255,255,.75); margin-bottom: 10px; }
 .mvillage .mv-cc-purpose { font-size: 14px; color: rgba(255,255,255,.9); line-height: 1.5; }

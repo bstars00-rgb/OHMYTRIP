@@ -144,8 +144,8 @@ export default function MVillageHall() {
               return (
                 <button key={c.key} type="button" className="mv-collection-card" data-tone={c.tone} data-reveal data-delay={i + 1} onClick={() => pickCollection(c.key)}>
                   <img src={mvImg(c.key, c.icon === 'sunrise' ? 'resort' : c.icon === 'city' ? 'city' : c.icon === 'bed' ? 'interior' : 'suite')} alt={c.name} />
+                  <span className="mv-cc-ic"><Icon size={22} color="#fff" /></span>
                   <div className="mv-cc-body">
-                    <span className="mv-cc-ic"><Icon size={24} color="#fff" /></span>
                     <div className="mv-cc-name">{c.name}</div>
                     <div className="mv-cc-nameko">{c.nameKo}</div>
                     <div className="mv-cc-purpose">{c.purpose}</div>
