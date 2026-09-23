@@ -215,8 +215,9 @@
 }
 
 /* ============ 예약 — 실시간(OTA) 부킹 ============ */
-.mvillage .mv-book-search { display: grid; grid-template-columns: 1fr 1fr 140px 140px; gap: 14px; background: var(--mv-cream); border: 1px solid var(--mv-line); border-radius: var(--mv-radius); padding: 18px; margin-bottom: 30px; align-items: end; }
+.mvillage .mv-book-search { display: grid; grid-template-columns: minmax(0, 1fr) 130px 130px; gap: 14px; background: var(--mv-cream); border: 1px solid var(--mv-line); border-radius: var(--mv-radius); padding: 18px; margin-bottom: 30px; align-items: end; }
 .mvillage .mv-book-search .mv-field { margin-bottom: 0; }
+.mvillage .mv-book-dates { min-width: 0; }
 .mvillage .mv-book-h3 { font-family: var(--mv-serif-ko); font-size: 20px; font-weight: 700; color: var(--mv-forest); margin: 30px 0 14px; }
 .mvillage .mv-room-list { display: flex; flex-direction: column; gap: 14px; }
 .mvillage .mv-room-card { display: flex; gap: 0; text-align: left; background: #fff; border: 1.5px solid var(--mv-line); border-radius: var(--mv-radius); overflow: hidden; transition: border-color .15s, box-shadow .15s; }
@@ -245,4 +246,46 @@
   .mvillage .mv-book-search { grid-template-columns: 1fr; }
   .mvillage .mv-room-card { flex-direction: column; }
   .mvillage .mv-room-media { width: 100%; height: 160px; }
+}
+
+/* ============ 체크인 박스 + 범위 캘린더 (오마이트립 UX 통일) ============ */
+.mvillage .mv-datebox-wrap { position: relative; }
+.mvillage .mv-datebox-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mvillage .mv-datebox { position: relative; text-align: left; background: #fff; border: 1.5px solid var(--mv-line); border-radius: var(--mv-radius-sm); padding: 8px 34px 8px 14px; min-height: 48px; display: flex; flex-direction: column; justify-content: center; transition: border-color .15s; }
+.mvillage .mv-datebox:hover { border-color: var(--mv-forest-400); }
+.mvillage .mv-datebox.is-open { border-color: var(--mv-orange); box-shadow: 0 0 0 1px var(--mv-orange); }
+.mvillage .mv-datebox-label { font-size: 11px; font-weight: 600; color: var(--mv-ink-45); }
+.mvillage .mv-datebox-val { font-size: 14px; font-weight: 600; color: var(--mv-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mvillage .mv-datebox-val em { font-style: normal; color: var(--mv-orange); font-weight: 700; }
+.mvillage .mv-datebox-ic { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--mv-ink-45); pointer-events: none; }
+
+.mvillage .mv-cal-pop { position: absolute; z-index: 60; top: calc(100% + 10px); left: 0; background: #fff; border: 1px solid var(--mv-line); border-radius: var(--mv-radius); box-shadow: var(--mv-shadow-lg); padding: 18px 20px; width: max-content; max-width: 94vw; }
+.mvillage .mv-cal-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--mv-line-soft); }
+.mvillage .mv-cal-range { font-weight: 700; font-size: 14px; color: var(--mv-forest); }
+.mvillage .mv-cal-reset { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: var(--mv-ink-45); font-weight: 600; }
+.mvillage .mv-cal-reset:hover { color: var(--mv-orange); }
+.mvillage .mv-cal-months { position: relative; display: flex; gap: 26px; }
+.mvillage .mv-cal-nav { position: absolute; top: -2px; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--mv-forest); background: var(--mv-ivory); }
+.mvillage .mv-cal-nav:hover:not(:disabled) { background: var(--mv-orange); color: #fff; }
+.mvillage .mv-cal-nav:disabled { opacity: .3; cursor: not-allowed; }
+.mvillage .mv-cal-prev { left: 0; }
+.mvillage .mv-cal-next { right: 0; }
+.mvillage .mv-cal-month { width: 252px; }
+.mvillage .mv-cal-title { text-align: center; font-weight: 700; font-size: 14px; color: var(--mv-forest); margin-bottom: 10px; }
+.mvillage .mv-cal-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.mvillage .mv-cal-table th { font-size: 11px; font-weight: 600; color: var(--mv-ink-45); padding-bottom: 8px; }
+.mvillage .mv-cal-table th.is-sun { color: var(--mv-orange); }
+.mvillage .mv-cal-table td { text-align: center; padding: 1px 0; }
+.mvillage .mv-cal-table td.td-mid { background: rgba(226,77,20,.09); }
+.mvillage .mv-cal-table td.td-start { background: linear-gradient(90deg, transparent 50%, rgba(226,77,20,.09) 50%); }
+.mvillage .mv-cal-table td.td-end { background: linear-gradient(90deg, rgba(226,77,20,.09) 50%, transparent 50%); }
+.mvillage .mv-cal-day { width: 34px; height: 34px; border-radius: 50%; font-size: 13px; color: var(--mv-ink); transition: background .12s; }
+.mvillage .mv-cal-day:hover:not(:disabled) { background: var(--mv-ivory); }
+.mvillage .mv-cal-day.is-sun { color: var(--mv-orange-2); }
+.mvillage .mv-cal-day.is-past { opacity: .28; cursor: not-allowed; }
+.mvillage .mv-cal-day.is-start, .mvillage .mv-cal-day.is-end { background: var(--mv-forest); color: #fff; font-weight: 700; }
+
+@media (max-width: 560px) {
+  .mvillage .mv-cal-months { flex-direction: column; gap: 16px; }
+  .mvillage .mv-cal-nav { top: -4px; }
 }

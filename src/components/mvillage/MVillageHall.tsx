@@ -91,10 +91,10 @@ export default function MVillageHall() {
         <div className="mv-container mv-hero-inner">
           <div className="mv-hero-logo mv-anim mv-anim-1"><b>M</b> VILLAGE</div>
           <span className="mv-eyebrow mv-anim mv-anim-2"><Leaf size={14} /> A MORE MEANINGFUL STAY</span>
-          <h1 className="mv-anim mv-anim-3">호텔이 아니라,<br /><span className="accent">베트남을 사는 방식</span>으로<br />머무는 곳.</h1>
+          <h1 className="mv-anim mv-anim-3">다낭부터 달랏까지,<br /><span className="accent">오래 머물고 싶은</span> 베트남.</h1>
           <p className="mv-hero-sub mv-anim mv-anim-4">
-            다낭·하노이·나트랑·달랏의 60개 시설, 6개 라이프스타일 브랜드.
-            목적에 맞게 고르는 <b style={{ color: 'var(--mv-orange-2)' }}>베트남 라이프스타일 컬렉션</b>을 오마이호텔에서 만나보세요.
+            감성 부티크부터 오션뷰 리조트, 롱스테이 레지던스까지.
+            여행의 목적에 딱 맞는 <b style={{ color: 'var(--mv-orange-2)' }}>베트남 라이프스타일 스테이</b>를 골라 지금 바로 예약하세요.
           </p>
           <div className="mv-hero-cta mv-anim mv-anim-5">
             <button type="button" className="mv-btn mv-btn-light" onClick={() => pickCollection('all')}>

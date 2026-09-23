@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { PROPERTIES, brandByKey, wonKR } from '@/mocks/mvillage/data';
 import { mvImg } from '@/features/mvillage/images';
+import MVillageDateBox from '@/components/mvillage/MVillageDateBox';
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 const addDays = (base: string, n: number) => { const d = new Date(base); d.setDate(d.getDate() + n); return iso(d); };
@@ -32,7 +33,6 @@ const PAYMENTS = [
 
 export default function MVillageBooking({ id }: { id: string }) {
   const property = PROPERTIES.find((p) => p.id === id);
-  const [today, setToday] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [rooms, setRooms] = useState(1);
@@ -45,7 +45,7 @@ export default function MVillageBooking({ id }: { id: string }) {
   useEffect(() => {
     const t = iso(new Date());
     // eslint-disable-next-line react-hooks/set-state-in-effect -- 마운트 후 날짜 초기화
-    setToday(t); setCheckIn(addDays(t, 14)); setCheckOut(addDays(t, 16));
+    setCheckIn(addDays(t, 14)); setCheckOut(addDays(t, 16));
   }, []);
 
   const brand = property ? brandByKey(property.brandKey) : undefined;
@@ -101,12 +101,10 @@ export default function MVillageBooking({ id }: { id: string }) {
         <div>
           {/* 검색 조건 */}
           <div className="mv-book-search">
-            <div className="mv-field"><label className="mv-label">체크인</label>
-              <input type="date" className="mv-input" value={checkIn} min={today || undefined}
-                onChange={(e) => { const v = e.target.value; setCheckIn(v); if (nightsBetween(v, checkOut) < 1) setCheckOut(addDays(v, 2)); }} /></div>
-            <div className="mv-field"><label className="mv-label">체크아웃</label>
-              <input type="date" className="mv-input" value={checkOut} min={checkIn ? addDays(checkIn, 1) : undefined}
-                onChange={(e) => setCheckOut(e.target.value)} /></div>
+            <div className="mv-field mv-book-dates">
+              <label className="mv-label">여행 일정</label>
+              <MVillageDateBox checkIn={checkIn} checkOut={checkOut} onChange={(a, b) => { setCheckIn(a); setCheckOut(b); }} />
+            </div>
             <div className="mv-stepper"><span>객실</span>
               <div className="mv-stepper-ctrl">
                 <button type="button" onClick={() => setRooms((r) => Math.max(1, r - 1))} aria-label="객실 감소"><Minus size={15} /></button><b>{rooms}</b>
