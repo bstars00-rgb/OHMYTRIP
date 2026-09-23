@@ -1,29 +1,34 @@
 /* M VILLAGE 브랜드관 — 컴포넌트 & 레이아웃 (.mvillage 스코프) */
 
 /* ============ HERO ============ */
-.mvillage .mv-hero { position: relative; min-height: 640px; display: flex; align-items: center; overflow: hidden; background: var(--mv-forest-700); }
+.mvillage .mv-hero { position: relative; min-height: 680px; display: flex; align-items: center; overflow: hidden; background: var(--mv-forest-700); }
 .mvillage .mv-hero-bg { position: absolute; inset: 0; }
-.mvillage .mv-hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-.mvillage .mv-hero-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(35,56,44,0.92) 0%, rgba(35,56,44,0.72) 42%, rgba(35,56,44,0.15) 100%); }
-.mvillage .mv-hero-inner { position: relative; z-index: 2; padding: 96px 0; color: #fff; }
-.mvillage .mv-hero .mv-eyebrow { color: #e7c9a6; }
-.mvillage .mv-hero-logo { font-family: var(--mv-serif); font-size: 30px; letter-spacing: 5px; color: #fff; text-transform: uppercase; margin-bottom: 28px; }
+.mvillage .mv-hero-bg img { width: 100%; height: 100%; object-fit: cover; animation: mvKenBurns 20s ease-in-out infinite alternate; }
+.mvillage .mv-hero-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, rgba(16,21,18,0.90) 0%, rgba(16,21,18,0.66) 40%, rgba(16,21,18,0.10) 100%); }
+.mvillage .mv-hero-inner { position: relative; z-index: 2; width: 100%; padding: 104px 24px; color: #fff; }
+.mvillage .mv-hero-inner > * { max-width: 600px; }
+.mvillage .mv-hero-logo { max-width: none; }
+.mvillage .mv-hero .mv-eyebrow { color: var(--mv-orange-2); }
+.mvillage .mv-hero-logo { font-family: var(--mv-serif); font-size: 30px; letter-spacing: 5px; color: #fff; text-transform: uppercase; margin-bottom: 32px; }
 .mvillage .mv-hero-logo b { font-weight: 600; }
-.mvillage .mv-hero h1 { font-family: var(--mv-serif-ko); font-weight: 800; font-size: 58px; line-height: 1.12; letter-spacing: -1px; margin: 18px 0; max-width: 720px; }
-.mvillage .mv-hero h1 .accent { color: #e7c9a6; }
-.mvillage .mv-hero-sub { font-size: 19px; line-height: 1.7; color: rgba(255,255,255,.88); max-width: 560px; margin-bottom: 34px; }
+.mvillage .mv-hero h1 { font-family: var(--mv-serif-ko); font-weight: 700; font-size: 56px; line-height: 1.16; letter-spacing: -1.5px; margin: 22px 0 26px; }
+.mvillage .mv-hero h1 .accent { color: var(--mv-orange-2); }
+.mvillage .mv-hero-sub { font-size: 18px; line-height: 1.75; color: rgba(255,255,255,.86); max-width: 540px; margin-bottom: 38px; font-weight: 300; }
 .mvillage .mv-hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
-.mvillage .mv-hero-badge { position: absolute; right: 40px; bottom: 40px; z-index: 2; text-align: right; font-family: var(--mv-serif); font-style: italic; font-size: 20px; color: rgba(255,255,255,.85); }
-.mvillage .mv-hero-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
-.mvillage .mv-hero-tags span { font-size: 12.5px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.7); padding: 6px 14px; border: 1px solid rgba(255,255,255,.28); border-radius: var(--mv-radius-pill); }
+.mvillage .mv-hero-badge { position: absolute; right: 44px; bottom: 40px; z-index: 2; text-align: right; font-family: var(--mv-serif); font-style: italic; font-size: 22px; color: rgba(255,255,255,.8); }
+.mvillage .mv-hero-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 34px; }
+.mvillage .mv-hero-tags span { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,.72); padding: 7px 15px; border: 1px solid rgba(255,255,255,.26); border-radius: var(--mv-radius-pill); }
 
 /* ============ STATS ============ */
 .mvillage .mv-stats { background: var(--mv-cream); border-bottom: 1px solid var(--mv-line); }
-.mvillage .mv-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 40px 0; }
-.mvillage .mv-stat { text-align: center; }
-.mvillage .mv-stat b { font-family: var(--mv-serif); font-size: 46px; font-weight: 600; color: var(--mv-forest); line-height: 1; }
-.mvillage .mv-stat .unit { font-size: 16px; font-weight: 600; color: var(--mv-terracotta); margin-left: 3px; }
-.mvillage .mv-stat p { font-size: 13px; color: var(--mv-ink-45); margin-top: 8px; }
+.mvillage .mv-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 52px 0; }
+.mvillage .mv-stat { text-align: center; position: relative; }
+.mvillage .mv-stat + .mv-stat::before { content: ''; position: absolute; left: -12px; top: 14%; height: 72%; width: 1px; background: var(--mv-line); }
+.mvillage .mv-stat b { font-family: var(--mv-serif); font-size: 54px; font-weight: 500; color: var(--mv-forest); line-height: 1; display: inline-flex; align-items: baseline; }
+.mvillage .mv-stat .unit { font-size: 16px; font-weight: 600; color: var(--mv-terracotta); margin-left: 4px; font-family: var(--mv-sans); }
+.mvillage .mv-stat .mv-stat-bar { display: block; width: 34px; height: 3px; background: var(--mv-orange); border-radius: 2px; margin: 14px auto 0; transform: scaleX(0); transform-origin: center; transition: transform .8s cubic-bezier(.22,.61,.36,1) .2s; }
+.mvillage .mv-stat.is-in .mv-stat-bar { transform: scaleX(1); }
+.mvillage .mv-stat p { font-size: 13px; color: var(--mv-ink-45); margin-top: 12px; }
 
 /* ============ 섹션 헤더 ============ */
 .mvillage .mv-sec-head { text-align: center; max-width: 720px; margin: 0 auto 48px; }
@@ -36,7 +41,7 @@
 .mvillage .mv-collection-card { position: relative; border-radius: var(--mv-radius-lg); overflow: hidden; min-height: 420px; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; text-align: left; transition: transform .2s ease, box-shadow .2s ease; }
 .mvillage .mv-collection-card:hover { transform: translateY(-4px); box-shadow: var(--mv-shadow-lg); }
 .mvillage .mv-collection-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.mvillage .mv-collection-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(35,56,44,0) 30%, rgba(35,56,44,0.55) 62%, rgba(35,56,44,0.92) 100%); }
+.mvillage .mv-collection-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16,21,18,0) 30%, rgba(16,21,18,0.60) 62%, rgba(16,21,18,0.94) 100%); }
 .mvillage .mv-collection-card .mv-cc-body { position: relative; z-index: 2; padding: 26px; }
 .mvillage .mv-cc-ic { width: 52px; height: 52px; border-radius: 50%; background: var(--tone); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
 .mvillage .mv-cc-name { font-family: var(--mv-serif); font-size: 26px; font-weight: 600; }
@@ -55,6 +60,7 @@
 .mvillage .mv-prop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .mvillage .mv-prop-card { background: #fff; border: 1px solid var(--mv-line-soft); border-radius: var(--mv-radius); overflow: hidden; display: flex; flex-direction: column; text-align: left; transition: transform .18s ease, box-shadow .18s ease; }
 .mvillage .mv-prop-card:hover { transform: translateY(-4px); box-shadow: var(--mv-shadow-md); }
+.mvillage .mv-card-in { animation: mvFadeUp .55s cubic-bezier(.22,.61,.36,1) both; }
 .mvillage .mv-prop-media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
 .mvillage .mv-prop-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
 .mvillage .mv-prop-card:hover .mv-prop-media img { transform: scale(1.05); }
@@ -89,7 +95,7 @@
 .mvillage .mv-dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .mvillage .mv-dest-card { position: relative; border-radius: var(--mv-radius); overflow: hidden; min-height: 260px; display: flex; align-items: flex-end; color: #fff; }
 .mvillage .mv-dest-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.mvillage .mv-dest-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(35,56,44,0) 35%, rgba(35,56,44,0.9) 100%); }
+.mvillage .mv-dest-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16,21,18,0) 35%, rgba(16,21,18,0.92) 100%); }
 .mvillage .mv-dest-body { position: relative; z-index: 2; padding: 22px; }
 .mvillage .mv-dest-city { font-family: var(--mv-serif-ko); font-size: 22px; font-weight: 700; }
 .mvillage .mv-dest-en { font-family: var(--mv-serif); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.7); }
@@ -114,7 +120,7 @@
 .mvillage .mv-cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
 
 /* ============ 모달 (상품 상세) ============ */
-.mvillage .mv-modal-scrim { position: fixed; inset: 0; z-index: 1000; background: rgba(35,56,44,0.55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.mvillage .mv-modal-scrim { position: fixed; inset: 0; z-index: 1000; background: rgba(16,21,18,0.60); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 24px; }
 .mvillage .mv-modal { background: var(--mv-cream); border-radius: var(--mv-radius-lg); max-width: 760px; width: 100%; max-height: 88vh; overflow: auto; box-shadow: var(--mv-shadow-lg); }
 .mvillage .mv-modal-media { position: relative; aspect-ratio: 16 / 9; }
 .mvillage .mv-modal-media img { width: 100%; height: 100%; object-fit: cover; }
@@ -143,4 +149,100 @@
   .mvillage .mv-collection-card { min-height: 360px; }
   .mvillage .mv-modal-feats { grid-template-columns: 1fr; }
   .mvillage .mv-footer-top { flex-direction: column; }
+}
+
+/* ============ 예약(Booking) / 제휴(Partner) 페이지 ============ */
+.mvillage .mv-btn-block { width: 100%; }
+.mvillage .mv-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+/* 폼 공통 */
+.mvillage .mv-field { margin-bottom: 16px; }
+.mvillage .mv-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mvillage .mv-label { display: block; font-size: 13px; font-weight: 600; color: var(--mv-ink-70); margin-bottom: 7px; }
+.mvillage .mv-input { width: 100%; height: 48px; padding: 0 15px; border: 1.5px solid var(--mv-line); border-radius: var(--mv-radius-sm); background: #fff; font-family: var(--mv-sans); font-size: 15px; color: var(--mv-ink); transition: border-color .15s; }
+.mvillage .mv-input:focus { outline: none; border-color: var(--mv-orange); }
+.mvillage .mv-textarea { height: auto; padding: 12px 15px; line-height: 1.6; resize: vertical; }
+.mvillage .mv-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mvillage .mv-chip { padding: 9px 16px; border: 1.5px solid var(--mv-line); border-radius: var(--mv-radius-pill); background: #fff; font-size: 13.5px; font-weight: 600; color: var(--mv-ink-70); transition: all .15s; }
+.mvillage .mv-chip:hover { border-color: var(--mv-orange); color: var(--mv-orange); }
+.mvillage .mv-chip.is-active { background: var(--mv-forest); border-color: var(--mv-forest); color: #fff; }
+
+/* 예약 페이지 */
+.mvillage .mv-book-grid { display: grid; grid-template-columns: 1fr 380px; gap: 32px; align-items: start; }
+.mvillage .mv-book-summary { background: #fff; border: 1px solid var(--mv-line-soft); border-radius: var(--mv-radius-lg); overflow: hidden; }
+.mvillage .mv-book-media { position: relative; aspect-ratio: 16 / 9; }
+.mvillage .mv-book-media img { width: 100%; height: 100%; object-fit: cover; }
+.mvillage .mv-book-info { padding: 22px 24px 26px; }
+.mvillage .mv-book-form { background: var(--mv-cream); border: 1px solid var(--mv-line); border-radius: var(--mv-radius-lg); padding: 24px; position: sticky; top: 96px; }
+.mvillage .mv-stepper-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 4px 0 18px; }
+.mvillage .mv-stepper span { display: block; font-size: 13px; font-weight: 600; color: var(--mv-ink-70); margin-bottom: 7px; }
+.mvillage .mv-stepper-ctrl { display: flex; align-items: center; justify-content: space-between; border: 1.5px solid var(--mv-line); border-radius: var(--mv-radius-sm); height: 48px; padding: 0 8px; background: #fff; }
+.mvillage .mv-stepper-ctrl button { width: 30px; height: 30px; border-radius: 50%; background: var(--mv-ivory); color: var(--mv-forest); display: inline-flex; align-items: center; justify-content: center; }
+.mvillage .mv-stepper-ctrl button:hover { background: var(--mv-orange); color: #fff; }
+.mvillage .mv-stepper-ctrl b { font-size: 16px; }
+.mvillage .mv-book-rows { border-top: 1px solid var(--mv-line); padding-top: 14px; margin-top: 4px; }
+.mvillage .mv-book-row { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 6px; }
+.mvillage .mv-book-total { display: flex; justify-content: space-between; align-items: baseline; border-top: 2px solid var(--mv-forest); margin-top: 10px; padding-top: 14px; margin-bottom: 16px; }
+.mvillage .mv-book-total b { font-size: 24px; color: var(--mv-forest); }
+.mvillage .mv-book-safe { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--mv-ink-45); margin-top: 12px; }
+.mvillage .mv-book-safe svg { color: var(--mv-sage); }
+.mvillage .mv-book-done { text-align: center; padding: 30px 0 10px; }
+.mvillage .mv-book-check { width: 76px; height: 76px; border-radius: 50%; background: var(--mv-forest); color: #fff; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+.mvillage .mv-book-ref { display: inline-block; font-weight: 700; color: var(--mv-forest); background: var(--mv-ivory); padding: 8px 18px; border-radius: var(--mv-radius-pill); margin: 14px 0 18px; }
+
+/* 제휴 페이지 */
+.mvillage .mv-why3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.mvillage .mv-why3-card { background: var(--mv-cream); border: 1px solid var(--mv-line-soft); border-radius: var(--mv-radius); padding: 24px 22px; }
+.mvillage .mv-why3-ic { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: var(--mv-forest); color: #fff; margin-bottom: 14px; }
+.mvillage .mv-why3-card b { display: block; font-family: var(--mv-serif-ko); font-size: 17px; font-weight: 700; color: var(--mv-forest); margin-bottom: 6px; }
+.mvillage .mv-why3-card p { font-size: 13.5px; color: var(--mv-ink-70); line-height: 1.55; }
+.mvillage .mv-partner-grid { display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+.mvillage .mv-form { background: #fff; border: 1px solid var(--mv-line-soft); border-radius: var(--mv-radius-lg); padding: 28px; }
+.mvillage .mv-partner-aside { background: var(--mv-forest-700); color: #fff; border-radius: var(--mv-radius-lg); padding: 28px; }
+.mvillage .mv-partner-aside h3 { font-family: var(--mv-serif-ko); font-size: 20px; font-weight: 700; }
+.mvillage .mv-partner-aside .mv-muted { color: rgba(255,255,255,.6); }
+.mvillage .mv-partner-note { margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.14); }
+.mvillage .mv-partner-note b { font-family: var(--mv-serif); letter-spacing: 1px; }
+.mvillage .mv-partner-note p { font-size: 12.5px; color: rgba(255,255,255,.6); line-height: 1.6; margin-top: 6px; }
+
+@media (max-width: 900px) {
+  .mvillage .mv-book-grid, .mvillage .mv-partner-grid { grid-template-columns: 1fr; }
+  .mvillage .mv-book-form { position: static; }
+  .mvillage .mv-why3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .mvillage .mv-field-row { grid-template-columns: 1fr; }
+}
+
+/* ============ 예약 — 실시간(OTA) 부킹 ============ */
+.mvillage .mv-book-search { display: grid; grid-template-columns: 1fr 1fr 140px 140px; gap: 14px; background: var(--mv-cream); border: 1px solid var(--mv-line); border-radius: var(--mv-radius); padding: 18px; margin-bottom: 30px; align-items: end; }
+.mvillage .mv-book-search .mv-field { margin-bottom: 0; }
+.mvillage .mv-book-h3 { font-family: var(--mv-serif-ko); font-size: 20px; font-weight: 700; color: var(--mv-forest); margin: 30px 0 14px; }
+.mvillage .mv-room-list { display: flex; flex-direction: column; gap: 14px; }
+.mvillage .mv-room-card { display: flex; gap: 0; text-align: left; background: #fff; border: 1.5px solid var(--mv-line); border-radius: var(--mv-radius); overflow: hidden; transition: border-color .15s, box-shadow .15s; }
+.mvillage .mv-room-card:hover { border-color: var(--mv-forest-400); box-shadow: var(--mv-shadow-sm); }
+.mvillage .mv-room-card.is-sel { border-color: var(--mv-orange); box-shadow: 0 0 0 1px var(--mv-orange); }
+.mvillage .mv-room-media { width: 190px; flex-shrink: 0; }
+.mvillage .mv-room-media img { width: 100%; height: 100%; object-fit: cover; min-height: 150px; }
+.mvillage .mv-room-body { flex: 1; padding: 16px 18px; display: flex; flex-direction: column; }
+.mvillage .mv-room-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mvillage .mv-room-name { font-family: var(--mv-serif-ko); font-size: 17px; font-weight: 700; color: var(--mv-forest); }
+.mvillage .mv-room-left { font-size: 12px; font-weight: 600; color: var(--mv-sage); }
+.mvillage .mv-room-left.urgent { color: var(--mv-orange); }
+.mvillage .mv-room-perks { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 8px 0; }
+.mvillage .mv-room-perks span { font-size: 12.5px; color: var(--mv-ink-70); display: inline-flex; align-items: center; gap: 4px; }
+.mvillage .mv-room-perks svg { color: var(--mv-sage); }
+.mvillage .mv-room-foot { display: flex; align-items: flex-end; justify-content: space-between; margin-top: auto; padding-top: 10px; }
+.mvillage .mv-room-price small { display: block; font-size: 11px; color: var(--mv-ink-45); }
+.mvillage .mv-room-price b { font-size: 20px; color: var(--mv-ink); }
+.mvillage .mv-room-pick { font-size: 13px; font-weight: 700; color: var(--mv-forest); border: 1.5px solid var(--mv-forest); border-radius: var(--mv-radius-pill); padding: 8px 18px; display: inline-flex; align-items: center; gap: 5px; }
+.mvillage .mv-room-pick.is-sel { background: var(--mv-orange); border-color: var(--mv-orange); color: #fff; }
+
+@media (max-width: 900px) {
+  .mvillage .mv-book-search { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .mvillage .mv-book-search { grid-template-columns: 1fr; }
+  .mvillage .mv-room-card { flex-direction: column; }
+  .mvillage .mv-room-media { width: 100%; height: 160px; }
 }

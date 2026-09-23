@@ -18,18 +18,18 @@ export default function MVillageFooter() {
             <div>
               <h4>Collections</h4>
               <ul>
-                <li><a href="#collections">Premium Escape</a></li>
-                <li><a href="#collections">Urban Discovery</a></li>
-                <li><a href="#collections">Smart City Stay</a></li>
-                <li><a href="#collections">Work &amp; Live</a></li>
+                <li><Link href="/mvillage#collections">Premium Escape</Link></li>
+                <li><Link href="/mvillage#collections">Urban Discovery</Link></li>
+                <li><Link href="/mvillage#collections">Smart City Stay</Link></li>
+                <li><Link href="/mvillage#collections">Work &amp; Live</Link></li>
               </ul>
             </div>
             <div>
               <h4>Discover</h4>
               <ul>
-                <li><a href="#brands">브랜드 포트폴리오</a></li>
-                <li><a href="#destinations">인기 목적지</a></li>
-                <li><a href="#cta">제휴·단체 문의</a></li>
+                <li><Link href="/mvillage#brands">브랜드 포트폴리오</Link></li>
+                <li><Link href="/mvillage#destinations">인기 목적지</Link></li>
+                <li><Link href="/mvillage/partner">제휴·단체 문의</Link></li>
                 <li><Link href="/">오마이트립으로</Link></li>
               </ul>
             </div>

@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 const NAV = [
-  { href: '#collections', label: '라이프스타일 컬렉션' },
-  { href: '#brands', label: '브랜드' },
-  { href: '#destinations', label: '목적지' },
-  { href: '#cta', label: '문의' },
+  { href: '/mvillage#collections', label: '라이프스타일 컬렉션' },
+  { href: '/mvillage#brands', label: '브랜드' },
+  { href: '/mvillage#destinations', label: '목적지' },
+  { href: '/mvillage/partner', label: '제휴 문의' },
 ];
 
 export default function MVillageHeader() {

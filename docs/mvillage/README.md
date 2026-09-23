@@ -12,10 +12,12 @@
 |---|---|
 | 무엇 | 오마이(호텔/트립) 안의 **M Village 브랜드 전용 랜딩(브랜드관)** |
 | 라이브 | `/mvillage` (예: https://bstars00-rgb.github.io/OHMYTRIP/mvillage/) |
-| 진입 | 오마이 메인 홈 **브랜드 배너**(호텔 하단, NEW) → 클릭 → `/mvillage` |
+| 진입 | 오마이 메인 홈 **브랜드 배너**(호텔 하단, NEW · 중앙 정렬) → 클릭 → `/mvillage` |
 | 컨셉 | “호텔이 아니라 **베트남 라이프스타일 컬렉션**” |
-| 구성 | 히어로 · 지표 · 4 목적별 컬렉션 · 대표 시설(필터+모달) · 브랜드 포트폴리오 · 목적지 · 브랜드 가치 · 문의 |
-| 데이터 | 목데이터 — 컬렉션 4 · 브랜드 7 · 시설 12(대표) · 목적지 6 |
+| 구성 | 히어로 · 지표(카운트업) · 4 목적별 컬렉션 · 대표 시설(필터+모달) · 브랜드 포트폴리오 · 목적지 · 브랜드 가치 · 제휴 문의 |
+| **예약 / 제휴 분리** | 시설 예약 = **`/mvillage/book/[id]` 실시간(OTA) 부킹**(객실 선택→예약자·결제→즉시 확정) · 제휴 문의 = **`/mvillage/partner` 별도 페이지**(B2B 폼) |
+| CI | modernvillagelifestyle.vn 반영 — **Be Vietnam Pro + Fraunces**, **오렌지 #e24d14/#f16a24** · near-black · 화이트 · 스크롤 리빌/켄번스 모션 |
+| 데이터 | 목데이터 — 컬렉션 4 · 브랜드 7 · 시설 12(대표) · 목적지 6 · 객실 타입 3(예약) |
 | 격리 | `.mvillage` 스코프 + `MVillageShell` body 클래스 스왑 → 클론/골프와 무간섭, **롤백 가능** |
 
 ---
@@ -63,7 +65,13 @@
 | 5 | **브랜드 포트폴리오** | 7개 브랜드 카드(티어·타깃·소개·시설수·도시). 상위→하위 |
 | 6 | **인기 목적지** | 다낭·하노이·나트랑·달랏·호치민·푸꾸옥 — **한국 시장 소구 훅**(한국인 1위/직항/신규) |
 | 7 | **브랜드 가치** | Good People Better Stays · Local Living Global Connections · Stay·Work·Explore·Belong |
-| 8 | **문의(CTA)** | 카카오톡·전화 상담(목) |
+| 8 | **제휴 CTA** | 제휴 문의는 `/mvillage/partner`로 분리(개별 예약과 구분) |
+
+### 4.1 예약 — 실시간(OTA) 부킹 `/mvillage/book/[id]`
+시설 카드/모달 **예약하기** → 객실 타입 3종(스탠다드/디럭스/스위트, 실시간 요금·잔여실) 선택 → 예약자 정보 + 결제 수단(카드/카카오·네이버·토스페이 UI) → **즉시 예약 확정**(예약번호·바우처 안내). 요금 = 객실요율 × 박 × 객실 + 세금 10%. *실판매·PG 미연동(실서비스 시 오마이호텔 실시간 예약·결제로 확정).*
+
+### 4.2 제휴 문의 — 별도 랜딩 `/mvillage/partner`
+여행사·기업/MICE·단체 **B2B 전용 창구**. 제휴 가치(한국 브랜드 채널·그룹 요율·시즌 기획전) + 문의 폼(유형·회사·담당자·연락처·내용) → 접수 확인. 개별 예약과 완전 분리.
 
 ---
 
@@ -84,15 +92,16 @@
 
 브랜드 GTM Deck 팔레트·타이포 반영. 모두 `.mvillage` 스코프.
 
+> 2026-09 갱신: 발주자 요청으로 **modernvillagelifestyle.vn 실제 CI**에 맞춰 재스킨(오렌지·near-black·화이트, Be Vietnam Pro).
+
 | 토큰 | 값 | 용도 |
 |---|---|---|
-| `--mv-forest` | **#2f4a3a** | Primary(워드마크·CTA·오버레이) |
-| `--mv-terracotta` | #b96843 | Accent |
-| `--mv-gold` | #b0894e | Secondary |
-| `--mv-sage` | #8b9d7e | Tertiary |
-| `--mv-ivory` / `--mv-cream` | #f4f0e6 / #faf7ef | 배경/서페이스 |
-| 서체 | **Cormorant Garamond**(라틴) · **Nanum Myeongjo**(한글) 세리프 디스플레이 + Pretendard 본문 | |
-| 모티프 | 유기적 곡선 이미지 마스크 · 잎(leaf) 아이콘 · 원형 아이콘 | |
+| `--mv-orange` / `--mv-orange-2` | **#e24d14 / #f16a24** | Primary accent(악센트·아이콘·즉시예약·활성) |
+| `--mv-forest` / `--mv-forest-700` | #16211b / #101512 | 헤딩·기본 버튼·푸터·오버레이(near-black) |
+| `--mv-gold` / `--mv-sage` | #b0894e / #8b9d7e | 컬렉션 톤 |
+| `--mv-ivory` / `--mv-cream` | #f6f3ec / #fbf9f4 | 배경/서페이스 |
+| 서체 | **Be Vietnam Pro**(본문·한글 Pretendard 폴백) + **Fraunces**(워드마크·라틴 디스플레이 ≈ forma) | |
+| 모션 | 스크롤 리빌(fade-up)·지표 카운트업·히어로 켄번스·카드 스태거 (`prefers-reduced-motion` 대응) | |
 
 ---
 
