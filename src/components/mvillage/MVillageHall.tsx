@@ -14,6 +14,7 @@ import {
   brandByKey, collectionByKey, wonKR, type Property,
 } from '@/mocks/mvillage/data';
 import { mvImg } from '@/features/mvillage/images';
+import { useMV } from '@/features/mvillage/i18n';
 
 const CICON = { sunrise: Sunrise, city: Building2, bed: BedDouble, laptop: Laptop } as const;
 
@@ -24,6 +25,7 @@ function badgeClass(b: string): string {
 }
 
 export default function MVillageHall() {
+  const { t, tc, tcArr, tcity, tbadge } = useMV();
   const [filter, setFilter] = useState<string>('all');
   const [modal, setModal] = useState<Property | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -34,27 +36,23 @@ export default function MVillageHall() {
     [filter],
   );
 
-  // 스크롤 리빌 + 지표 카운트업 (모션) — scroll+rect 방식(IntersectionObserver/rAF 미동작 환경에서도 안전)
+  // 스크롤 리빌 + 지표 카운트업 (scroll+rect 방식 — IntersectionObserver/rAF 미동작 환경에서도 안전)
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     const runCount = (el: HTMLElement) => {
       const target = Number(el.dataset.target || '0');
       const comma = el.dataset.comma === '1';
-      const fmt = (v: number) => (comma ? Math.round(v).toLocaleString('ko-KR') : String(Math.round(v)));
+      const fmt = (v: number) => (comma ? Math.round(v).toLocaleString('en-US') : String(Math.round(v)));
       if (reduce) { el.textContent = fmt(target); return; }
       const steps = 45; let i = 0;
       const id = setInterval(() => {
-        i += 1;
-        const p = i / steps;
-        const eased = 1 - Math.pow(1 - p, 3);
+        i += 1; const p = i / steps; const eased = 1 - Math.pow(1 - p, 3);
         el.textContent = fmt(target * eased);
         if (i >= steps) { el.textContent = fmt(target); clearInterval(id); }
       }, 24);
     };
-
     const reveal = () => {
       const vh = window.innerHeight;
       root.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-in), .mv-stat:not(.is-in)').forEach((el) => {
@@ -65,14 +63,10 @@ export default function MVillageHall() {
         }
       });
     };
-
     reveal();
     window.addEventListener('scroll', reveal, { passive: true });
     window.addEventListener('resize', reveal);
-    return () => {
-      window.removeEventListener('scroll', reveal);
-      window.removeEventListener('resize', reveal);
-    };
+    return () => { window.removeEventListener('scroll', reveal); window.removeEventListener('resize', reveal); };
   }, []);
 
   const pickCollection = (key: string) => {
@@ -80,27 +74,32 @@ export default function MVillageHall() {
     document.getElementById('stays')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const heroLines = t('hero.title').split('|');
+
   return (
     <div ref={rootRef}>
       {/* ============ HERO ============ */}
       <section className="mv-hero">
         <div className="mv-hero-bg">
-          <img src={mvImg('mvillage-hero', 'hero')} alt="M Village 베트남 라이프스타일 스테이" />
+          <img src={mvImg('mvillage-hero', 'hero')} alt="M Village Vietnam lifestyle stay" />
         </div>
         <div className="mv-hero-overlay" />
         <div className="mv-container mv-hero-inner">
           <div className="mv-hero-logo mv-anim mv-anim-1"><b>M</b> VILLAGE</div>
           <span className="mv-eyebrow mv-anim mv-anim-2"><Leaf size={14} /> A MORE MEANINGFUL STAY</span>
-          <h1 className="mv-anim mv-anim-3">다낭부터 달랏까지,<br /><span className="accent">오래 머물고 싶은</span> 베트남.</h1>
+          <h1 className="mv-anim mv-anim-3">
+            {heroLines.map((ln, i) => (
+              <span key={i}>{i === 1 ? <span className="accent">{ln}</span> : ln}{i < heroLines.length - 1 && <br />}</span>
+            ))}
+          </h1>
           <p className="mv-hero-sub mv-anim mv-anim-4">
-            감성 부티크부터 오션뷰 리조트, 롱스테이 레지던스까지.
-            여행의 목적에 딱 맞는 <b style={{ color: 'var(--mv-orange-2)' }}>베트남 라이프스타일 스테이</b>를 골라 지금 바로 예약하세요.
+            {t('hero.sub')} {t('hero.sub2')} <b style={{ color: 'var(--mv-orange-2)' }}>{t('hero.subAccent')}</b>{t('hero.sub3')}
           </p>
           <div className="mv-hero-cta mv-anim mv-anim-5">
             <button type="button" className="mv-btn mv-btn-light" onClick={() => pickCollection('all')}>
-              컬렉션 둘러보기 <ArrowRight size={17} />
+              {t('hero.cta1')} <ArrowRight size={17} />
             </button>
-            <a href="#brands" className="mv-btn mv-btn-ghost-light">브랜드 알아보기</a>
+            <a href="#brands" className="mv-btn mv-btn-ghost-light">{t('hero.cta2')}</a>
           </div>
           <div className="mv-hero-tags mv-anim mv-anim-6">
             <span>Local Living</span><span>Global Connections</span><span>Stay · Work · Explore · Belong</span>
@@ -113,16 +112,16 @@ export default function MVillageHall() {
       <section className="mv-stats">
         <div className="mv-container">
           <div className="mv-stats-grid">
-            {STATS.map((s) => {
+            {STATS.map((s, i) => {
               const num = Number(s.value.replace(/,/g, ''));
               return (
-                <div key={s.label} className="mv-stat">
+                <div key={i} className="mv-stat">
                   <b>
                     <span className="mv-count" data-target={num} data-comma={s.value.includes(',') ? '1' : '0'}>0</span>
-                    <span className="unit">{s.unit}</span>
+                    <span className="unit">{tc('stat', `s${i}`, 'unit', s.unit)}</span>
                   </b>
                   <span className="mv-stat-bar" />
-                  <p>{s.label}</p>
+                  <p>{tc('stat', `s${i}`, 'label', s.label)}</p>
                 </div>
               );
             })}
@@ -135,8 +134,8 @@ export default function MVillageHall() {
         <div className="mv-container">
           <div className="mv-sec-head" data-reveal>
             <span className="mv-eyebrow"><Leaf size={14} /> Vietnam Lifestyle Collection</span>
-            <h2 className="mv-h2" style={{ marginTop: 12 }}>목적으로 고르는 <span className="accent">4가지 컬렉션</span></h2>
-            <p className="mv-lead">개별 호텔이 아니라, 여행의 목적에 맞춰 고르세요. 허니문부터 워크케이션까지 — 브랜드별 선택이 쉬운 포트폴리오.</p>
+            <h2 className="mv-h2" style={{ marginTop: 12 }}>{t('col.title')} <span className="accent">{t('col.titleAccent')}</span></h2>
+            <p className="mv-lead">{t('col.lead')}</p>
           </div>
           <div className="mv-collection-grid">
             {COLLECTIONS.map((c, i) => {
@@ -147,9 +146,9 @@ export default function MVillageHall() {
                   <span className="mv-cc-ic"><Icon size={22} color="#fff" /></span>
                   <div className="mv-cc-body">
                     <div className="mv-cc-name">{c.name}</div>
-                    <div className="mv-cc-nameko">{c.nameKo}</div>
-                    <div className="mv-cc-purpose">{c.purpose}</div>
-                    <span className="mv-cc-msg">{c.message}</span>
+                    <div className="mv-cc-nameko">{tc('collection', c.key, 'nameKo', c.nameKo)}</div>
+                    <div className="mv-cc-purpose">{tc('collection', c.key, 'purpose', c.purpose)}</div>
+                    <span className="mv-cc-msg">{tc('collection', c.key, 'message', c.message)}</span>
                     <div className="mv-cc-brands">
                       {c.brandKeys.map((bk) => <span key={bk}>{brandByKey(bk)?.name}</span>)}
                     </div>
@@ -161,15 +160,15 @@ export default function MVillageHall() {
         </div>
       </section>
 
-      {/* ============ STAYS (필터 + 그리드) ============ */}
+      {/* ============ STAYS ============ */}
       <section id="stays" className="mv-section mv-props">
         <div className="mv-container">
           <div className="mv-sec-head" data-reveal>
             <span className="mv-eyebrow"><Leaf size={14} /> Featured Stays</span>
-            <h2 className="mv-h2" style={{ marginTop: 12 }}>M Village 대표 시설</h2>
+            <h2 className="mv-h2" style={{ marginTop: 12 }}>{t('stays.title')}</h2>
           </div>
           <div className="mv-filter-row">
-            <button type="button" className={`mv-filter${filter === 'all' ? ' is-active' : ''}`} onClick={() => setFilter('all')}>전체</button>
+            <button type="button" className={`mv-filter${filter === 'all' ? ' is-active' : ''}`} onClick={() => setFilter('all')}>{t('filter.all')}</button>
             {COLLECTIONS.map((c) => (
               <button key={c.key} type="button" className={`mv-filter${filter === c.key ? ' is-active' : ''}`} onClick={() => setFilter(c.key)}>{c.name}</button>
             ))}
@@ -183,21 +182,21 @@ export default function MVillageHall() {
                     <img src={mvImg(p.seed, p.imgKind)} alt={p.name} loading="lazy" />
                     {p.badges && (
                       <div className="mv-prop-badges">
-                        {p.badges.map((b) => <span key={b} className={badgeClass(b)}>{b}</span>)}
+                        {p.badges.map((b) => <span key={b} className={badgeClass(b)}>{tbadge(b)}</span>)}
                       </div>
                     )}
                     <span className="mv-prop-brandtag">{brand?.name}</span>
                   </div>
                   <div className="mv-prop-body">
-                    <span className="mv-prop-city"><MapPin size={12} /> {p.city}</span>
+                    <span className="mv-prop-city"><MapPin size={12} /> {tcity(p.city)}</span>
                     <div className="mv-prop-name">{p.name}</div>
-                    <p className="mv-prop-blurb">{p.blurb}</p>
+                    <p className="mv-prop-blurb">{tc('property', p.id, 'blurb', p.blurb)}</p>
                     <div className="mv-prop-foot">
                       <span className="mv-prop-price">
-                        <small>1박 최저가 (지표)</small>
+                        <small>{t('card.from')}</small>
                         <b>{wonKR(p.fromKRW)}<span> ~</span></b>
                       </span>
-                      <span className="mv-btn mv-btn-outline mv-btn-sm">자세히</span>
+                      <span className="mv-btn mv-btn-outline mv-btn-sm">{t('card.detail')}</span>
                     </div>
                   </div>
                 </button>
@@ -212,24 +211,24 @@ export default function MVillageHall() {
         <div className="mv-container">
           <div className="mv-sec-head" data-reveal>
             <span className="mv-eyebrow"><Leaf size={14} /> Brand Portfolio</span>
-            <h2 className="mv-h2" style={{ marginTop: 12 }}>하나의 이름, <span className="accent">6개의 라이프스타일</span></h2>
-            <p className="mv-lead">2026년 멀티브랜드 체제로 전환한 Modern Village Lifestyle. 최상위 시그니처부터 실속·롱스테이까지, 목적에 맞는 브랜드를 선택하세요.</p>
+            <h2 className="mv-h2" style={{ marginTop: 12 }}>{t('brands.title')} <span className="accent">{t('brands.titleAccent')}</span></h2>
+            <p className="mv-lead">{t('brands.lead')}</p>
           </div>
           <div className="mv-brand-grid">
             {BRANDS.map((b, i) => (
-              <article key={b.key} className="mv-brand-card" data-tone={b.tone} data-reveal data-delay={(i % 2) + 1}>
+              <Link key={b.key} href={`/mvillage/brand/${b.key}`} className="mv-brand-card" data-tone={b.tone} data-reveal data-delay={(i % 2) + 1}>
                 <div className="mv-brand-rank">{String(i + 1).padStart(2, '0')}</div>
                 <div>
                   <div className="mv-brand-name">{b.name}</div>
-                  <div className="mv-brand-tier">{b.tierLabel}</div>
-                  <div className="mv-brand-target">{b.target}</div>
-                  <p className="mv-brand-blurb">{b.blurb}</p>
+                  <div className="mv-brand-tier">{tc('brand', b.key, 'tierLabel', b.tierLabel)}</div>
+                  <div className="mv-brand-target">{tc('brand', b.key, 'target', b.target)}</div>
+                  <p className="mv-brand-blurb">{tc('brand', b.key, 'blurb', b.blurb)}</p>
                   <div className="mv-brand-meta">
-                    <span>시설 <b>{b.facilities ?? '신규'}{b.facilities ? '개' : ''}</b></span>
-                    <span>도시 <b>{b.cities.join(' · ')}</b></span>
+                    <span>{t('meta.facilities')} <b>{b.facilities ?? t('badge.new')}</b></span>
+                    <span>{t('meta.city')} <b>{b.cities.map((c) => tcity(c)).join(' · ')}</b></span>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
@@ -240,19 +239,19 @@ export default function MVillageHall() {
         <div className="mv-container">
           <div className="mv-sec-head" data-reveal>
             <span className="mv-eyebrow"><Leaf size={14} /> Destinations</span>
-            <h2 className="mv-h2" style={{ marginTop: 12 }}>한국에서 가장 가까운 <span className="accent">베트남</span></h2>
-            <p className="mv-lead">한국인 수요가 이미 완성된 목적지들. 다낭·나트랑·달랏·푸꾸옥 — 직항과 함께 M Village가 먼저 켜져 있습니다.</p>
+            <h2 className="mv-h2" style={{ marginTop: 12 }}>{t('dest.title')} <span className="accent">{t('dest.titleAccent')}</span></h2>
+            <p className="mv-lead">{t('dest.lead')}</p>
           </div>
           <div className="mv-dest-grid">
             {DESTINATIONS.map((d, i) => (
               <article key={d.key} className="mv-dest-card" data-reveal data-delay={(i % 3) + 1}>
-                <img src={mvImg(d.key, d.imgKind)} alt={d.city} loading="lazy" />
-                {d.isNew && <span className="mv-dest-new">신규</span>}
+                <img src={mvImg(d.key, d.imgKind)} alt={d.cityEn} loading="lazy" />
+                {d.isNew && <span className="mv-dest-new">{t('badge.new')}</span>}
                 <div className="mv-dest-body">
                   <div className="mv-dest-en">{d.cityEn}</div>
-                  <div className="mv-dest-city">{d.city}</div>
-                  <p className="mv-dest-hook">{d.hook}</p>
-                  <span className="mv-dest-fac">{d.facilities}</span>
+                  <div className="mv-dest-city">{tcity(d.city)}</div>
+                  <p className="mv-dest-hook">{tc('destination', d.key, 'hook', d.hook)}</p>
+                  <span className="mv-dest-fac">{tc('destination', d.key, 'facilities', d.facilities)}</span>
                 </div>
               </article>
             ))}
@@ -265,14 +264,14 @@ export default function MVillageHall() {
         <div className="mv-container">
           <div className="mv-sec-head" data-reveal>
             <span className="mv-eyebrow"><Leaf size={14} /> Our Philosophy</span>
-            <h2 className="mv-h2" style={{ marginTop: 12 }}>더 의미 있는 머무름</h2>
+            <h2 className="mv-h2" style={{ marginTop: 12 }}>{t('values.title')}</h2>
           </div>
           <div className="mv-value-grid">
             {VALUES.map((v, i) => (
               <div key={v.en} className="mv-value-card" data-reveal data-delay={i + 1}>
                 <div className="mv-value-en">{v.en}</div>
-                <div className="mv-value-ko">{v.ko}</div>
-                <p className="mv-value-desc">{v.desc}</p>
+                <div className="mv-value-ko">{tc('value', `v${i}`, 'ko', v.ko)}</div>
+                <p className="mv-value-desc">{tc('value', `v${i}`, 'desc', v.desc)}</p>
               </div>
             ))}
           </div>
@@ -284,14 +283,11 @@ export default function MVillageHall() {
         <div className="mv-container">
           <div className="mv-cta-box" data-reveal>
             <span className="mv-eyebrow" style={{ justifyContent: 'center' }}><Handshake size={14} /> Partnership</span>
-            <h2 className="mv-h2" style={{ marginTop: 12 }}>여행사 · 기업 · 단체 <span className="accent">제휴 문의</span></h2>
-            <p className="mv-lead" style={{ margin: '0 auto' }}>
-              공동 기획전, 그룹 단위 요율, 법인·MICE·단체 등 B2B 제휴는 별도 창구에서 안내해 드립니다.
-              개별 예약은 각 시설의 <b>예약하기</b>에서 진행하세요.
-            </p>
+            <h2 className="mv-h2" style={{ marginTop: 12 }}>{t('cta.title')} <span className="accent">{t('cta.titleAccent')}</span></h2>
+            <p className="mv-lead" style={{ margin: '0 auto' }}>{t('cta.lead')}</p>
             <div className="mv-cta-actions">
-              <Link href="/mvillage/partner" className="mv-btn mv-btn-primary"><Handshake size={17} /> 제휴 문의하기</Link>
-              <button type="button" className="mv-btn mv-btn-outline" onClick={() => pickCollection('all')}><CalendarCheck size={16} /> 시설 둘러보고 예약</button>
+              <Link href="/mvillage/partner" className="mv-btn mv-btn-primary"><Handshake size={17} /> {t('cta.btn1')}</Link>
+              <button type="button" className="mv-btn mv-btn-outline" onClick={() => pickCollection('all')}><CalendarCheck size={16} /> {t('cta.btn2')}</button>
             </div>
           </div>
         </div>
@@ -306,32 +302,32 @@ export default function MVillageHall() {
             <div className="mv-modal" onClick={(e) => e.stopPropagation()}>
               <div className="mv-modal-media">
                 <img src={mvImg(modal.seed, modal.imgKind)} alt={modal.name} />
-                <button type="button" className="mv-modal-close" onClick={() => setModal(null)} aria-label="닫기"><X size={18} /></button>
+                <button type="button" className="mv-modal-close" onClick={() => setModal(null)} aria-label={t('modal.close')}><X size={18} /></button>
               </div>
               <div className="mv-modal-body">
                 <span className="mv-modal-brandtag">{brand?.name}</span>
                 <h3>{modal.name}</h3>
-                <span className="mv-prop-city"><MapPin size={13} /> {modal.city}, Vietnam · {cols}</span>
-                <p className="mv-prop-blurb" style={{ marginTop: 12, fontSize: 15 }}>{modal.blurb}</p>
-                <p className="mv-brand-blurb" style={{ marginTop: 10 }}>{brand?.tagline} — {brand?.blurb}</p>
+                <span className="mv-prop-city"><MapPin size={13} /> {tcity(modal.city)}, Vietnam · {cols}</span>
+                <p className="mv-prop-blurb" style={{ marginTop: 12, fontSize: 15 }}>{tc('property', modal.id, 'blurb', modal.blurb)}</p>
+                <p className="mv-brand-blurb" style={{ marginTop: 10 }}>{brand && `${tc('brand', brand.key, 'tagline', brand.tagline)} — ${tc('brand', brand.key, 'blurb', brand.blurb)}`}</p>
                 <ul className="mv-modal-feats">
-                  {modal.features.map((f) => (
+                  {tcArr('property', modal.id, 'features', modal.features).map((f) => (
                     <li key={f}><Check size={16} /> {f}</li>
                   ))}
                 </ul>
                 <div className="mv-modal-foot">
                   <span className="mv-prop-price">
-                    <small>1박 최저가 (지표성 목값)</small>
+                    <small>{t('card.from')}</small>
                     <b style={{ fontSize: 24 }}>{wonKR(modal.fromKRW)}<span> ~</span></b>
                   </span>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <button type="button" className="mv-btn mv-btn-outline mv-btn-sm" onClick={() => setModal(null)}>닫기</button>
+                    <button type="button" className="mv-btn mv-btn-outline mv-btn-sm" onClick={() => setModal(null)}>{t('modal.close')}</button>
                     <button type="button" className="mv-btn mv-btn-accent mv-btn-sm" onClick={() => router.push(`/mvillage/book/${modal.id}`)}>
-                      예약하기 <ArrowRight size={15} />
+                      {t('modal.book')} <ArrowRight size={15} />
                     </button>
                   </div>
                 </div>
-                <p className="mv-modal-note">* 실판매·요율·재고 미연동 프로토타입입니다. 표기 가격은 브랜드 포지셔닝용 지표값이며 실제 요금과 다를 수 있습니다.</p>
+                <p className="mv-modal-note">{t('modal.note')}</p>
               </div>
             </div>
           </div>

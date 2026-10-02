@@ -289,3 +289,45 @@
   .mvillage .mv-cal-months { flex-direction: column; gap: 16px; }
   .mvillage .mv-cal-nav { top: -4px; }
 }
+
+/* ============ 브랜드 상세 페이지 ============ */
+.mvillage .mv-brand-hero { position: relative; min-height: 460px; display: flex; align-items: flex-end; overflow: hidden; background: var(--mv-forest-700); }
+.mvillage .mv-brand-hero-bg { position: absolute; inset: 0; }
+.mvillage .mv-brand-hero-bg img { width: 100%; height: 100%; object-fit: cover; animation: mvKenBurns 24s ease-in-out infinite alternate; }
+.mvillage .mv-brand-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(16,21,18,0.90) 0%, rgba(16,21,18,0.62) 46%, rgba(16,21,18,0.22) 100%); }
+.mvillage .mv-brand-hero-inner { position: relative; z-index: 2; width: 100%; padding: 92px 24px 56px; color: #fff; }
+.mvillage .mv-brand-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.82); margin-bottom: 26px; transition: color .15s; }
+.mvillage .mv-brand-back:hover { color: var(--mv-orange-2); }
+.mvillage .mv-brand-hero-rank { font-family: var(--mv-serif); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,.62); margin-bottom: 14px; }
+.mvillage .mv-brand-hero-tier { font-size: 12px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; color: var(--mv-orange-2); margin-bottom: 8px; }
+.mvillage .mv-brand-hero-name { font-family: var(--mv-serif); font-size: 52px; font-weight: 600; line-height: 1.08; letter-spacing: -.5px; }
+.mvillage .mv-brand-hero-tagline { font-family: var(--mv-serif-ko); font-size: 20px; font-weight: 500; color: rgba(255,255,255,.9); margin: 14px 0 22px; max-width: 620px; }
+.mvillage .mv-brand-hero-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font-size: 13.5px; color: rgba(255,255,255,.86); }
+.mvillage .mv-brand-hero-meta > span { display: inline-flex; align-items: center; gap: 6px; }
+.mvillage .mv-brand-hero-meta svg { opacity: .85; }
+.mvillage .mv-brand-hero-target { border: 1px solid rgba(255,255,255,.3); padding: 5px 13px; border-radius: var(--mv-radius-pill); color: #fff !important; }
+.mvillage .mv-brand-hero-cta { margin-top: 26px; }
+
+.mvillage .mv-brand-story { background: var(--mv-cream); }
+.mvillage .mv-brand-story-grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 48px; align-items: start; }
+.mvillage .mv-brand-story-text { font-size: 15.5px; line-height: 1.85; color: var(--mv-ink-70); }
+.mvillage .mv-brand-cols { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.mvillage .mv-brand-col-chip { display: inline-flex; align-items: center; font-size: 13px; font-weight: 600; color: var(--mv-forest); background: #fff; border: 1.5px solid var(--mv-line); border-left: 3px solid var(--tone); border-radius: var(--mv-radius-pill); padding: 8px 16px; transition: border-color .15s, color .15s; }
+.mvillage .mv-brand-col-chip:hover { border-color: var(--tone); color: var(--tone); }
+.mvillage .mv-brand-facts { background: #fff; border: 1px solid var(--mv-line-soft); border-top: 4px solid var(--tone); border-radius: var(--mv-radius-lg); padding: 10px 24px; position: sticky; top: 96px; }
+.mvillage .mv-brand-fact { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--mv-line-soft); }
+.mvillage .mv-brand-fact:last-child { border-bottom: none; }
+.mvillage .mv-brand-fact > span { font-size: 12.5px; color: var(--mv-ink-45); white-space: nowrap; }
+.mvillage .mv-brand-fact > b { font-size: 14px; font-weight: 700; color: var(--mv-forest); text-align: right; }
+
+.mvillage .mv-brand-stays { background: var(--mv-ivory); }
+
+@media (max-width: 900px) {
+  .mvillage .mv-brand-story-grid { grid-template-columns: 1fr; gap: 28px; }
+  .mvillage .mv-brand-facts { position: static; }
+}
+@media (max-width: 640px) {
+  .mvillage .mv-brand-hero { min-height: 400px; }
+  .mvillage .mv-brand-hero-name { font-size: 38px; }
+  .mvillage .mv-brand-hero-tagline { font-size: 17px; }
+}

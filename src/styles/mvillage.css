@@ -105,6 +105,13 @@
 .mvillage .mv-back-omt { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--mv-ink-45); white-space: nowrap; transition: color .15s; }
 .mvillage .mv-back-omt:hover { color: var(--mv-terracotta); }
 .mvillage .mv-header-divider { width: 1px; height: 20px; background: var(--mv-line); }
+.mvillage .mv-lang { position: relative; flex-shrink: 0; }
+.mvillage .mv-lang-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: var(--mv-ink-70); padding: 7px 10px; border-radius: var(--mv-radius-pill); transition: background .15s, color .15s; }
+.mvillage .mv-lang-btn:hover { color: var(--mv-forest); background: var(--mv-cream); }
+.mvillage .mv-lang-menu { position: absolute; right: 0; top: calc(100% + 6px); background: #fff; border: 1px solid var(--mv-line); border-radius: var(--mv-radius-sm); box-shadow: var(--mv-shadow-md); padding: 6px; min-width: 124px; z-index: 70; }
+.mvillage .mv-lang-menu button { display: block; width: 100%; text-align: left; padding: 8px 12px; font-size: 14px; border-radius: 8px; color: var(--mv-ink); }
+.mvillage .mv-lang-menu button:hover { background: var(--mv-cream); }
+.mvillage .mv-lang-menu button.is-active { color: var(--mv-orange); font-weight: 700; }
 
 /* 푸터 */
 .mvillage .mv-footer { background: var(--mv-forest-700); color: rgba(255,255,255,.82); padding: 56px 0 32px; }
@@ -121,6 +128,8 @@
   .mvillage .mv-section { padding: 56px 0; }
   .mvillage .mv-h2 { font-size: 30px; }
   .mvillage .mv-nav { display: none; }
+  .mvillage .mv-lang { margin-left: auto; }
+  .mvillage .mv-lang-cur { display: none; }
   .mvillage .mv-header-inner { gap: 12px; }
 }
 

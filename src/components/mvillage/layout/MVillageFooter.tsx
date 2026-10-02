@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useMV } from '@/features/mvillage/i18n';
 
 export default function MVillageFooter() {
+  const { t } = useMV();
   return (
     <footer className="mv-footer">
       <div className="mv-container">
@@ -16,7 +18,7 @@ export default function MVillageFooter() {
           </div>
           <div className="mv-footer-cols">
             <div>
-              <h4>Collections</h4>
+              <h4>{t('foot.collections')}</h4>
               <ul>
                 <li><Link href="/mvillage#collections">Premium Escape</Link></li>
                 <li><Link href="/mvillage#collections">Urban Discovery</Link></li>
@@ -25,18 +27,18 @@ export default function MVillageFooter() {
               </ul>
             </div>
             <div>
-              <h4>Discover</h4>
+              <h4>{t('foot.discover')}</h4>
               <ul>
-                <li><Link href="/mvillage#brands">브랜드 포트폴리오</Link></li>
-                <li><Link href="/mvillage#destinations">인기 목적지</Link></li>
-                <li><Link href="/mvillage/partner">제휴·단체 문의</Link></li>
-                <li><Link href="/">오마이트립으로</Link></li>
+                <li><Link href="/mvillage#brands">{t('foot.brandPortfolio')}</Link></li>
+                <li><Link href="/mvillage#destinations">{t('foot.popDest')}</Link></li>
+                <li><Link href="/mvillage/partner">{t('foot.partnerInq')}</Link></li>
+                <li><Link href="/">{t('foot.toOmt')}</Link></li>
               </ul>
             </div>
           </div>
         </div>
         <div className="mv-footer-bottom">
-          <span>M Village 브랜드관은 오마이호텔이 운영하는 한국 공식 브랜드 접점입니다. (프로토타입 · 실판매·요율 미연동)</span>
+          <span>{t('foot.disclaimer')}</span>
           <span>© 2026 OHMYHOTEL &amp; CO. × Modern Village Lifestyle</span>
         </div>
       </div>

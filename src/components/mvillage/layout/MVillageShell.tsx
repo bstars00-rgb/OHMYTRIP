@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import MVillageHeader from '@/components/mvillage/layout/MVillageHeader';
 import MVillageFooter from '@/components/mvillage/layout/MVillageFooter';
+import { MVillageI18nProvider } from '@/features/mvillage/i18n';
 
 /**
  * M Village 브랜드관 격리 셸.
@@ -22,10 +23,12 @@ export default function MVillageShell({ children }: { children: React.ReactNode 
   }, []);
 
   return (
-    <div className="mvillage">
-      <MVillageHeader />
-      <main>{children}</main>
-      <MVillageFooter />
-    </div>
+    <MVillageI18nProvider>
+      <div className="mvillage">
+        <MVillageHeader />
+        <main>{children}</main>
+        <MVillageFooter />
+      </div>
+    </MVillageI18nProvider>
   );
 }
